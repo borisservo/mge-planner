@@ -1,7 +1,7 @@
 <div class="card">
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-        <h3 style="margin:0;">Unit Training (Day 5)</h3>
-        <div style="color:var(--gold)">Subtotal: <span id="sub-st5">0</span></div>
+        <h3 style="margin:0;">Unit Training</h3>
+        <div class="subtotal-text">Subtotal: <span id="sub-st5">0</span></div>
     </div>
 
     <div style="background: #222; padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #333;">
@@ -9,34 +9,34 @@
         <input type="number" id="researchBonus" value="0" oninput="calculate()">
     </div>
 
-    <div class="grid-header">
-        <div>UNIT TYPE</div><div>MIN</div><div>SEC</div><div>QUANTITY</div>
+    <div style="display: grid; grid-template-columns: 2fr 0.7fr 0.7fr 1.2fr; font-size: 0.65rem; color: #666; text-align: center; padding-bottom: 10px;">
+        <div style="text-align: left;">UNIT TYPE</div><div>MIN</div><div>SEC</div><div>QUANTITY</div>
     </div>
 
-    <div class="unit-grid" data-pts="100" data-lvl="7">
-        <div style="text-align:left;">Lv.7 (100 pts)</div>
+    <div class="grid-row-time" data-pts="100" data-lvl="7">
+        <span style="font-size: 0.9rem;">Lv.7 (100 pts)</span>
         <input type="number" class="u-min" value="2" oninput="calculate()">
         <input type="number" class="u-sec" value="10" oninput="calculate()">
-        <input type="number" class="mge-val u-qty" data-pts="100" oninput="calculate()">
+        <input type="number" class="u-qty mge-val" data-pts="100" oninput="calculate()">
     </div>
 
-    <div class="unit-grid" data-pts="50" data-lvl="6">
-        <div style="text-align:left;">Lv.6 (50 pts)</div>
+    <div class="grid-row-time" data-pts="50" data-lvl="6">
+        <span style="font-size: 0.9rem;">Lv.6 (50 pts)</span>
         <input type="number" class="u-min" value="1" oninput="calculate()">
         <input type="number" class="u-sec" value="30" oninput="calculate()">
-        <input type="number" class="mge-val u-qty" data-pts="50" oninput="calculate()">
+        <input type="number" class="u-qty mge-val" data-pts="50" oninput="calculate()">
     </div>
 
     <div style="margin-top: 30px;">
         <h4 style="color: var(--blue); margin-bottom: 10px;">Speedup to Units (Sprint)</h4>
-        <div class="sprint-grid">
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;">
             <div><label>Days</label><input type="number" id="sp-d" oninput="calcSprint()"></div>
             <div><label>Hrs</label><input type="number" id="sp-h" oninput="calcSprint()"></div>
             <div><label>Min</label><input type="number" id="sp-m" oninput="calcSprint()"></div>
             <div><label>Sec</label><input type="number" id="sp-s" oninput="calcSprint()"></div>
         </div>
-        <div class="prediction" style="border-color: var(--blue); color: var(--blue);">
-            Units Possible: <b id="sp-res-qty" style="color:#fff">0</b> | Points: <b id="sp-res-pts" style="color:var(--gold)">0</b>
+        <div class="prediction" style="border-color: var(--blue); color: var(--blue); text-align: center;">
+            Units: <b id="sp-res-qty" style="color:#fff">0</b> | Points: <b id="sp-res-pts" style="color:var(--gold)">0</b>
         </div>
     </div>
 </div>

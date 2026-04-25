@@ -1,14 +1,54 @@
 <div class="card">
-    <div class="card-header">
-        <h3>Hero Growth (Day 2)</h3>
-        <div style="color:var(--gold)">Subtotal: <span id="sub-st2">0</span></div>
+    <div class="card-header" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+        <h3 style="margin:0;">Hero Growth (Day 2)</h3>
+        <div class="subtotal-text">Subtotal: <span id="sub-st2">0</span></div>
     </div>
 
-    <div class="row-calc"><span>Epic Scrolls</span><span style="color:#555">350</span><input type="number" class="mge-val" data-pts="350" oninput="calculate()"></div>
-    <div class="row-calc"><span>Epic Medals</span><span style="color:#555">500</span><input type="number" class="mge-val" data-pts="500" oninput="calculate()"></div>
-    <div class="row-calc"><span>Legendary Scrolls</span><span style="color:#555">2000</span><input type="number" class="mge-val" data-pts="2000" oninput="calculate()"></div>
-    <div class="row-calc"><span>Legendary Medals</span><span style="color:#555">2500</span><input type="number" class="mge-val" data-pts="2500" oninput="calculate()"></div>
-    <div class="row-calc"><span>Craft Rare Gear</span><span style="color:#555">1000</span><input type="number" class="mge-val" data-pts="1000" oninput="calculate()"></div>
-    <div class="row-calc"><span>Craft Epic Gear</span><span style="color:#555">5000</span><input type="number" class="mge-val" data-pts="5000" oninput="calculate()"></div>
-    <div class="row-calc"><span>Craft Legendary Gear</span><span style="color:#555">30000</span><input type="number" class="mge-val" data-pts="30000" oninput="calculate()"></div>
+    <div style="display: grid; grid-template-columns: 2fr 1fr 1.5fr; font-size: 0.65rem; color: #666; text-align: center; padding-bottom: 10px; border-bottom: 1px solid #333; margin-bottom: 10px;">
+        <div style="text-align: left;">ITEM / ACTION</div>
+        <div>POINTS</div>
+        <div>QUANTITY</div>
+    </div>
+
+    <div class="grid-row">
+        <span>Epic Scrolls</span>
+        <span style="color:#888; text-align: center;">350</span>
+        <input type="number" class="mge-val" data-pts="350" placeholder="0" oninput="calculate()">
+    </div>
+
+    <div class="grid-row">
+        <span>Epic Hero Medals</span>
+        <span style="color:#888; text-align: center;">500</span>
+        <input type="number" class="mge-val" data-pts="500" placeholder="0" oninput="calculate()">
+    </div>
+
+    <div class="grid-row">
+        <span>Legendary Scrolls</span>
+        <span style="color:#888; text-align: center;">2,000</span>
+        <input type="number" class="mge-val" data-pts="2000" placeholder="0" oninput="calculate()">
+    </div>
+
+    <div class="grid-row">
+        <span>Legendary Hero Medals</span>
+        <span style="color:#888; text-align: center;">2,500</span>
+        <input type="number" class="mge-val" data-pts="2500" placeholder="0" oninput="calculate()">
+    </div>
+
+    <div class="grid-row">
+        <span>Craft Rare Gear</span>
+        <span style="color:#888; text-align: center;">1,000</span>
+        <input type="number" class="mge-val" data-pts="1000" placeholder="0" oninput="calculate()">
+    </div>
+
+    <div class="grid-row">
+        <span>Craft Epic Gear</span>
+        <span style="color:#888; text-align: center;">5,000</span>
+        <input type="number" class="mge-val" data-pts="5000" placeholder="0" oninput="calculate()">
+    </div>
+
+    <div class="grid-row" style="border-bottom: none;">
+        <span>Craft Legendary Gear</span>
+        <span style="color:#888; text-align: center;">30,000</span>
+        <input type="number" class="mge-val" data-pts="30000" placeholder="0" oninput="calculate()">
+    </div>
 </div>
