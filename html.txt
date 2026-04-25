@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AoE Mobile - MGE Ultimate Calculator</title>
+  <style>
+    :root {
+      --bg: #0a0a0a; --card: #161616; --gold: #ffcc00; --blue: #00ccff;
+      --text: #f0f0f0; --border: #2a2a2a; --input-bg: #000;
+    }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 0; }
+    .header { background: var(--card); border-bottom: 2px solid var(--gold); padding: 20px; text-align: center; position: sticky; top: 0; z-index: 1000; }
+    #totalPoints { font-size: 3.2rem; font-weight: 800; color: var(--gold); margin: 5px 0; }
+    .tabs-nav { display: flex; background: #111; overflow-x: auto; border-bottom: 1px solid var(--border); position: sticky; top: 122px; z-index: 900; }
+    .tab-btn { padding: 15px 25px; border: none; background: none; color: #666; cursor: pointer; font-weight: 600; white-space: nowrap; }
+    .tab-btn.active { color: var(--gold); border-bottom: 3px solid var(--gold); background: rgba(255, 204, 0, 0.05); }
+    .container { max-width: 700px; margin: 20px auto; padding: 0 15px 100px; }
+    .page { display: none; }
+    .page.active { display: block; }
+    .card { background: var(--card); border-radius: 12px; padding: 20px; margin-bottom: 20px; border: 1px solid var(--border); }
+    .card-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 12px; margin-bottom: 15px; }
+    .row-calc { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 10px; align-items: center; padding: 12px 0; border-bottom: 1px solid #222; }
+    .row-speed { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 5px; align-items: center; padding: 12px 0; border-bottom: 1px solid #222; }
+    /* Estilo para a tabela de treino com min e seg */
+    .row-unit-time { display: grid; grid-template-columns: 1.5fr 0.6fr 0.6fr 1.3fr; gap: 8px; align-items: center; padding: 12px 0; border-bottom: 1px solid #222; }
+    input, select { background: var(--input-bg); border: 1px solid #333; color: white; padding: 10px; border-radius: 6px; width: 100%; text-align: center; }
+    label { font-size: 0.75rem; color: #888; display: block; margin-bottom: 5px; }
+    .prediction { background: #000; padding: 15px; border-radius: 8px; border: 1px dashed #444; margin-top: 10px; }
+    .btn-add { width: 100%; padding: 12px; background: var(--blue); color: #000; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+  </style>
+</head>
+<body>
+
+<header class="header">
+  <span style="font-size: 0.7rem; letter-spacing: 2px; color: #888;">GLOBAL ESTIMATED SCORE</span>
+  <div id="totalPoints">0</div>
+</header>
+
+<nav class="tabs-nav">
+  <button class="tab-btn active" onclick="switchTab(event, 'st1')">Day 1</button>
+  <button class="tab-btn" onclick="switchTab(event, 'st2')">Day 2</button>
+  <button class="tab-btn" onclick="switchTab(event, 'st3')">Day 3</button>
+  <button class="tab-btn" onclick="switchTab(event, 'st4')">Day 4</button>
+  <button class="tab-btn" onclick="switchTab(event, 'st5')">Day 5</button>
+</nav>
+
+<main class="container">
+  <section id="st1" class="page active">
+    <div class="card">
+      <div class="card-header"><h3>Tribal Raid</h3><div style="color:var(--gold)">Sub: <span id="sub-st1">0</span></div></div>
+      <label>Tribe Level</label>
+      <select id="tribeTier" onchange="calculate()">
+        <option value="300">Lvl 29-30 (300 pts)</option>
+        <option value="260">Lvl 25-28 (260 pts)</option>
+        <option value="220">Lvl 21-24 (220 pts)</option>
+        <option value="180">Lvl 17-20 (180 pts)</option>
+        <option value="150">Lvl 13-16 (150 pts)</option>
+        <option value="100">Lvl 9-12 (100 pts)</option>
+        <option value="80">Lvl 5-8 (80 pts)</option>
+        <option value="50">Lvl 1-4 (50 pts)</option>
+      </select>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:15px; margin-top:15px;">
+        <div><label>Total Stamina</label><input type="number" id="staminaTotal" value="1000" oninput="calculate()"></div>
+        <div><label>Cost/Kill</label><input type="number" id="staminaCost" value="5" oninput="calculate()"></div>
+      </div>
+      <div class="prediction">Possible Kills: <b id="resKills" style="color:var(--gold)">0</b> | MGE Points: <b id="resPoints" style="color:#00ff00;">0</b></div>
+    </div>
+  </section>
+
+  <section id="st2" class="page">
+    <div class="card">
+      <div class="card-header"><h3>Hero Growth</h3><div style="color:var(--gold)">Sub: <span id="sub-st2">0</span></div></div>
+      <div class="row-calc"><span>Epic Scrolls</span><span style="color:#555">350</span><input type="number" class="mge-val" data-pts="350" oninput="calculate()"></div>
+      <div class="row-calc"><span>Epic Medals</span><span style="color:#555">500</span><input type="number" class="mge-val" data-pts="500" oninput="calculate()"></div>
+      <div class="row-calc"><span>Legendary Scrolls</span><span style="color:#555">2000</span><input type="number" class="mge-val" data-pts="2000" oninput="calculate()"></div>
+      <div class="row-calc"><span>Legendary Medals</span><span style="color:#555">2500</span><input type="number" class="mge-val" data-pts="2500" oninput="calculate()"></div>
+      <div class="row-calc"><span>Craft Rare gear</span><span style="color:#555">1000</span><input type="number" class="mge-val" data-pts="1000" oninput="calculate()"></div>
+      <div class="row-calc"><span>Craft Epic gear</span><span style="color:#555">5000</span><input type="number" class="mge-val" data-pts="5000" oninput="calculate()"></div>
+      <div class="row-calc"><span>Craft Legendary gear</span><span style="color:#555">30000</span><input type="number" class="mge-val" data-pts="30000" oninput="calculate()"></div>    </div>
+  </section>
+
+  <section id="st3" class="page">
+    <div class="card">
+      <div class="card-header"><h3>Gathering Lineups</h3><div style="color:var(--gold)">Sub: <span id="sub-st3">0</span></div></div>
+      <div id="lineupContainer"></div>
+      <button class="btn-add" onclick="addLineup()">+ Add New Lineup</button>
+    </div>
+  </section>
+
+  <section id="st4" class="page">
+    <div class="card">
+      <div class="card-header"><h3>Race Against Time</h3><div style="color:var(--gold)">Sub: <span id="sub-st4">0</span></div></div>
+
+      <div style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; padding-bottom: 8px; font-size: 0.65rem; color: #666; text-align: center;">
+        <div style="text-align: left;">ACTIVITY</div><div>DAYS</div><div>HRS</div><div>MINS</div>
+      </div>
+
+      <div class="row-speed" data-pts="30">
+        <span style="font-size: 0.9rem;">Building Speed</span>
+        <input type="number" class="t-d" placeholder="0" oninput="calculate()">
+        <input type="number" class="t-h" placeholder="0" oninput="calculate()">
+        <input type="number" class="t-m" placeholder="0" oninput="calculate()">
+      </div>
+
+      <div class="row-speed" data-pts="30">
+        <span style="font-size: 0.9rem;">Research Speed</span>
+        <input type="number" class="t-d" placeholder="0" oninput="calculate()">
+        <input type="number" class="t-h" placeholder="0" oninput="calculate()">
+        <input type="number" class="t-m" placeholder="0" oninput="calculate()">
+      </div>
+
+      <div style="margin-top: 15px; border-top: 1px solid #333; padding-top: 10px;"></div>
+      <div class="row-calc"><span>Fine Craft</span><span style="color:#555">2000</span><input type="number" class="mge-val" data-pts="2000" oninput="calculate()"></div>
+      <div class="row-calc"><span>Copper Sand</span><span style="color:#555">400</span><input type="number" class="mge-val" data-pts="400" oninput="calculate()"></div>
+      <div class="row-calc"><span>Silver Dust</span><span style="color:#555">1000</span><input type="number" class="mge-val" data-pts="1000" oninput="calculate()"></div>
+      <div class="row-calc"><span>Fine Gold</span><span style="color:#555">3000</span><input type="number" class="mge-val" data-pts="3000" oninput="calculate()"></div>
+      <div class="row-calc"><span>Meteor Steel</span><span style="color:#555">20000</span><input type="number" class="mge-val" data-pts="20000" oninput="calculate()"></div>
+    </div>
+  </section>
+
+  <section id="st4" class="page">
+    <div class="card">
+      <div class="card-header"><h3>Race Against Time</h3><div style="color:var(--gold)">Sub: <span id="sub-st4">0</span></div></div>
+      <div class="row-speed" data-pts="30"><span>Build Speed</span><input type="number" class="t-d" placeholder="d" oninput="calculate()"><input type="number" class="t-h" placeholder="h" oninput="calculate()"><input type="number" class="t-m" placeholder="m" oninput="calculate()"></div>
+      <div class="row-speed" data-pts="30"><span>Research Speed</span><input type="number" class="t-d" placeholder="d" oninput="calculate()"><input type="number" class="t-h" placeholder="h" oninput="calculate()"><input type="number" class="t-m" placeholder="m" oninput="calculate()"></div>
+      <div class="row-calc"><span>Meteor Steel</span><span style="color:#555">20000</span><input type="number" class="mge-val" data-pts="20000" oninput="calculate()"></div>
+    </div>
+  </section>
+
+  <section id="st5" class="page">
+    <div class="card">
+      <div class="card-header"><h3>Unit Training</h3><div style="color:var(--gold)">Sub: <span id="sub-st5">0</span></div></div>
+
+      <div style="background: #222; padding: 10px; border-radius: 8px; margin-bottom: 15px;">
+        <label>Researched Training Speed %</label>
+        <input type="number" id="researchBonus" value="0" oninput="calculate()">
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1.5fr 0.6fr 0.6fr 1.3fr; font-size: 0.6rem; color: #666; text-align: center;">
+        <div style="text-align: left;">UNIT</div><div>MIN</div><div>SEC</div><div>QTY</div>
+      </div>
+
+      <div class="row-unit-time" data-pts="100" data-lvl="7"><span>Lv.7 (100)</span><input type="number" class="u-min" value="2"><input type="number" class="u-sec" value="10"><input type="number" class="mge-val u-qty" data-pts="100" oninput="calculate()"></div>
+      <div class="row-unit-time" data-pts="50" data-lvl="6"><span>Lv.6 (50)</span><input type="number" class="u-min" value="1"><input type="number" class="u-sec" value="30"><input type="number" class="mge-val u-qty" data-pts="50" oninput="calculate()"></div>
+      <div class="row-unit-time" data-pts="20" data-lvl="5"><span>Lv.5 (20)</span><input type="number" class="u-min" value="0"><input type="number" class="u-sec" value="50"><input type="number" class="mge-val u-qty" data-pts="20" oninput="calculate()"></div>
+
+      <div style="margin: 20px 0; border-top: 1px solid #333; padding-top: 15px; font-weight: bold; color: var(--gold);">Unit Promotion (+1 Bonus)</div>
+      <div id="promoContainer"></div>
+      <button class="btn-add" onclick="addPromotion()">+ Add Promotion Line</button>
+
+      <div style="margin: 20px 0; border-top: 1px solid #333; padding-top: 15px; font-weight: bold; color: var(--blue);">Speedup to Units (Sprint)</div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 5px; margin-top:10px;">
+        <div><label>Days</label><input type="number" id="sp-d" placeholder="0" oninput="calcSprint()"></div>
+        <div><label>Hrs</label><input type="number" id="sp-h" placeholder="0" oninput="calcSprint()"></div>
+        <div><label>Min</label><input type="number" id="sp-m" placeholder="0" oninput="calcSprint()"></div>
+        <div><label>Sec</label><input type="number" id="sp-s" placeholder="0" oninput="calcSprint()"></div>
+      </div>
+      <div style="margin-top:10px;">
+        <label>Target Unit Level</label>
+        <select id="sp-target" onchange="calcSprint()">
+          <option value="7">Lv.7</option><option value="6">Lv.6</option><option value="5">Lv.5</option>
+        </select>
+      </div>
+      <div class="prediction" style="border-color: var(--blue);">
+        Units Possible: <b id="sp-res-qty" style="color:var(--blue)">0</b> | Points: <b id="sp-res-pts" style="color:var(--gold)">0</b>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script>
+  const resNormal = { 1: 54000, 2: 216000, 3: 540000, 4: 912000, 5: 2160000, 6: 3780000, 7: 5292000, 8: 7392000 };
+  const resRich = { 2: 720000, 3: 1800000, 4: 3040000, 5: 7200000, 6: 12600000, 7: 17640000, 8: 24640000 };
+  const baseTimes = { 1: 18, 2: 72, 3: 180, 4: 288, 5: 648, 6: 1080, 7: 1512, 8: 2016 };
+  const richTimes = { 2: 120, 3: 300, 4: 480, 5: 1080, 6: 1800, 7: 2520, 8: 3360 };
+  const unitPoints = { 3: 5, 4: 10, 5: 20, 6: 50, 7: 100 };
+
+  let lineupCount = 0;
+  let promoCount = 0;
+
+  function switchTab(event, tabId) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(tabId).classList.add('active');
+    event.currentTarget.classList.add('active');
+  }
+  function addLineup() {
+    lineupCount++;
+    const container = document.getElementById('lineupContainer');
+    const div = document.createElement('div');
+    div.className = 'prediction';
+    div.id = 'lineup-' + lineupCount;
+    div.style.marginBottom = "15px";
+    div.innerHTML = `
+            <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #333; margin-bottom:10px; padding-bottom:5px;">
+                <span style="color:var(--gold); font-weight:bold;">Lineup ${lineupCount}</span>
+                <div style="display:flex; align-items:center; gap:12px;">
+                    <label style="margin:0; display:flex; align-items:center; gap:6px; cursor:pointer; color:var(--blue); font-size:0.8rem;">
+                        <input type="checkbox" class="l-rich" onchange="calculate()" style="width:16px; height:16px; margin:0;"> <b>RICH</b>
+                    </label>
+                    <button onclick="removeLineup(${lineupCount})" style="background:#ff4444; color:white; border:none; border-radius:4px; cursor:pointer; padding:2px 10px;">X</button>
+                </div>
+            </div>
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+                <div><label>Level</label><select class="l-lvl" onchange="calculate()">${[8,7,6,5,4,3,2,1].map(l => `<option value="${l}">Lvl ${l}</option>`).join('')}</select></div>
+                <div><label>Rounds</label><input type="number" class="l-rounds" value="1" oninput="calculate()"></div>
+                <div><label>Speed%</label><input type="number" class="l-speed" value="0" oninput="calculate()"></div>
+                <div><label>Comp%</label><input type="number" class="l-comp" value="0" oninput="calculate()"></div>
+            </div>
+            <div style="margin-top:10px; font-size:0.8rem; display:flex; justify-content:space-between; background:#111; padding:8px; border-radius:4px;">
+                <span>Total Time: <b class="l-time">--</b></span><span>MGE Points: <b class="l-pts" style="color:var(--gold);">0</b></span>
+            </div>`;
+    container.appendChild(div);
+    calculate();
+  }
+
+  function removeLineup(id) { document.getElementById('lineup-' + id).remove(); calculate(); }
+
+  function addPromotion() {
+    promoCount++;
+    const container = document.getElementById('promoContainer');
+    const div = document.createElement('div');
+    div.className = 'prediction';
+    div.id = 'promo-' + promoCount;
+    div.innerHTML = `<div style="display:grid; grid-template-columns: 1fr 1fr 1fr auto; gap:10px; align-items:end;"><div><label>From</label><select class="p-from" onchange="calculate()"><option value="3">Lv.3</option><option value="4">Lv.4</option><option value="5">Lv.5</option><option value="6">Lv.6</option></select></div><div><label>To</label><select class="p-to" onchange="calculate()"><option value="4">Lv.4</option><option value="5" selected>Lv.5</option><option value="6">Lv.6</option><option value="7">Lv.7</option></select></div><div><label>Qty</label><input type="number" class="p-qty" oninput="calculate()"></div><button onclick="this.parentElement.parentElement.remove(); calculate();">X</button></div>`;
+    container.appendChild(div);
+  }
+
+  function calcSprint() {
+    const bonus = parseFloat(document.getElementById('researchBonus').value) || 0;
+    const target = document.getElementById('sp-target').value;
+    const row = document.querySelector(`.row-unit-time[data-lvl="${target}"]`);
+    const baseSec = (parseFloat(row.querySelector('.u-min').value) * 60) + parseFloat(row.querySelector('.u-sec').value);
+
+    // Tempo com bónus: TempoBase / (1 + Bónus%)
+    const adjSec = baseSec / (1 + (bonus / 100));
+
+    const totalSec = ((parseFloat(document.getElementById('sp-d').value) || 0) * 86400) +
+            ((parseFloat(document.getElementById('sp-h').value) || 0) * 3600) +
+            ((parseFloat(document.getElementById('sp-m').value) || 0) * 60) +
+            (parseFloat(document.getElementById('sp-s').value) || 0);
+
+    const qty = totalSec > 0 && adjSec > 0 ? Math.floor(totalSec / adjSec) : 0;
+    document.getElementById('sp-res-qty').innerText = qty.toLocaleString();
+    document.getElementById('sp-res-pts').innerText = (qty * unitPoints[target]).toLocaleString();
+  }
+
+  function removeLineup(id) { document.getElementById('lineup-' + id).remove(); calculate(); }
+
+  function calculate() {
+    let globalTotal = 0;
+
+    // Tribal Raid
+    const stam = parseFloat(document.getElementById('staminaTotal').value) || 0;
+    const cost = parseFloat(document.getElementById('staminaCost').value) || 5;
+    const kills = Math.floor(stam / cost);
+    const s1 = kills * (parseFloat(document.getElementById('tribeTier').value) || 0);
+    document.getElementById('resKills').innerText = kills;
+    document.getElementById('resPoints').innerText = s1.toLocaleString();
+    document.getElementById('sub-st1').innerText = s1.toLocaleString();
+    globalTotal += s1;
+
+    // Day 3
+    let gatherTotal = 0;
+    document.querySelectorAll('[id^="lineup-"]').forEach(el => {
+      const lvl = el.querySelector('.l-lvl').value;
+      const isRich = el.querySelector('.l-rich').checked;
+      const rounds = parseFloat(el.querySelector('.l-rounds').value) || 0;
+      const speed = parseFloat(el.querySelector('.l-speed').value) || 0;
+      const comp = parseFloat(el.querySelector('.l-comp').value) || 0;
+      const baseMins = isRich ? richTimes[lvl] : baseTimes[lvl];
+      const resourceAmount = isRich ? resRich[lvl] : resNormal[lvl];
+      const ptsPerNode = resourceAmount / 100;
+      const totalLineupPts = ptsPerNode * rounds;
+      const finalMinsPerRound = baseMins / ((1 + speed/100) * (1 + comp/100));
+      const totalMins = finalMinsPerRound * rounds;
+      const h = Math.floor(totalMins / 60);
+      const m = Math.round(totalMins % 60);
+      el.querySelector('.l-time').innerText = (h >= 24) ? `${Math.floor(h/24)}d ${h%24}h ${m}m` : `${h}h ${m}m`;
+      el.querySelector('.l-pts').innerText = Math.round(totalLineupPts).toLocaleString();
+      gatherTotal += totalLineupPts;
+    });
+    document.getElementById('sub-st3').innerText = Math.round(gatherTotal).toLocaleString();
+    globalTotal += gatherTotal;
+
+    // Promotions
+    let s5 = 0;
+    document.querySelectorAll('[id^="promo-"]').forEach(el => {
+      const diff = unitPoints[el.querySelector('.p-to').value] - unitPoints[el.querySelector('.p-from').value];
+      s5 += (diff + 1) * (parseFloat(el.querySelector('.p-qty').value) || 0);
+    });
+
+    // Generic stages
+    const stages = ['st2', 'st4', 'st5'];
+    stages.forEach(sid => {
+      let sub = (sid === 'st5' ? s5 : 0);
+      document.getElementById(sid).querySelectorAll('.mge-val').forEach(i => sub += (parseFloat(i.dataset.pts) * (parseFloat(i.value) || 0)));
+      if(sid === 'st4') {
+        document.querySelectorAll('#st4 .row-speed').forEach(r => {
+          const tMin = ((parseFloat(r.querySelector('.t-d').value) || 0) * 1440) + ((parseFloat(r.querySelector('.t-h').value) || 0) * 60) + (parseFloat(r.querySelector('.t-m').value) || 0);
+          sub += tMin * 30;
+        });
+      }
+      document.getElementById('sub-' + sid).innerText = Math.round(sub).toLocaleString();
+      globalTotal += sub;
+    });
+
+    document.getElementById('totalPoints').innerText = Math.round(globalTotal).toLocaleString();
+    calcSprint();
+  }
+
+  window.onload = () => { addLineup(); calculate(); };
+</script>
+</body>
+</html>

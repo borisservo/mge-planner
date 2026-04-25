@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AoE Mobile - MGE Pro Calculator</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="header">
+  <span class="score-label">Global Estimated Score</span>
+  <div id="totalPoints">0</div>
+</header>
+
+<nav class="tabs-nav">
+  <button class="tab-btn active" onclick="loadDay('day1')">Day 1</button>
+  <button class="tab-btn" onclick="loadDay('day2')">Day 2</button>
+  <button class="tab-btn" onclick="switchGather()">Day 3</button>
+  <button class="tab-btn" onclick="loadDay('day4')">Day 4</button>
+  <button class="tab-btn" onclick="loadDay('day5')">Day 5</button>
+</nav>
+
+<main class="container">
+  <div id="content-area">
+  </div>
+</main>
+
+<script src="script.js"></script>
+</body>
+</html>

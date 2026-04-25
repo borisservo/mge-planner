@@ -1,0 +1,32 @@
+<div class="card">
+    <div class="card-header">
+        <h3>Race Against Time (Day 4)</h3>
+        <div style="color:var(--gold)">Subtotal: <span id="sub-st4">0</span></div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; padding-bottom: 8px; font-size: 0.65rem; color: #666; text-align: center;">
+        <div style="text-align: left;">ACTIVITY</div><div>DAYS</div><div>HRS</div><div>MINS</div>
+    </div>
+
+    <div class="row-speed" data-pts="30">
+        <span style="font-size: 0.9rem;">Building Speed</span>
+        <input type="number" class="t-d" placeholder="0" oninput="calculate()">
+        <input type="number" class="t-h" placeholder="0" oninput="calculate()">
+        <input type="number" class="t-m" placeholder="0" oninput="calculate()">
+    </div>
+
+    <div class="row-speed" data-pts="30">
+        <span style="font-size: 0.9rem;">Research Speed</span>
+        <input type="number" class="t-d" placeholder="0" oninput="calculate()">
+        <input type="number" class="t-h" placeholder="0" oninput="calculate()">
+        <input type="number" class="t-m" placeholder="0" oninput="calculate()">
+    </div>
+
+    <div style="margin-top: 15px; border-top: 1px solid #333; padding-top: 10px;"></div>
+
+    <div class="row-calc"><span>Fine Craft</span><span style="color:#555">2000</span><input type="number" class="mge-val" data-pts="2000" oninput="calculate()"></div>
+    <div class="row-calc"><span>Copper Sand</span><span style="color:#555">400</span><input type="number" class="mge-val" data-pts="400" oninput="calculate()"></div>
+    <div class="row-calc"><span>Silver Dust</span><span style="color:#555">1000</span><input type="number" class="mge-val" data-pts="1000" oninput="calculate()"></div>
+    <div class="row-calc"><span>Fine Gold</span><span style="color:#555">3000</span><input type="number" class="mge-val" data-pts="3000" oninput="calculate()"></div>
+    <div class="row-calc"><span>Meteor Steel</span><span style="color:#555">20000</span><input type="number" class="mge-val" data-pts="20000" oninput="calculate()"></div>
+</div>
