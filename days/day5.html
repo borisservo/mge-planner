@@ -1,42 +1,83 @@
 <div class="card">
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-        <h3 style="margin:0;">Unit Training</h3>
+    <div class="card-header" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+        <h3 style="margin:0;">Unit Training (Day 5)</h3>
         <div class="subtotal-text">Subtotal: <span id="sub-st5">0</span></div>
     </div>
 
     <div style="background: #222; padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #333;">
-        <label style="text-align: left;">Researched Training Speed %</label>
-        <input type="number" id="researchBonus" value="0" oninput="calculate()">
+        <label style="text-align: left; color: var(--blue);">Researched Training Speed %</label>
+        <input type="number" id="researchBonus" value="0" oninput="calculate()" placeholder="0">
     </div>
 
-    <div style="display: grid; grid-template-columns: 2fr 0.7fr 0.7fr 1.2fr; font-size: 0.65rem; color: #666; text-align: center; padding-bottom: 10px;">
-        <div style="text-align: left;">UNIT TYPE</div><div>MIN</div><div>SEC</div><div>QUANTITY</div>
+    <div style="display: grid; grid-template-columns: 2fr 0.8fr 0.8fr 1.2fr; font-size: 0.65rem; color: #666; text-align: center; padding-bottom: 10px; border-bottom: 1px solid #333; margin-bottom: 10px;">
+        <div style="text-align: left;">UNIT TYPE</div>
+        <div>MIN</div>
+        <div>SEC</div>
+        <div>QUANTITY</div>
     </div>
 
-    <div class="grid-row-time" data-pts="100" data-lvl="7">
+    <div class="grid-unit" data-pts="100" data-lvl="7" style="display: grid; grid-template-columns: 2fr 0.8fr 0.8fr 1.2fr; gap: 10px; align-items: center; padding: 10px 0; border-bottom: 1px solid #222;">
         <span style="font-size: 0.9rem;">Lv.7 (100 pts)</span>
-        <input type="number" class="u-min" value="2" oninput="calculate()">
-        <input type="number" class="u-sec" value="10" oninput="calculate()">
-        <input type="number" class="u-qty mge-val" data-pts="100" oninput="calculate()">
+        <input type="number" class="u-min" value="0" oninput="calculate()">
+        <input type="number" class="u-sec" value="0" oninput="calculate()">
+        <input type="number" class="mge-val u-qty" data-pts="100" placeholder="0" oninput="calculate()">
     </div>
 
-    <div class="grid-row-time" data-pts="50" data-lvl="6">
+    <div class="grid-unit" data-pts="50" data-lvl="6" style="display: grid; grid-template-columns: 2fr 0.8fr 0.8fr 1.2fr; gap: 10px; align-items: center; padding: 10px 0; border-bottom: 1px solid #222;">
         <span style="font-size: 0.9rem;">Lv.6 (50 pts)</span>
-        <input type="number" class="u-min" value="1" oninput="calculate()">
-        <input type="number" class="u-sec" value="30" oninput="calculate()">
-        <input type="number" class="u-qty mge-val" data-pts="50" oninput="calculate()">
+        <input type="number" class="u-min" value="0" oninput="calculate()">
+        <input type="number" class="u-sec" value="0" oninput="calculate()">
+        <input type="number" class="mge-val u-qty" data-pts="50" placeholder="0" oninput="calculate()">
     </div>
 
-    <div style="margin-top: 30px;">
-        <h4 style="color: var(--blue); margin-bottom: 10px;">Speedup to Units (Sprint)</h4>
-        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;">
-            <div><label>Days</label><input type="number" id="sp-d" oninput="calcSprint()"></div>
-            <div><label>Hrs</label><input type="number" id="sp-h" oninput="calcSprint()"></div>
-            <div><label>Min</label><input type="number" id="sp-m" oninput="calcSprint()"></div>
-            <div><label>Sec</label><input type="number" id="sp-s" oninput="calcSprint()"></div>
-        </div>
-        <div class="prediction" style="border-color: var(--blue); color: var(--blue); text-align: center;">
-            Units: <b id="sp-res-qty" style="color:#fff">0</b> | Points: <b id="sp-res-pts" style="color:var(--gold)">0</b>
-        </div>
+    <div class="grid-unit" data-pts="20" data-lvl="5" style="display: grid; grid-template-columns: 2fr 0.8fr 0.8fr 1.2fr; gap: 10px; align-items: center; padding: 10px 0; border-bottom: 1px solid #222;">
+        <span style="font-size: 0.9rem;">Lv.5 (20 pts)</span>
+        <input type="number" class="u-min" value="0" oninput="calculate()">
+        <input type="number" class="u-sec" value="0" oninput="calculate()">
+        <input type="number" class="mge-val u-qty" data-pts="20" placeholder="0" oninput="calculate()">
     </div>
+
+    <div class="grid-unit" data-pts="20" data-lvl="5" style="display: grid; grid-template-columns: 2fr 0.8fr 0.8fr 1.2fr; gap: 10px; align-items: center; padding: 10px 0; border-bottom: 1px solid #222;">
+        <span style="font-size: 0.9rem;">Lv.4 (10 pts)</span>
+        <input type="number" class="u-min" value="0" oninput="calculate()">
+        <input type="number" class="u-sec" value="0" oninput="calculate()">
+        <input type="number" class="mge-val u-qty" data-pts="10" placeholder="0" oninput="calculate()">
+    </div>
+
+    <div class="grid-unit" data-pts="20" data-lvl="5" style="display: grid; grid-template-columns: 2fr 0.8fr 0.8fr 1.2fr; gap: 10px; align-items: center; padding: 10px 0; border-bottom: 1px solid #222;">
+        <span style="font-size: 0.9rem;">Lv.3 (5 pts)</span>
+        <input type="number" class="u-min" value="0" oninput="calculate()">
+        <input type="number" class="u-sec" value="0" oninput="calculate()">
+        <input type="number" class="mge-val u-qty" data-pts="5" placeholder="0" oninput="calculate()">
+    </div>
+
+    <div style="margin-top: 35px; border-top: 1px solid var(--border); padding-top: 20px;">
+        <h4 style="color: var(--blue); margin: 0 0 15px 0;">Speedup to Units (Sprint)</h4>
+
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;">
+            <div><label>Days</label><input type="number" id="sp-d" placeholder="0" oninput="calculate()"></div>
+            <div><label>Hrs</label><input type="number" id="sp-h" placeholder="0" oninput="calculate()"></div>
+            <div><label>Min</label><input type="number" id="sp-m" placeholder="0" oninput="calculate()"></div>
+            <div><label>Sec</label><input type="number" id="sp-s" placeholder="0" oninput="calculate()"></div>
+        </div>
+
+        <div style="margin-top: 15px;">
+            <label>Target Unit Level</label>
+            <select id="sp-target" onchange="calculate()" style="background: #000; border: 1px solid #333; color: #fff; padding: 8px; width: 100%; border-radius: 6px;">
+                <option value="7">Lv.7 (100 pts)</option>
+                <option value="6">Lv.6 (50 pts)</option>
+                <option value="5">Lv.5 (20 pts)</option>
+                <option value="4">Lv.4 (10 pts)</option>
+                <option value="3">Lv.3 (5 pts)</option>
+            </select>
+        </div>
+
+        <div class="prediction" style="margin-top: 20px; border-color: var(--blue); color: var(--blue); text-align: center;">
+            Units Possible: <b id="sp-res-qty" style="color: #fff;">0</b> | MGE Points: <b id="sp-res-pts" style="color: var(--gold);">0</b>
+        </div>
+        <div style="margin-top: 20px; padding: 15px; background: #111; border-radius: 8px; font-size: 0.8rem; color: #888;">
+            <p><b style="color: var(--blue);">Sprint Calculator:</b> This estimated points based on your speedups stock. It is <b>added automatically</b> to your global score.</p>
+            <p><b style="color: var(--gold);">Research Bonus:</b> Enter your Training Speed bonus from technology.</p>
+        </div>
+
 </div>

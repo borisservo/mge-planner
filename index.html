@@ -2,28 +2,48 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AoE Mobile - MGE Pro Calculator</title>
+  <title>MGE Strategy Planner</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+<div class="container">
+  <div class="card" style="text-align:center;">
+    <h2 style="font-size: 0.8rem; color:#888;">GLOBAL ESTIMATED SCORE</h2>
+    <div id="totalPoints" style="font-size: 3rem; font-weight: bold; color: #ffcc00; margin: 10px 0;">0</div>
 
-<header class="header">
-  <span class="score-label">Global Estimated Score</span>
-  <div id="totalPoints">0</div>
-</header>
+    <div style="margin-bottom:15px;">
+      <label style="font-size:0.7rem; display:block;">TARGET GOAL</label>
+      <input type="number" id="mge-goal" oninput="calculate()" placeholder="Set goal..." style="background:transparent; border:none; border-bottom:1px solid #444; color: #ffcc00; text-align: center; width: 60%;">
+      <div id="goal-percent" style="font-size: 0.8rem; margin-top:5px; color:#888;">0% Reached</div>
+    </div>
 
-<nav class="tabs-nav">
-  <button class="tab-btn active" onclick="loadDay('day1')">Day 1</button>
-  <button class="tab-btn" onclick="loadDay('day2')">Day 2</button>
-  <button class="tab-btn" onclick="loadDay('day3')">Day 3</button>
-  <button class="tab-btn" onclick="loadDay('day4')">Day 4</button>
-  <button class="tab-btn" onclick="loadDay('day5')">Day 5</button>
-</nav>
+    <div style="width: 100%; height: 8px; display: flex; background: #222; border-radius: 4px; overflow: hidden;">
+      <div id="bar-d1" style="height:100%; background: #4e73df; width: 0%"></div>
+      <div id="bar-d2" style="height:100%; background: #1cc88a; width: 0%"></div>
+      <div id="bar-d3" style="height:100%; background: #36b9cc; width: 0%"></div>
+      <div id="bar-d4" style="height:100%; background: #f6c23e; width: 0%"></div>
+      <div id="bar-d5" style="height:100%; background: #e74a3b; width: 0%"></div>
+    </div>
 
-<main class="container">
-  <div id="content-area"></div>
-</main>
+    <button onclick="resetMGE()" style="margin-top:15px; background:transparent; border:1px solid #444; color:#666; cursor:pointer; padding:4px 10px; border-radius:4px; font-size:0.6rem;">RESET ALL DATA</button>
+  </div>
+
+  <div class="tabs" style="margin-top: 20px; display: flex; gap: 5px; justify-content: center;">
+    <button class="tab-btn active" onclick="loadDay('day1')">Day 1</button>
+    <button class="tab-btn" onclick="loadDay('day2')">Day 2</button>
+    <button class="tab-btn" onclick="loadDay('day3')">Day 3</button>
+    <button class="tab-btn" onclick="loadDay('day4')">Day 4</button>
+    <button class="tab-btn" onclick="loadDay('day5')">Day 5</button>
+  </div>
+
+  <div id="content-area" style="margin-top: 20px;"></div>
+
+  <div class="card" style="margin-top: 20px; font-size: 0.8rem; color: #aaa;">
+    <h4 style="color: #4e73df; margin-top:0;">Quick Guide</h4>
+    <p>• <b>Sprint (Day 5):</b> Estimated points based on your speedups.</p>
+    <p>• <b>Autosave:</b> Data is saved in your browser automatically.</p>
+  </div>
+</div>
 
 <script src="script.js"></script>
 </body>
