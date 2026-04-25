@@ -1,47 +1,99 @@
-<div class="card">
-    <div class="card-header" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-        <h3 style="margin:0; color: #f1c40f;">Final Push (Day 7)</h3>
-        <div class="subtotal-text">Subtotal: <span id="sub-st7">0</span></div>
+<div class="card-header" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+    <div>
+        <h3 style="margin:0; color: #c0392b;">Stage 7: Go All Out</h3>
+        <p style="margin:0; font-size: 0.7rem; color: #888; font-style: italic;">The Final Push</p>
+    </div>
+    <div class="subtotal-text">Subtotal: <span id="sub-st7">0</span></div>
+</div>
+
+<div style="background: rgba(155, 89, 182, 0.1); padding: 12px; border-radius: 8px; border: 1px solid rgba(155, 89, 182, 0.2); margin-bottom: 20px;">
+    <p style="margin:0; font-size: 0.75rem; text-align: center;"><b>Objective:</b> This stage combines objectives from all previous stages, challenging you to defeat barbarians, gather resources, increase your power, and utilize hero medals and skill advancement items.</p>
+</div>
+
+<div style="background: rgba(192, 57, 43, 0.05); border: 1px solid #333; border-radius: 6px; padding: 10px; margin-bottom: 12px;">
+    <h4 style="color: #c0392b; font-size: 0.75rem; margin:0 0 10px 0; border-bottom: 1px solid #333; padding-bottom: 5px;">DEFEAT TRIBES (KILLS)</h4>
+    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 6px;">
+        <div><label style="font-size:0.6rem; color:#888;">LVL 29-30</label><input type="number" id="d7-tr-29" oninput="calculate()" style="width:100%; background:#000; color:#fff; border:1px solid #444; padding:5px;"></div>
+        <div><label style="font-size:0.6rem; color:#888;">LVL 25-28</label><input type="number" id="d7-tr-25" oninput="calculate()" style="width:100%; background:#000; color:#fff; border:1px solid #444; padding:5px;"></div>
+        <div><label style="font-size:0.6rem; color:#888;">LVL 21-24</label><input type="number" id="d7-tr-21" oninput="calculate()" style="width:100%; background:#000; color:#fff; border:1px solid #444; padding:5px;"></div>
+        <div><label style="font-size:0.6rem; color:#888;">LVL 17-20</label><input type="number" id="d7-tr-17" oninput="calculate()" style="width:100%; background:#000; color:#fff; border:1px solid #444; padding:5px;"></div>
+        <div><label style="font-size:0.6rem; color:#888;">LVL 13-16</label><input type="number" id="d7-tr-13" oninput="calculate()" style="width:100%; background:#000; color:#fff; border:1px solid #444; padding:5px;"></div>
+        <div><label style="font-size:0.6rem; color:#888;">LVL 9-12</label><input type="number" id="d7-tr-9" oninput="calculate()" style="width:100%; background:#000; color:#fff; border:1px solid #444; padding:5px;"></div>
+        <div><label style="font-size:0.6rem; color:#888;">LVL 5-8</label><input type="number" id="d7-tr-5" oninput="calculate()" style="width:100%; background:#000; color:#fff; border:1px solid #444; padding:5px;"></div>
+        <div><label style="font-size:0.6rem; color:#888;">LVL 1-4</label><input type="number" id="d7-tr-1" oninput="calculate()" style="width:100%; background:#000; color:#fff; border:1px solid #444; padding:5px;"></div>
+    </div>
+</div>
+
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px;">
+    <div style="background: rgba(241, 196, 15, 0.05); border: 1px solid #333; border-radius: 6px; padding: 10px;">
+        <h4 style="color: #f1c40f; font-size: 0.75rem; margin:0 0 10px 0; border-bottom: 1px solid #333; padding-bottom: 5px;">POWER GAIN (2p per 1)</h4>
+        <div style="margin-bottom: 6px;"><label style="font-size:0.6rem; color:#888;">BUILDING / FACILITIES</label><input type="number" id="d7-build" oninput="calculate()" style="width:100%; background:#000; color:#fff; border:1px solid #444; padding:5px;"></div>
+        <div style="margin-bottom: 6px;"><label style="font-size:0.6rem; color:#888;">TECHNOLOGY</label><input type="number" id="d7-tech" oninput="calculate()" style="width:100%; background:#000; color:#fff; border:1px solid #444; padding:5px;"></div>
     </div>
 
-    <div style="background: #222; padding: 15px; border-radius: 8px; margin-bottom: 15px; border: 1px solid #444;">
-        <h4 style="margin:0 0 10px 0; font-size:0.8rem; color:var(--gold);">HEROES & ADVENT</h4>
-        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
-            <div>
-                <label style="font-size:0.6rem;">Epic Medals</label>
-                <input type="number" class="mge-val" data-pts="500" oninput="calculate()">
-            </div>
-            <div>
-                <label style="font-size:0.6rem;">Legendary Medals</label>
-                <input type="number" class="mge-val" data-pts="2500" oninput="calculate()">
-            </div>
-            <div>
-                <label style="font-size:0.6rem;">Epic Skill Items</label>
-                <input type="number" class="mge-val" data-pts="350" oninput="calculate()">
-            </div>
-            <div>
-                <label style="font-size:0.6rem;">Leg. Skill Items</label>
-                <input type="number" class="mge-val" data-pts="2000" oninput="calculate()">
+    <div style="background: rgba(155, 89, 182, 0.05); border: 1px solid #333; border-radius: 6px; padding: 10px;">
+        <h4 style="color: #9b59b6; font-size: 0.75rem; margin:0 0 10px 0; border-bottom: 1px solid #333; padding-bottom: 5px;">HERO UPGRADES</h4>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px;">
+            <div><label style="font-size:0.6rem; color:#888;">EPIC MEDAL</label><input type="number" id="d7-h-em" oninput="calculate()" style="width:100%; background:#000; color:#fff; border:1px solid #444; padding:5px;"></div>
+            <div><label style="font-size:0.6rem; color:#888;">LEG. MEDAL</label><input type="number" id="d7-h-lm" oninput="calculate()" style="width:100%; background:#000; color:#fff; border:1px solid #444; padding:5px;"></div>
+            <div><label style="font-size:0.6rem; color:#888;">EPIC SKILL</label><input type="number" id="d7-h-es" oninput="calculate()" style="width:100%; background:#000; color:#fff; border:1px solid #444; padding:5px;"></div>
+            <div><label style="font-size:0.6rem; color:#888;">LEG. SKILL</label><input type="number" id="d7-h-ls" oninput="calculate()" style="width:100%; background:#000; color:#fff; border:1px solid #444; padding:5px;"></div>
+        </div>
+        <div style="margin-top: 10px; padding-top: 10px; border-top: 1px solid #333;">
+            <label style="font-size:0.6rem; color:#888;">LEGENDARY ADVENT SPINS</label><input type="number" id="d7-spin" oninput="calculate()" style="width:100%; background:#000; color:#fff; border:1px solid #444; padding:5px;">
+        </div>
+    </div>
+</div>
+
+<div style="background: rgba(52, 152, 219, 0.05); border: 1px solid #333; border-radius: 6px; padding: 10px; margin-bottom: 12px;">
+    <h4 style="color: #3498db; font-size: 0.75rem; margin:0 0 10px 0; border-bottom: 1px solid #333; padding-bottom: 5px;">UNIT TRAINING PUSH (2p per 1 Power)</h4>
+
+    <div style="display: grid; grid-template-columns: 1fr 1.2fr 1.8fr; gap: 8px; margin-bottom: 10px; background: #000; padding: 8px; border-radius: 4px; border: 1px solid #222;">
+        <div>
+            <label style="font-size: 0.55rem; color: #888;">LEVEL</label>
+            <select id="d7-tc-lvl" onchange="calculate()" style="width:100%; background:#111; color:#fff; border:1px solid #444; padding:5px;">
+                <option value="9">Lvl 9</option><option value="8">Lvl 8</option><option value="7">Lvl 7</option>
+                <option value="6">Lvl 6</option><option value="5">Lvl 5</option>
+            </select>
+        </div>
+        <div>
+            <label style="font-size: 0.55rem; color: #888;">TIME / UNIT</label>
+            <div style="display:flex; gap:2px;">
+                <input type="number" id="d7-tc-min" placeholder="Min" oninput="calculate()" style="width:50%; background:#111; color:#fff; border:1px solid #444; padding:5px;">
+                <input type="number" id="d7-tc-sec" placeholder="Sec" oninput="calculate()" style="width:50%; background:#111; color:#fff; border:1px solid #444; padding:5px;">
             </div>
         </div>
-        <div style="margin-top:10px;">
-            <label style="font-size:0.6rem;">Legendary Advent (Spins)</label>
-            <input type="number" class="mge-val" data-pts="1000" oninput="calculate()" style="width:100%;">
+        <div>
+            <label style="font-size: 0.55rem; color: #888;">NEW SPEEDUPS</label>
+            <div style="display:flex; gap:2px;">
+                <input type="number" id="d7-tc-spd" placeholder="D" oninput="calculate()" style="width:33%; background:#111; color:#fff; border:1px solid #444; padding:5px;">
+                <input type="number" id="d7-tc-sph" placeholder="H" oninput="calculate()" style="width:33%; background:#111; color:#fff; border:1px solid #444; padding:5px;">
+                <input type="number" id="d7-tc-spm" placeholder="M" oninput="calculate()" style="width:33%; background:#111; color:#fff; border:1px solid #444; padding:5px;">
+            </div>
+        </div>
+        <div style="grid-column: 1 / -1; text-align: right; font-size: 0.7rem; color: #aaa; margin-top: 5px;">
+            Generated: <b id="d7-tc-units" style="color:#fff;">0</b> Units &rarr; <b id="d7-tc-pts" style="color:#f1c40f;">0</b> Pts
         </div>
     </div>
 
-    <div style="background: #222; padding: 15px; border-radius: 8px; margin-bottom: 15px; border: 1px solid #333;">
-        <h4 style="margin:0 0 10px 0; font-size:0.8rem; color:var(--blue);">POWER INCREASE</h4>
-        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
-            <input type="number" class="mge-val" data-pts="2" placeholder="Building Power" oninput="calculate()">
-            <input type="number" class="mge-val" data-pts="2" placeholder="Research Power" oninput="calculate()">
-            <input type="number" class="mge-val" data-pts="2" placeholder="Training Power" oninput="calculate()" style="grid-column: span 2;">
-        </div>
+    <label style="font-size: 0.6rem; color: #888;">EXTRA MANUAL UNITS</label>
+    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px;">
+        <div><span style="font-size:0.6rem; color:#aaa;">Lvl 9</span><input type="number" id="d7-u-lvl9" oninput="calculate()" style="width:100%; background:#111; color:#fff; border:1px solid #444; padding:5px;"></div>
+        <div><span style="font-size:0.6rem; color:#aaa;">Lvl 8</span><input type="number" id="d7-u-lvl8" oninput="calculate()" style="width:100%; background:#111; color:#fff; border:1px solid #444; padding:5px;"></div>
+        <div><span style="font-size:0.6rem; color:#aaa;">Lvl 7</span><input type="number" id="d7-u-lvl7" oninput="calculate()" style="width:100%; background:#111; color:#fff; border:1px solid #444; padding:5px;"></div>
+        <div><span style="font-size:0.6rem; color:#aaa;">Lvl 6</span><input type="number" id="d7-u-lvl6" oninput="calculate()" style="width:100%; background:#111; color:#fff; border:1px solid #444; padding:5px;"></div>
+        <div><span style="font-size:0.6rem; color:#aaa;">Lvl 5</span><input type="number" id="d7-u-lvl5" oninput="calculate()" style="width:100%; background:#111; color:#fff; border:1px solid #444; padding:5px;"></div>
+        <div><span style="font-size:0.6rem; color:#aaa;">Lvl 4</span><input type="number" id="d7-u-lvl4" oninput="calculate()" style="width:100%; background:#111; color:#fff; border:1px solid #444; padding:5px;"></div>
+        <div><span style="font-size:0.6rem; color:#aaa;">Lvl 3</span><input type="number" id="d7-u-lvl3" oninput="calculate()" style="width:100%; background:#111; color:#fff; border:1px solid #444; padding:5px;"></div>
     </div>
+</div>
 
-    <div style="background: #222; padding: 15px; border-radius: 8px; border: 1px solid #333;">
-        <h4 style="margin:0 0 10px 0; font-size:0.8rem; color:#1cc88a;">RESOURCES (Points per 100)</h4>
-        <input type="number" class="mge-val" data-pts="0.01" placeholder="Total Resources Gathered" oninput="calculate()" style="width:100%;">
-        <p style="font-size:0.6rem; color:#666; margin-top:5px;">Note: 100 Res = 1 Pt (Enter total amount, e.g. 1,000,000)</p>
+<div style="background: rgba(46, 204, 113, 0.05); border: 1px solid #333; border-radius: 6px; padding: 10px;">
+    <h4 style="color: #2ecc71; font-size: 0.75rem; margin:0 0 10px 0; border-bottom: 1px solid #333; padding-bottom: 5px;">GATHER RESOURCES (1p per 100)</h4>
+    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 6px;">
+        <div><label style="font-size:0.6rem; color:#888;">WOOD</label><input type="number" id="d7-wood" oninput="calculate()" style="width:100%; background:#000; color:#fff; border:1px solid #444; padding:5px;"></div>
+        <div><label style="font-size:0.6rem; color:#888;">FOOD</label><input type="number" id="d7-food" oninput="calculate()" style="width:100%; background:#000; color:#fff; border:1px solid #444; padding:5px;"></div>
+        <div><label style="font-size:0.6rem; color:#888;">STONE</label><input type="number" id="d7-stone" oninput="calculate()" style="width:100%; background:#000; color:#fff; border:1px solid #444; padding:5px;"></div>
+        <div><label style="font-size:0.6rem; color:#888;">GOLD</label><input type="number" id="d7-gold" oninput="calculate()" style="width:100%; background:#000; color:#fff; border:1px solid #444; padding:5px;"></div>
     </div>
 </div>

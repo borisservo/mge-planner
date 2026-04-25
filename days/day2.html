@@ -1,58 +1,47 @@
-<div class="card">
-    <div class="card-header" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-        <h3 style="margin:0;">Hero Growth (Day 2)</h3>
-        <div class="subtotal-text">Subtotal: <span id="sub-st2">0</span></div>
+<div class="card-header" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+    <div>
+        <h3 style="margin:0;">Stage 2: Hero Growth</h3>
+        <p style="margin:0; font-size: 0.7rem; color: #888; font-style: italic;">Empower Your Champions</p>
     </div>
+    <div class="subtotal-text">Subtotal: <span id="sub-st2">0</span></div>
+</div>
 
-    <div style="display: grid; grid-template-columns: 2fr 1fr 1.5fr; font-size: 0.65rem; color: #666; text-align: center; padding-bottom: 10px; border-bottom: 1px solid #333; margin-bottom: 10px;">
-        <div style="text-align: left;">ITEM / ACTION</div>
-        <div>POINTS</div>
-        <div>QUANTITY</div>
-    </div>
+<div style="background: rgba(155, 89, 182, 0.1); padding: 12px; border-radius: 8px; border: 1px solid rgba(155, 89, 182, 0.2); margin-bottom: 20px;">
+    <p style="margin:0; font-size: 0.75rem; text-align: center;"><b>Objective:</b> Accumulate points by upgrading heroes and crafting gear.</p>
+</div>
 
-    <div class="grid-row">
-        <span>Epic Scrolls</span>
-        <span style="color:#888; text-align: center;">350</span>
-        <input type="number" class="mge-val" data-pts="350" placeholder="0" oninput="calculate()">
+<h4 style="color: #9b59b6; font-size: 0.8rem; margin-bottom: 10px; border-bottom: 1px solid #333; padding-bottom: 5px;">HERO UPGRADES</h4>
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px;">
+    <div class="input-group">
+        <label style="font-size: 0.65rem; color: #9b59b6;  display: block; margin-bottom: 4px;">EPIC EXCLUSIVE MEDAL (500)</label>
+        <input type="number" id="h-epic-medal" value="0" oninput="calculate()" style="width:100%; background:#1a1a1a; color:#fff; border:1px solid #333; padding:8px; border-radius:4px;">
     </div>
+    <div class="input-group">
+        <label style="font-size: 0.65rem; color: #e67e22; display: block; margin-bottom: 4px;">LEG. EXCLUSIVE MEDAL (2,500)</label>
+        <input type="number" id="h-leg-medal" value="0" oninput="calculate()" style="width:100%; background:#1a1a1a; color:#fff; border:1px solid #333; padding:8px; border-radius:4px;">
+    </div>
+    <div class="input-group">
+        <label style="font-size: 0.65rem; color: #9b59b6;  display: block; margin-bottom: 4px;">UNIV. EPIC SKILL (350)</label>
+        <input type="number" id="h-epic-skill" value="0" oninput="calculate()" style="width:100%; background:#1a1a1a; color:#fff; border:1px solid #333; padding:8px; border-radius:4px;">
+    </div>
+    <div class="input-group">
+        <label style="font-size: 0.65rem; color: #e67e22; display: block; margin-bottom: 4px;">UNIV. LEG. SKILL (2,000)</label>
+        <input type="number" id="h-leg-skill" value="0" oninput="calculate()" style="width:100%; background:#1a1a1a; color:#fff; border:1px solid #333; padding:8px; border-radius:4px;">
+    </div>
+</div>
 
-    <div class="grid-row">
-        <span>Epic Hero Medals</span>
-        <span style="color:#888; text-align: center;">500</span>
-        <input type="number" class="mge-val" data-pts="500" placeholder="0" oninput="calculate()">
+<h4 style="color: #9b59b6; font-size: 0.8rem; margin-bottom: 10px; border-bottom: 1px solid #333; padding-bottom: 5px;">GEAR CRAFTING</h4>
+<div style="display: grid; grid-template-columns: 1fr; gap: 10px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; background: #1a1a1a; padding: 10px; border-radius: 5px; border: 1px solid #333;">
+        <label style="font-size: 0.75rem; color: #3498db; margin:0;">Craft Rare Gear (1,000)</label>
+        <input type="number" id="g-rare" value="0" oninput="calculate()" style="width: 80px; text-align: right; background:#000; color:#fff; border:1px solid #444; padding:5px; border-radius:4px;">
     </div>
-
-    <div class="grid-row">
-        <span>Legendary Scrolls</span>
-        <span style="color:#888; text-align: center;">2,000</span>
-        <input type="number" class="mge-val" data-pts="2000" placeholder="0" oninput="calculate()">
+    <div style="display: flex; justify-content: space-between; align-items: center; background: #1a1a1a; padding: 10px; border-radius: 5px; border: 1px solid #333;">
+        <label style="font-size: 0.75rem; color: #9b59b6; margin:0;">Craft Epic Gear (5,000)</label>
+        <input type="number" id="g-epic" value="0" oninput="calculate()" style="width: 80px; text-align: right; background:#000; color:#fff; border:1px solid #444; padding:5px; border-radius:4px;">
     </div>
-
-    <div class="grid-row">
-        <span>Legendary Hero Medals</span>
-        <span style="color:#888; text-align: center;">2,500</span>
-        <input type="number" class="mge-val" data-pts="2500" placeholder="0" oninput="calculate()">
-    </div>
-
-    <div class="grid-row">
-        <span>Craft Rare Gear</span>
-        <span style="color:#888; text-align: center;">1,000</span>
-        <input type="number" class="mge-val" data-pts="1000" placeholder="0" oninput="calculate()">
-    </div>
-
-    <div class="grid-row">
-        <span>Craft Epic Gear</span>
-        <span style="color:#888; text-align: center;">5,000</span>
-        <input type="number" class="mge-val" data-pts="5000" placeholder="0" oninput="calculate()">
-    </div>
-
-    <div class="grid-row" style="border-bottom: none;">
-        <span>Craft Legendary Gear</span>
-        <span style="color:#888; text-align: center;">30,000</span>
-        <input type="number" class="mge-val" data-pts="30000" placeholder="0" oninput="calculate()">
-    </div>
-    <div style="margin-top: 20px; padding: 15px; background: #111; border-radius: 8px; font-size: 0.8rem; color: #888;">
-        <p><b style="color: var(--gold);">Quantity:</b> Enter the number of items or hero upgrades you plan to use.</p>
-        <p><i class="fas fa-info-circle"></i> Points are awarded per Fragment, XP, or Skill upgrade used.</p>
+    <div style="display: flex; justify-content: space-between; align-items: center; background: #1a1a1a; padding: 10px; border-radius: 5px; border: 1px solid #333;">
+        <label style="font-size: 0.75rem; color: #e67e22; margin:0;">Craft Legendary Gear (15,000)</label>
+        <input type="number" id="g-leg" value="0" oninput="calculate()" style="width: 80px; text-align: right; background:#000; color:#fff; border:1px solid #444; padding:5px; border-radius:4px;">
     </div>
 </div>

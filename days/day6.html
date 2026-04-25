@@ -1,25 +1,40 @@
-<div class="card">
-    <div class="card-header" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-        <h3 style="margin:0;">Power Boost (Day 6)</h3>
-        <div class="subtotal-text">Subtotal: <span id="sub-st6">0</span></div>
+<div class="card-header" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+    <div>
+        <h3 style="margin:0; color: #f1c40f;">Stage 6: Power Boost</h3>
+        <p style="margin:0; font-size: 0.7rem; color: #888; font-style: italic;">Reap the Rewards</p>
     </div>
+    <div class="subtotal-text">Subtotal: <span id="sub-st6">0</span></div>
+</div>
 
-    <div style="background: #222; padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #333;">
-        <label style="color: var(--blue); display: block; margin-bottom: 10px;">Power Increase Points</label>
+<div style="background: rgba(155, 89, 182, 0.1); padding: 12px; border-radius: 8px; border: 1px solid rgba(155, 89, 182, 0.2); margin-bottom: 20px;">
+    <p style="margin:0; font-size: 0.75rem; text-align: center;"><b>Objective:</b> Increase your overall power to earn points. This can be achieved through building upgrades, technology research, and unit training.</p>
+</div>
 
-        <div style="margin-bottom: 15px;">
-            <label style="font-size: 0.7rem; color: #888;">Buildings Power Up</label>
-            <input type="number" class="mge-val" data-pts="2" placeholder="Enter power gained" oninput="calculate()">
+<h4 style="color: #f1c40f; font-size: 0.8rem; margin-bottom: 10px; border-bottom: 1px solid #333; padding-bottom: 5px;">POWER INCREASE</h4>
+<div style="display: grid; gap: 10px;">
+
+    <div style="display:flex; justify-content: space-between; align-items: center; background: #1a1a1a; padding: 12px; border-radius: 5px; border: 1px solid #333;">
+        <div>
+            <span style="font-size: 0.8rem; color: #fff; display:block;">Building Power</span>
+            <span style="font-size: 0.6rem; color: #888;">Construct or upgrade</span>
         </div>
+        <input type="number" id="p-build" value="0" oninput="calculate()" style="width:120px; text-align:right; background:#000; color:#fff; border:1px solid #444; padding:8px; border-radius:4px;">
+    </div>
 
-        <div style="margin-bottom: 15px;">
-            <label style="font-size: 0.7rem; color: #888;">Technology Power Up</label>
-            <input type="number" class="mge-val" data-pts="2" placeholder="Enter power gained" oninput="calculate()">
+    <div style="display:flex; justify-content: space-between; align-items: center; background: #1a1a1a; padding: 12px; border-radius: 5px; border: 1px solid #333;">
+        <div>
+            <span style="font-size: 0.8rem; color: #fff; display:block;">Technology Power</span>
+            <span style="font-size: 0.6rem; color: #888;">Research in Academy</span>
         </div>
+        <input type="number" id="p-tech" value="0" oninput="calculate()" style="width:120px; text-align:right; background:#000; color:#fff; border:1px solid #444; padding:8px; border-radius:4px;">
     </div>
 
-    <div style="margin-top: 20px; padding: 15px; background: #111; border-radius: 8px; font-size: 0.8rem; color: #888;">
-        <p><b style="color: var(--gold);">Note:</b> Training points can be linked from the Day 5 Sprint calculator using the checkbox.</p>
-        <p><b style="color: var(--blue);">Formula:</b> Every 1 point of Power Gained = 2 MGE Points.</p>
+    <div style="display:flex; justify-content: space-between; align-items: center; background: #1a1a1a; padding: 12px; border-radius: 5px; border: 1px solid #333;">
+        <div>
+            <span style="font-size: 0.8rem; color: #fff; display:block;">Troop Power</span>
+            <span style="font-size: 0.6rem; color: #888;">Imported from D5: <b id="p-imported" style="color:#3498db;">0</b></span>
+        </div>
+        <input type="number" id="p-train" value="0" oninput="calculate()" placeholder="Extra Power..." style="width:120px; text-align:right; background:#000; color:#fff; border:1px solid #444; padding:8px; border-radius:4px;">
     </div>
+
 </div>

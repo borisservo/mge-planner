@@ -1,76 +1,49 @@
-<div class="card">
-    <div class="card-header" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-        <h3 style="margin:0;">Race Against Time (Day 4)</h3>
-        <div class="subtotal-text">Subtotal: <span id="sub-st4">0</span></div>
+<div class="card-header" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+    <div>
+        <h3 style="margin:0;">Stage 4: Race Against Time</h3>
+        <p style="margin:0; font-size: 0.7rem; color: #888; font-style: italic;">Strategic Delay</p>
     </div>
+    <div class="subtotal-text">Subtotal: <span id="sub-st4">0</span></div>
+</div>
 
-    <div style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; font-size: 0.65rem; color: #666; text-align: center; padding-bottom: 10px; border-bottom: 1px solid #333; margin-bottom: 10px;">
-        <div style="text-align: left;">SPEEDUP TYPE (30 pts/min)</div>
-        <div>DAYS</div><div>HRS</div><div>MINS</div>
-    </div>
+<div style="background: rgba(155, 89, 182, 0.1); padding: 12px; border-radius: 8px; border: 1px solid rgba(155, 89, 182, 0.2); margin-bottom: 20px;">
+    <p style="margin:0; font-size: 0.75rem; text-align: center;"><b>Objective:</b> Upgrade rings, use speed-ups and complete fine crafts.</p>
+</div>
 
-    <div class="row-speed" id="row-build" style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 10px; align-items: center; padding: 10px 0; border-bottom: 1px solid #222;">
-        <span style="font-size: 0.9rem;">Building Speed-up</span>
-        <input type="number" class="t-d" placeholder="0" oninput="calculate()">
-        <input type="number" class="t-h" placeholder="0" oninput="calculate()">
-        <input type="number" class="t-m" placeholder="0" oninput="calculate()">
+<h4 style="color: #e74c3c; font-size: 0.8rem; margin-bottom: 10px; border-bottom: 1px solid #333; padding-bottom: 5px;">SIGNET RINGS UPGRADE</h4>
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px;">
+    <div class="input-group">
+        <label style="font-size: 0.65rem; color: #888; display: block; margin-bottom: 4px;">COPPER SAND (400)</label>
+        <input type="number" id="r-copper" value="0" oninput="calculate()" style="width:100%; background:#1a1a1a; color:#fff; border:1px solid #333; padding:8px; border-radius:4px;">
     </div>
+    <div class="input-group">
+        <label style="font-size: 0.65rem; color: #888; display: block; margin-bottom: 4px;">SILVER SAND (1,000)</label>
+        <input type="number" id="r-silver" value="0" oninput="calculate()" style="width:100%; background:#1a1a1a; color:#fff; border:1px solid #333; padding:8px; border-radius:4px;">
+    </div>
+    <div class="input-group">
+        <label style="font-size: 0.65rem; color: #888; display: block; margin-bottom: 4px;">FINE GOLD (3,000)</label>
+        <input type="number" id="r-gold" value="0" oninput="calculate()" style="width:100%; background:#1a1a1a; color:#fff; border:1px solid #333; padding:8px; border-radius:4px;">
+    </div>
+    <div class="input-group">
+        <label style="font-size: 0.65rem; color: #888; display: block; margin-bottom: 4px;">METEOR STEEL (20,000)</label>
+        <input type="number" id="r-meteor" value="0" oninput="calculate()" style="width:100%; background:#1a1a1a; color:#fff; border:1px solid #333; padding:8px; border-radius:4px;">
+    </div>
+</div>
 
-    <div class="row-speed" id="row-research" style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 10px; align-items: center; padding: 10px 0; border-bottom: 1px solid #222;">
-        <span style="font-size: 0.9rem;">Research Speed-up</span>
-        <input type="number" class="t-d" placeholder="0" oninput="calculate()">
-        <input type="number" class="t-h" placeholder="0" oninput="calculate()">
-        <input type="number" class="t-m" placeholder="0" oninput="calculate()">
+<h4 style="color: #e74c3c; font-size: 0.8rem; margin-bottom: 10px; border-bottom: 1px solid #333; padding-bottom: 5px;">SPEED-UPS (TOTAL MINUTES)</h4>
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px;">
+    <div style="background: #1a1a1a; padding: 10px; border-radius: 5px; border: 1px solid #333;">
+        <label style="font-size: 0.70rem; color: #3498db; display:block; margin-bottom: 5px;">Building (30 pts/min)</label>
+        <input type="number" id="sp-build" value="0" oninput="calculate()" style="width: 100%; background:#000; color:#fff; border:1px solid #444; padding:5px; border-radius:4px;">
     </div>
+    <div style="background: #1a1a1a; padding: 10px; border-radius: 5px; border: 1px solid #333;">
+        <label style="font-size: 0.70rem; color: #2ecc71; display:block; margin-bottom: 5px;">Research (30 pts/min)</label>
+        <input type="number" id="sp-research" value="0" oninput="calculate()" style="width: 100%; background:#000; color:#fff; border:1px solid #444; padding:5px; border-radius:4px;">
+    </div>
+</div>
 
-    <div style="margin-top: 30px; display: grid; grid-template-columns: 2fr 1fr 1.5fr; font-size: 0.65rem; color: #666; text-align: center; padding-bottom: 10px; border-bottom: 1px solid #333; margin-bottom: 10px;">
-        <div style="text-align: left;">REFINING & CRAFT</div>
-        <div>POINTS</div>
-        <div>QUANTITY</div>
-    </div>
-
-    <div class="grid-row">
-        <span>Complete 1 Fine Craft</span>
-        <span style="color:#888; text-align: center;">2,000</span>
-        <input type="number" class="mge-val" data-pts="2000" placeholder="0" oninput="calculate()">
-    </div>
-
-    <div class="grid-row">
-        <span>Copper Sand</span>
-        <span style="color:#888; text-align: center;">400</span>
-        <input type="number" class="mge-val" data-pts="400" placeholder="0" oninput="calculate()">
-    </div>
-
-    <div class="grid-row">
-        <span>Silver Sand</span>
-        <span style="color:#888; text-align: center;">1,000</span>
-        <input type="number" class="mge-val" data-pts="1000" placeholder="0" oninput="calculate()">
-    </div>
-
-    <div class="grid-row">
-        <span>Fine Gold</span>
-        <span style="color:#888; text-align: center;">3,000</span>
-        <input type="number" class="mge-val" data-pts="3000" placeholder="0" oninput="calculate()">
-    </div>
-
-    <div class="grid-row" style="border-bottom: none;">
-        <span>Meteor Steel</span>
-        <span style="color:#888; text-align: center;">20,000</span>
-        <input type="number" class="mge-val" data-pts="20000" placeholder="0" oninput="calculate()">
-    </div>
-
-    <div class="prediction" style="margin-top: 25px; border-color: var(--blue); text-align: left; font-size: 0.85rem;">
-        <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
-            <span>Building Points:</span>
-            <b id="pts-build" style="color: var(--blue);">0</b>
-        </div>
-        <div style="display: flex; justify-content: space-between;">
-            <span>Research Points:</span>
-            <b id="pts-research" style="color: var(--blue);">0</b>
-        </div>
-    </div>
-    <div style="margin-top: 20px; padding: 15px; background: #111; border-radius: 8px; font-size: 0.8rem; color: #888;">
-        <p><b style="color: var(--gold);">Time Format:</b> Enter Days, Hours, and Minutes of speedups you will consume.</p>
-        <p><b style="color: var(--blue);">Refining Materials:</b> Enter the quantity of materials like Iron, Wood, or Stones planned for refining.</p>
-    </div>
+<h4 style="color: #e74c3c; font-size: 0.8rem; margin-bottom: 10px; border-bottom: 1px solid #333; padding-bottom: 5px;">FINE CRAFTING</h4>
+<div style="display:flex; justify-content: space-between; align-items: center; background: #1a1a1a; padding: 12px; border-radius: 5px; border: 1px solid #333;">
+    <span style="font-size: 0.8rem; color: #e67e22;">Complete Fine Craft (2,000 pts)</span>
+    <input type="number" id="c-fine" value="0" oninput="calculate()" style="width:100px; text-align:right; background:#000; color:#fff; border:1px solid #333; padding:5px; border-radius:4px;">
 </div>
