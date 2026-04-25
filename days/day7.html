@@ -1,10 +1,47 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<div class="card">
+    <div class="card-header" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+        <h3 style="margin:0; color: #f1c40f;">Final Push (Day 7)</h3>
+        <div class="subtotal-text">Subtotal: <span id="sub-st7">0</span></div>
+    </div>
 
-</body>
-</html>
+    <div style="background: #222; padding: 15px; border-radius: 8px; margin-bottom: 15px; border: 1px solid #444;">
+        <h4 style="margin:0 0 10px 0; font-size:0.8rem; color:var(--gold);">HEROES & ADVENT</h4>
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+            <div>
+                <label style="font-size:0.6rem;">Epic Medals</label>
+                <input type="number" class="mge-val" data-pts="500" oninput="calculate()">
+            </div>
+            <div>
+                <label style="font-size:0.6rem;">Legendary Medals</label>
+                <input type="number" class="mge-val" data-pts="2500" oninput="calculate()">
+            </div>
+            <div>
+                <label style="font-size:0.6rem;">Epic Skill Items</label>
+                <input type="number" class="mge-val" data-pts="350" oninput="calculate()">
+            </div>
+            <div>
+                <label style="font-size:0.6rem;">Leg. Skill Items</label>
+                <input type="number" class="mge-val" data-pts="2000" oninput="calculate()">
+            </div>
+        </div>
+        <div style="margin-top:10px;">
+            <label style="font-size:0.6rem;">Legendary Advent (Spins)</label>
+            <input type="number" class="mge-val" data-pts="1000" oninput="calculate()" style="width:100%;">
+        </div>
+    </div>
+
+    <div style="background: #222; padding: 15px; border-radius: 8px; margin-bottom: 15px; border: 1px solid #333;">
+        <h4 style="margin:0 0 10px 0; font-size:0.8rem; color:var(--blue);">POWER INCREASE</h4>
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+            <input type="number" class="mge-val" data-pts="2" placeholder="Building Power" oninput="calculate()">
+            <input type="number" class="mge-val" data-pts="2" placeholder="Research Power" oninput="calculate()">
+            <input type="number" class="mge-val" data-pts="2" placeholder="Training Power" oninput="calculate()" style="grid-column: span 2;">
+        </div>
+    </div>
+
+    <div style="background: #222; padding: 15px; border-radius: 8px; border: 1px solid #333;">
+        <h4 style="margin:0 0 10px 0; font-size:0.8rem; color:#1cc88a;">RESOURCES (Points per 100)</h4>
+        <input type="number" class="mge-val" data-pts="0.01" placeholder="Total Resources Gathered" oninput="calculate()" style="width:100%;">
+        <p style="font-size:0.6rem; color:#666; margin-top:5px;">Note: 100 Res = 1 Pt (Enter total amount, e.g. 1,000,000)</p>
+    </div>
+</div>

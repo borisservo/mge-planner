@@ -1,4 +1,4 @@
-// --- Configuration Tables ---
+// --- Tabelas de Configuração ---
 const resNormal = {
   1: 54000,
   2: 216000,
@@ -41,62 +41,63 @@ const unitPoints = { 7: 100, 6: 50, 5: 20, 4: 10, 3: 5 };
 
 let lineupCount = 0;
 
-// --- Helper: Force Positive Integers ---
+// --- Validação: Números Inteiros e Positivos ---
 function validateInputs() {
   document.querySelectorAll('input[type="number"]').forEach((input) => {
     if (input.value !== '') {
       let val = Math.floor(Math.abs(parseFloat(input.value)));
       if (isNaN(val)) val = 0;
-      if (input.value != val) input.value = val;
+      if (Number(input.value) !== val) {
+        input.value = val.toString();
+      }
     }
   });
 }
 
-// --- Navigation Function ---
+// --- Navegação entre Abas ---
 async function loadDay(dayId) {
   const area = document.getElementById('content-area');
   if (!area) return;
 
   try {
     const response = await fetch(`days/${dayId}.html`);
-    if (!response.ok) throw new Error('File missing');
+    if (!response.ok) return;
+
     area.innerHTML = await response.text();
 
-    // Update Button Styles
+    // Atualizar estilo dos botões
     document.querySelectorAll('.tab-btn').forEach((btn) => {
       btn.classList.remove('active');
-      if (btn.getAttribute('onclick').includes(dayId))
+      if (btn.getAttribute('onclick')?.includes(dayId)) {
         btn.classList.add('active');
+      }
     });
 
-    // Initialize Day 3
+    // Lógica específica para o Dia 3
     if (dayId === 'day3') {
       lineupCount = 0;
-      document.getElementById('lineupContainer').innerHTML = '';
+      const container = document.getElementById('lineupContainer');
+      if (container) container.innerHTML = '';
       addLineup();
     }
 
     calculate();
   } catch (err) {
-    area.innerHTML = `<div style="color:red; text-align:center; padding:50px;">
-            <h3>Error loading ${dayId}.html</h3>
-            <p>Ensure the file is inside the <b>/days</b> folder.</p>
-        </div>`;
+    console.error('Navigation error:', err);
   }
 }
 
-// --- Main Calculation Engine ---
+// --- Motor de Cálculo Principal ---
 function calculate() {
   validateInputs();
   let dayTotal = 0;
 
-  // Detect Active Day
   const subElement = document.querySelector('[id^="sub-st"]');
   if (!subElement) return;
   const dayId = subElement.id.replace('sub-st', 'day');
 
   try {
-    // 1. Day 1: Stamina Logic
+    // 1. Dia 1: Stamina
     const sStock = document.getElementById('staminaStock');
     const sCost = document.getElementById('staminaCost');
     if (sStock && sCost) {
@@ -112,7 +113,7 @@ function calculate() {
       dayTotal = pts;
     }
 
-    // 2. Day 3: Gathering Logic
+    // 2. Dia 3: Gathering
     const lineups = document.querySelectorAll('[id^="lineup-"]');
     if (dayId === 'day3' && lineups.length > 0) {
       lineups.forEach((el) => {
@@ -135,7 +136,7 @@ function calculate() {
       });
     }
 
-    // 3. Day 4: Speedups
+    // 3. Dia 4: Speedups
     const bRow = document.getElementById('row-build');
     if (dayId === 'day4' && bRow) {
       const getSpdPts = (id) => {
@@ -153,20 +154,38 @@ function calculate() {
       dayTotal += bP + rP;
     }
 
-    // 4. Generic Inputs (.mge-val)
+    // 4. Sprint & Checkbox Logic (Day 5 to Day 6/7)
+    let sprintPoints = 0;
+    if (document.getElementById('sp-target')) {
+      sprintPoints = getSprintValue();
+    }
+
+    const linkCheckbox = document.getElementById('linkToDay6');
+    const isLinked = linkCheckbox
+      ? linkCheckbox.checked
+      : localStorage.getItem('mge_sprint_to_d6') === 'true';
+
+    if (dayId === 'day5') {
+      if (!isLinked) dayTotal += sprintPoints;
+      localStorage.setItem('mge_sprint_to_d6', isLinked.toString());
+      localStorage.setItem('mge_sprint_val', sprintPoints.toString());
+    }
+
+    if (dayId === 'day6' || dayId === 'day7') {
+      const savedLinked = localStorage.getItem('mge_sprint_to_d6') === 'true';
+      if (savedLinked)
+        dayTotal += parseFloat(localStorage.getItem('mge_sprint_val') || 0);
+    }
+
+    // 5. Inputs Genéricos (.mge-val)
     document.querySelectorAll('.mge-val').forEach((input) => {
       dayTotal +=
         parseFloat(input.dataset.pts) * (parseFloat(input.value) || 0);
     });
 
-    // 5. Day 5: Sprint (Speedup to Units)
-    if (dayId === 'day5' && document.getElementById('sp-target')) {
-      dayTotal += getSprintValue();
-    }
-
-    // Update UI and Save
+    // Guardar e Atualizar UI
     subElement.innerText = Math.round(dayTotal).toLocaleString();
-    localStorage.setItem('mge_pts_' + dayId, dayTotal);
+    localStorage.setItem('mge_pts_' + dayId, dayTotal.toString());
     updateGlobalScore();
   } catch (e) {
     console.warn('Calculation partial fail:', e);
@@ -198,7 +217,7 @@ function getSprintValue() {
 function updateGlobalScore() {
   let total = 0;
   let dVals = [];
-  for (let i = 1; i <= 5; i++) {
+  for (let i = 1; i <= 7; i++) {
     let v = parseFloat(localStorage.getItem('mge_pts_day' + i)) || 0;
     dVals.push(v);
     total += v;
@@ -207,17 +226,15 @@ function updateGlobalScore() {
   const tEl = document.getElementById('totalPoints');
   if (tEl) tEl.innerText = Math.round(total).toLocaleString();
 
-  // Progress Bars
   dVals.forEach((v, i) => {
     const b = document.getElementById('bar-d' + (i + 1));
     if (b) b.style.width = total > 0 ? (v / total) * 100 + '%' : '0%';
   });
 
-  // Goal Logic
   const gIn = document.getElementById('mge-goal');
   if (gIn) {
     const goal = parseFloat(gIn.value) || 0;
-    localStorage.setItem('mge_target_goal', goal);
+    localStorage.setItem('mge_target_goal', goal.toString());
     const gTx = document.getElementById('goal-percent');
     if (gTx && goal > 0) {
       let p = (total / goal) * 100;
@@ -241,52 +258,27 @@ function addLineup() {
   const div = document.createElement('div');
   div.className = 'prediction';
   div.id = 'lineup-' + lineupCount;
-  div.style.marginBottom = '15px';
-
   div.innerHTML = `
-        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #333; margin-bottom:10px; padding-bottom:5px;">
-            <b style="color: var(--blue);">March Lineup #${lineupCount}</b>
-            <button onclick="this.parentElement.parentElement.remove(); calculate();" style="background:#ff4444; border:none; color:white; border-radius:4px; padding:2px 8px; cursor:pointer;">Remove</button>
+        <div style="display:flex; justify-content:space-between"><b>March #${lineupCount}</b>
+        <button onclick="this.parentElement.parentElement.remove(); calculate();">X</button></div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:5px 0;">
+            <select class="l-lvl" onchange="calculate()">${[8, 7, 6, 5, 4, 3, 2, 1].map((l) => `<option value="${l}">Lvl ${l}</option>`).join('')}</select>
+            <input type="number" class="l-rounds" value="1" oninput="calculate()">
         </div>
-
-        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-bottom:10px;">
-            <div>
-                <label style="font-size:0.7rem; color:#888; display:block; margin-bottom:4px;">Node Level</label>
-                <select class="l-lvl" onchange="calculate()" style="width:100%; background:#000; color:#fff; border:1px solid #444; padding:5px; border-radius:4px;">
-                    ${[8, 7, 6, 5, 4, 3, 2, 1].map((l) => `<option value="${l}">Level ${l}</option>`).join('')}
-                </select>
-            </div>
-            <div>
-                <label style="font-size:0.7rem; color:#888; display:block; margin-bottom:4px;">Total Rounds</label>
-                <input type="number" class="l-rounds" value="0" oninput="calculate()" style="width:100%; background:#000; color:#fff; border:1px solid #444; padding:5px; border-radius:4px;">
-            </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+            <input type="number" class="l-speed" value="0" oninput="calculate()" placeholder="Speed %">
+            <input type="number" class="l-load" value="0" oninput="calculate()" placeholder="Load %">
+            <label style="grid-column: span 2; font-size:0.7rem;"><input type="checkbox" class="l-rich" onchange="calculate()"> RICH NODE</label>
         </div>
-
-        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-bottom:10px;">
-            <div>
-                <label style="font-size:0.7rem; color:#888; display:block; margin-bottom:4px;">Gather Speed %</label>
-                <input type="number" class="l-speed" value="0" oninput="calculate()" placeholder="Bonus Speed" style="width:100%; background:#000; color:#fff; border:1px solid #444; padding:5px; border-radius:4px;">
-            </div>
-            <div>
-                <label style="font-size:0.7rem; color:#888; display:block; margin-bottom:4px;">Extra Load %</label>
-                <input type="number" class="l-load" value="0" oninput="calculate()" placeholder="Bonus Load" style="width:100%; background:#000; color:#fff; border:1px solid #444; padding:5px; border-radius:4px;">
-            </div>
-        </div>
-
-        <div style="display:flex; justify-content:space-between; align-items:center; background:#111; padding:8px; border-radius:4px;">
-            <label style="font-size:0.75rem;"><input type="checkbox" class="l-rich" onchange="calculate()"> <b>RICH DEPOSIT</b></label>
-            <div style="text-align:right; font-size:0.8rem;">
-                Time: <b class="l-time" style="color:#fff;">0h 0m</b> | Points: <b class="l-pts" style="color:var(--gold);">0</b>
-            </div>
-        </div>
-    `;
+        <div style="text-align:right; font-size:0.8rem; margin-top:5px;">Time: <b class="l-time">0h 0m</b> | Pts: <b class="l-pts">0</b></div>`;
   container.appendChild(div);
   calculate();
 }
 
 window.onload = () => {
   const savedGoal = localStorage.getItem('mge_target_goal');
-  if (savedGoal && document.getElementById('mge-goal'))
+  if (savedGoal && document.getElementById('mge-goal')) {
     document.getElementById('mge-goal').value = savedGoal;
+  }
   loadDay('day1');
 };
