@@ -1,32 +1,72 @@
 <div class="card">
-    <div class="card-header">
-        <h3>Race Against Time (Day 4)</h3>
-        <div style="color:var(--gold)">Subtotal: <span id="sub-st4">0</span></div>
+    <div class="card-header" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+        <h3 style="margin:0;">Race Against Time (Day 4)</h3>
+        <div class="subtotal-text">Subtotal: <span id="sub-st4">0</span></div>
     </div>
 
-    <div style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; padding-bottom: 8px; font-size: 0.65rem; color: #666; text-align: center;">
-        <div style="text-align: left;">ACTIVITY</div><div>DAYS</div><div>HRS</div><div>MINS</div>
+    <div style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; font-size: 0.65rem; color: #666; text-align: center; padding-bottom: 10px; border-bottom: 1px solid #333; margin-bottom: 10px;">
+        <div style="text-align: left;">SPEEDUP TYPE (30 pts/min)</div>
+        <div>DAYS</div><div>HRS</div><div>MINS</div>
     </div>
 
-    <div class="row-speed" data-pts="30">
-        <span style="font-size: 0.9rem;">Building Speed</span>
+    <div class="row-speed" id="row-build" style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 10px; align-items: center; padding: 10px 0; border-bottom: 1px solid #222;">
+        <span style="font-size: 0.9rem;">Building Speed-up</span>
         <input type="number" class="t-d" placeholder="0" oninput="calculate()">
         <input type="number" class="t-h" placeholder="0" oninput="calculate()">
         <input type="number" class="t-m" placeholder="0" oninput="calculate()">
     </div>
 
-    <div class="row-speed" data-pts="30">
-        <span style="font-size: 0.9rem;">Research Speed</span>
+    <div class="row-speed" id="row-research" style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 10px; align-items: center; padding: 10px 0; border-bottom: 1px solid #222;">
+        <span style="font-size: 0.9rem;">Research Speed-up</span>
         <input type="number" class="t-d" placeholder="0" oninput="calculate()">
         <input type="number" class="t-h" placeholder="0" oninput="calculate()">
         <input type="number" class="t-m" placeholder="0" oninput="calculate()">
     </div>
 
-    <div style="margin-top: 15px; border-top: 1px solid #333; padding-top: 10px;"></div>
+    <div style="margin-top: 30px; display: grid; grid-template-columns: 2fr 1fr 1.5fr; font-size: 0.65rem; color: #666; text-align: center; padding-bottom: 10px; border-bottom: 1px solid #333; margin-bottom: 10px;">
+        <div style="text-align: left;">REFINING & CRAFT</div>
+        <div>POINTS</div>
+        <div>QUANTITY</div>
+    </div>
 
-    <div class="row-calc"><span>Fine Craft</span><span style="color:#555">2000</span><input type="number" class="mge-val" data-pts="2000" oninput="calculate()"></div>
-    <div class="row-calc"><span>Copper Sand</span><span style="color:#555">400</span><input type="number" class="mge-val" data-pts="400" oninput="calculate()"></div>
-    <div class="row-calc"><span>Silver Dust</span><span style="color:#555">1000</span><input type="number" class="mge-val" data-pts="1000" oninput="calculate()"></div>
-    <div class="row-calc"><span>Fine Gold</span><span style="color:#555">3000</span><input type="number" class="mge-val" data-pts="3000" oninput="calculate()"></div>
-    <div class="row-calc"><span>Meteor Steel</span><span style="color:#555">20000</span><input type="number" class="mge-val" data-pts="20000" oninput="calculate()"></div>
+    <div class="grid-row">
+        <span>Complete 1 Fine Craft</span>
+        <span style="color:#888; text-align: center;">2,000</span>
+        <input type="number" class="mge-val" data-pts="2000" placeholder="0" oninput="calculate()">
+    </div>
+
+    <div class="grid-row">
+        <span>Copper Sand</span>
+        <span style="color:#888; text-align: center;">400</span>
+        <input type="number" class="mge-val" data-pts="400" placeholder="0" oninput="calculate()">
+    </div>
+
+    <div class="grid-row">
+        <span>Silver Sand</span>
+        <span style="color:#888; text-align: center;">1,000</span>
+        <input type="number" class="mge-val" data-pts="1000" placeholder="0" oninput="calculate()">
+    </div>
+
+    <div class="grid-row">
+        <span>Fine Gold</span>
+        <span style="color:#888; text-align: center;">3,000</span>
+        <input type="number" class="mge-val" data-pts="3000" placeholder="0" oninput="calculate()">
+    </div>
+
+    <div class="grid-row" style="border-bottom: none;">
+        <span>Meteor Steel</span>
+        <span style="color:#888; text-align: center;">20,000</span>
+        <input type="number" class="mge-val" data-pts="20000" placeholder="0" oninput="calculate()">
+    </div>
+
+    <div class="prediction" style="margin-top: 25px; border-color: var(--blue); text-align: left; font-size: 0.85rem;">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+            <span>Building Points:</span>
+            <b id="pts-build" style="color: var(--blue);">0</b>
+        </div>
+        <div style="display: flex; justify-content: space-between;">
+            <span>Research Points:</span>
+            <b id="pts-research" style="color: var(--blue);">0</b>
+        </div>
+    </div>
 </div>

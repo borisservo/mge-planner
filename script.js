@@ -119,7 +119,6 @@ function calculate() {
     globalTotal = pts;
   }
 
-  // --- LÓGICA DIA 3 (GATHERING) ATUALIZADA ---
   // --- LÓGICA DIA 3 (GATHERING) ---
   const lineups = document.querySelectorAll('[id^="lineup-"]');
   if (lineups.length > 0) {
@@ -159,6 +158,48 @@ function calculate() {
       (globalTotal += parseFloat(i.dataset.pts) * (parseFloat(i.value) || 0)),
   );
 
+  // --- LÓGICA DIA 4 (RACE AGAINST TIME) ---
+  const sub4 = document.getElementById('sub-st4');
+  if (sub4) {
+    const rowBuild = document.getElementById('row-build');
+    const rowResearch = document.getElementById('row-research');
+    let s4SpeedTotal = 0;
+    let buildPts = 0;
+    let researchPts = 0;
+
+    // 1. Calcula Pontos de Construção
+    if (rowBuild) {
+      const d = parseFloat(rowBuild.querySelector('.t-d').value) || 0;
+      const h = parseFloat(rowBuild.querySelector('.t-h').value) || 0;
+      const m = parseFloat(rowBuild.querySelector('.t-m').value) || 0;
+      buildPts = (d * 1440 + h * 60 + m) * 30;
+      document.getElementById('pts-build').innerText =
+        buildPts.toLocaleString();
+    }
+
+    // 2. Calcula Pontos de Investigação
+    if (rowResearch) {
+      const d = parseFloat(rowResearch.querySelector('.t-d').value) || 0;
+      const h = parseFloat(rowResearch.querySelector('.t-h').value) || 0;
+      const m = parseFloat(rowResearch.querySelector('.t-m').value) || 0;
+      researchPts = (d * 1440 + h * 60 + m) * 30;
+      document.getElementById('pts-research').innerText =
+        researchPts.toLocaleString();
+    }
+
+    // 3. Calcula Pontos de Materiais (Todos os mge-val desta página)
+    let s4Materials = 0;
+    document.querySelectorAll('.mge-val').forEach((input) => {
+      const pts = parseFloat(input.dataset.pts) || 0;
+      const qty = parseFloat(input.value) || 0;
+      s4Materials += pts * qty;
+    });
+
+    // 4. Soma Final do Dia 4
+    const totalDay4 = buildPts + researchPts + s4Materials;
+    sub4.innerText = Math.round(totalDay4).toLocaleString();
+    globalTotal = totalDay4;
+  }
   // Placar Global
   document.getElementById('totalPoints').innerText =
     Math.round(globalTotal).toLocaleString();
