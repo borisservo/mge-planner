@@ -106,13 +106,10 @@ function resetMGE() {
 // DISCORD BUG REPORTER (PRIVATE SERVER)
 // ==========================================
 function sendBugToDiscord() {
-  console.log("Botão clicado! A iniciar envio..."); // Aviso de teste para o F12
+  console.log("A enviar para o Discord...");
 
-  // A TUA CHAVE DO DISCORD original
-  const discordUrl = 'https://discord.com/api/webhooks/1497982878406152243/YrItgx2t6lU0Ejt1_G7fKIjZIR4BQOQE3mh-wZ85kax_8GygVXWUk_bEWKeZtwlwywJC';
-
-  // O truque: Um proxy na frente do link para o Discord não bloquear o browser
-  const webhookUrl = 'https://corsproxy.io/?' + encodeURIComponent(discordUrl);
+  // O TEU LINK DIRETO DO DISCORD (Sem proxies)
+  const webhookUrl = 'https://discord.com/api/webhooks/1497982878406152243/YrItgx2t6lU0Ejt1_G7fKIjZIR4BQOQE3mh-wZ85kax_8GygVXWUk_bEWKeZtwlwywJC';
 
   const name = document.getElementById('bugName').value;
   const server = document.getElementById('bugServer').value;
@@ -124,7 +121,7 @@ function sendBugToDiscord() {
   }
 
   const payload = {
-    content: `🚨 **NEW MGE PLANNER TICKET** 🚨\n**User:** ${name}\n**Server:** #${server}\n**Report:** ${desc}`,
+    content: `🚨 **NEW MGE PLANNER TICKET** 🚨\n**User:** ${name}\n**Server:** #${server}\n**Report:** ${desc}`
   };
 
   fetch(webhookUrl, {
@@ -133,16 +130,19 @@ function sendBugToDiscord() {
     body: JSON.stringify(payload),
   })
       .then((response) => {
-        if (!response.ok) throw new Error('Erro de ligação ao Discord');
+        if (!response.ok) {
+          throw new Error('Erro de ligação: ' + response.status);
+        }
         alert('Report sent! Thank you.');
+        // Limpa tudo e esconde a janela
         document.getElementById('bugModal').style.display = 'none';
         document.getElementById('bugName').value = '';
         document.getElementById('bugServer').value = '';
         document.getElementById('bugDesc').value = '';
       })
       .catch((err) => {
-        alert('Error sending report. Please try again later.');
-        console.error("ERRO DO DISCORD:", err);
+        alert('Erro ao enviar. O teu ad-blocker pode estar a bloquear o envio!');
+        console.error("ERRO:", err);
       });
 }
 window.onload = () => loadDay('day1');
