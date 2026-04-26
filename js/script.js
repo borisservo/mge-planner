@@ -111,29 +111,36 @@ function sendBugToDiscord() {
     'https://discord.com/api/webhooks/1497982878406152243/YrItgx2t6lU0Ejt1_G7fKIjZIR4BQOQE3mh-wZ85kax_8GygVXWUk_bEWKeZtwlwywJC';
 
   const name = document.getElementById('bugName').value;
+  const server = document.getElementById('bugServer').value; // Lê o servidor
   const desc = document.getElementById('bugDesc').value;
 
-  if (!name || !desc) {
-    alert("Please fill in both fields.");
+  // Obriga a preencher tudo
+  if (!name || !server || !desc) {
+    alert('Please fill in all fields (Name, Server, and Description).');
     return;
   }
 
+  // Monta a mensagem que te vai aparecer no Discord
   const payload = {
-    content: `🚨 **NEW MGE PLANNER TICKET** 🚨\n**User:** ${name}\n**Report:** ${desc}`
+    content: `🚨 **NEW MGE PLANNER TICKET** 🚨\n**User:** ${name}\n**Server:** #${server}\n**Report:** ${desc}`,
   };
 
   fetch(webhookUrl, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload)
-  }).then(() => {
-    alert("Report sent! Thank you.");
-    document.getElementById('bugModal').style.display = 'none';
-    document.getElementById('bugName').value = '';
-    document.getElementById('bugDesc').value = '';
-  }).catch(err => {
-    alert("Error sending report. Please try again later.");
-    console.error(err);
-  });
+    body: JSON.stringify(payload),
+  })
+    .then(() => {
+      alert('Report sent! Thank you.');
+      // Esconde a janela e limpa as caixas todas
+      document.getElementById('bugModal').style.display = 'none';
+      document.getElementById('bugName').value = '';
+      document.getElementById('bugServer').value = '';
+      document.getElementById('bugDesc').value = '';
+    })
+    .catch((err) => {
+      alert('Error sending report. Please try again later.');
+      console.error(err);
+    });
 }
 window.onload = () => loadDay('day1');
