@@ -101,4 +101,39 @@ function resetMGE() {
     window.location.reload();
   }
 }
+
+// ==========================================
+// DISCORD BUG REPORTER (PRIVATE SERVER)
+// ==========================================
+function sendBugToDiscord() {
+  // COLA AQUI O LINK DO TEU WEBHOOK:
+  const webhookUrl =
+    'https://discord.com/api/webhooks/1497982878406152243/YrItgx2t6lU0Ejt1_G7fKIjZIR4BQOQE3mh-wZ85kax_8GygVXWUk_bEWKeZtwlwywJC';
+
+  const name = document.getElementById('bugName').value;
+  const desc = document.getElementById('bugDesc').value;
+
+  if (!name || !desc) {
+    alert("Please fill in both fields.");
+    return;
+  }
+
+  const payload = {
+    content: `🚨 **NEW MGE PLANNER TICKET** 🚨\n**User:** ${name}\n**Report:** ${desc}`
+  };
+
+  fetch(webhookUrl, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  }).then(() => {
+    alert("Report sent! Thank you.");
+    document.getElementById('bugModal').style.display = 'none';
+    document.getElementById('bugName').value = '';
+    document.getElementById('bugDesc').value = '';
+  }).catch(err => {
+    alert("Error sending report. Please try again later.");
+    console.error(err);
+  });
+}
 window.onload = () => loadDay('day1');
