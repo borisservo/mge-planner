@@ -109,8 +109,8 @@ function sendBugToDiscord() {
   console.log("A enviar para o Discord...");
 
   // O TEU LINK DIRETO DO DISCORD (Sem proxies)
-  const webhookUrl = 'https://discord.com/api/webhooks/1497982878406152243/YrItgx2t6lU0Ejt1_G7fKIjZIR4BQOQE3mh-wZ85kax_8GygVXWUk_bEWKeZtwlwywJC';
-
+  const webhookUrl =
+    'https://discord.com/api/webhooks/1497982878406152243/YrItgx2t6lU0Ejt1_G7fKIjZIR4BQOQE3mh-wZ85kax_8GygVXWUk_bEWKeZtwlwywJC';
   const name = document.getElementById('bugName').value;
   const server = document.getElementById('bugServer').value;
   const desc = document.getElementById('bugDesc').value;
