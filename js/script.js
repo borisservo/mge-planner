@@ -106,21 +106,23 @@ function resetMGE() {
 // DISCORD BUG REPORTER (PRIVATE SERVER)
 // ==========================================
 function sendBugToDiscord() {
-  // COLA AQUI O LINK DO TEU WEBHOOK:
-  const webhookUrl =
-    'https://discord.com/api/webhooks/1497982878406152243/YrItgx2t6lU0Ejt1_G7fKIjZIR4BQOQE3mh-wZ85kax_8GygVXWUk_bEWKeZtwlwywJC';
+  console.log("Botão clicado! A iniciar envio..."); // Aviso de teste para o F12
+
+  // A TUA CHAVE DO DISCORD original
+  const discordUrl = 'https://discord.com/api/webhooks/1497982878406152243/YrItgx2t6lU0Ejt1_G7fKIjZIR4BQOQE3mh-wZ85kax_8GygVXWUk_bEWKeZtwlwywJC';
+
+  // O truque: Um proxy na frente do link para o Discord não bloquear o browser
+  const webhookUrl = 'https://corsproxy.io/?' + encodeURIComponent(discordUrl);
 
   const name = document.getElementById('bugName').value;
-  const server = document.getElementById('bugServer').value; // Lê o servidor
+  const server = document.getElementById('bugServer').value;
   const desc = document.getElementById('bugDesc').value;
 
-  // Obriga a preencher tudo
   if (!name || !server || !desc) {
     alert('Please fill in all fields (Name, Server, and Description).');
     return;
   }
 
-  // Monta a mensagem que te vai aparecer no Discord
   const payload = {
     content: `🚨 **NEW MGE PLANNER TICKET** 🚨\n**User:** ${name}\n**Server:** #${server}\n**Report:** ${desc}`,
   };
@@ -130,17 +132,17 @@ function sendBugToDiscord() {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload),
   })
-    .then(() => {
-      alert('Report sent! Thank you.');
-      // Esconde a janela e limpa as caixas todas
-      document.getElementById('bugModal').style.display = 'none';
-      document.getElementById('bugName').value = '';
-      document.getElementById('bugServer').value = '';
-      document.getElementById('bugDesc').value = '';
-    })
-    .catch((err) => {
-      alert('Error sending report. Please try again later.');
-      console.error(err);
-    });
+      .then((response) => {
+        if (!response.ok) throw new Error('Erro de ligação ao Discord');
+        alert('Report sent! Thank you.');
+        document.getElementById('bugModal').style.display = 'none';
+        document.getElementById('bugName').value = '';
+        document.getElementById('bugServer').value = '';
+        document.getElementById('bugDesc').value = '';
+      })
+      .catch((err) => {
+        alert('Error sending report. Please try again later.');
+        console.error("ERRO DO DISCORD:", err);
+      });
 }
 window.onload = () => loadDay('day1');
