@@ -46,30 +46,49 @@ function calculateDay2() {
   dayTotal += pontosMeteorito;
 
   // ==========================================
-  // 3. CÁLCULO DE FORGE SPEEDUPS (PEDIDO DO ZUMO)
+  // CÁLCULO DE TEMPO DE FORJA (HH:MM:SS) E SPEEDUPS (DD HH:MM)
   // ==========================================
-  const fSpeedups =
-    parseInt(document.getElementById('forgeSpeedups')?.value) || 0;
-  const fTime = parseInt(document.getElementById('forgeTime')?.value) || 0;
 
-  let forjasExtra = 0;
+  // 1. Dias do Evento (Convertidos para Segundos)
+  const daysLeft = parseFloat(document.getElementById('eventDays')?.value) || 0;
+  const totalEventSeconds = daysLeft * 24 * 60 * 60; // Dias para Segundos
 
-  // Proteção: Só divide se ele tiver preenchido o tempo da forja
-  if (fTime > 0) {
-    forjasExtra = Math.floor(fSpeedups / fTime);
+  // 2. Tempo por Peça (HH:MM:SS) -> Converter para Segundos
+  const fHours = parseInt(document.getElementById('forgeH')?.value) || 0;
+  const fMins = parseInt(document.getElementById('forgeM')?.value) || 0;
+  const fSecs = parseInt(document.getElementById('forgeS')?.value) || 0;
+
+  const pieceSeconds = fHours * 3600 + fMins * 60 + fSecs;
+
+  // 3. Speedups Disponíveis (DD HH:MM) -> Converter para Segundos
+  const sDays = parseInt(document.getElementById('spuD')?.value) || 0;
+  const sHours = parseInt(document.getElementById('spuH')?.value) || 0;
+  const sMins = parseInt(document.getElementById('spuM')?.value) || 0;
+
+  const speedupSeconds = sDays * 86400 + sHours * 3600 + sMins * 60;
+
+  // 4. Calcular quantas peças cabem
+  let naturalPieces = 0;
+  let speedupPieces = 0;
+
+  if (pieceSeconds > 0) {
+    naturalPieces = Math.floor(totalEventSeconds / pieceSeconds);
+    speedupPieces = Math.floor(speedupSeconds / pieceSeconds);
   }
 
-  // Mostra o número de forjas extra no ecrã
-  const elExtraForges = document.getElementById('extraForges');
-  if (elExtraForges) {
-    elExtraForges.innerText = forjasExtra.toLocaleString();
-  }
+  // 5. Atualizar os textos no ecrã
+  const elNatForges = document.getElementById('naturalForges');
+  if (elNatForges) elNatForges.innerText = naturalPieces.toLocaleString();
 
-  // Soma os pontos destas forjas extra (estou a usar a mesma variável de pontos de cima)
-  dayTotal += forjasExtra * pontosPorPeca;
+  const elExtForges = document.getElementById('extraForges');
+  if (elExtForges) elExtForges.innerText = speedupPieces.toLocaleString();
 
-  // ==========================================
-  // O RETURN FICA SEMPRE NO FIM DE TUDO!
-  // ==========================================
-  return dayTotal;
+  const elTotForges = document.getElementById('totalForgesPossible');
+  if (elTotForges)
+    elTotForges.innerText = (naturalPieces + speedupPieces).toLocaleString();
+
+  // 6. Somar os pontos ao Total do Dia 2
+  // IMPORTANTE: Estou a usar 5000 pontos por peça, ajusta conforme o teu jogo!
+  const pontosPorPecaFinalizada = 5000;
+  dayTotal += (naturalPieces + speedupPieces) * pontosPorPecaFinalizada;
 }
