@@ -2,13 +2,10 @@
     <h3 style="margin:0;">Tribal Raid (Day 1)</h3>
     <div class="subtotal-text">Subtotal: <span id="sub-st1">0</span></div>
 </div>
-
 <div style="background: rgba(155, 89, 182, 0.1); padding: 12px; border-radius: 8px; border: 1px solid rgba(155, 89, 182, 0.2); margin-bottom: 20px;">
     <p style="margin:0; font-size: 0.75rem; text-align: center;"><b>Objective:</b> Accumulate points by defeating barbarians on the world map.</p>
 </div>
-
 <div style="background: #222; padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #333;">
-
     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px;">
         <div>
             <label style="color: var(--blue);">Stamina Stock</label>
@@ -19,42 +16,14 @@
             <input type="number" id="staminaItems" value="0" oninput="calculate()">
         </div>
     </div>
-
+    <div style="margin-bottom: 15px;">
+        <label style="display: block; color: #ccc; margin-bottom: 5px;">Exploration (Lvl 20)</label>
+        <input type="number" id="explorationCount" placeholder="Number of exploration tribes killed..." style="width: 100%; padding: 8px; background: #000; color: #fff; border: 1px solid #444; border-radius: 4px;">
+    </div>
     <div style="margin-bottom: 15px;">
         <label style="color: var(--gold);">AP Cost per Attack</label>
         <input type="number" id="staminaCost" value="5" min="1" oninput="calculate()" style="color: var(--gold); border-color: var(--gold);">
     </div>
-
-    <div style="margin-bottom: 15px;">
-        <label style="display: block; color: #ccc; margin-bottom: 5px;">Exploration (Lvl 20)</label>
-        <input type="number" id="explorationCount" oninput="calculate()" placeholder="Number of exploration tribes killed..." style="width: 100%; padding: 8px; background: #000; color: #fff; border: 1px solid #444; border-radius: 4px;">
-    </div>
-
-    <div style="margin-bottom: 20px;">
-        <label style="display: block; color: #ccc; margin-bottom: 5px;">Tribe Level</label>
-        <select id="tribeTier" onchange="calculate()" style="width: 100%; padding: 8px; background: #000; color: #fff; border: 1px solid #444; border-radius: 4px;">
-            <option value="300" selected>Lvl 29-30 (300 pts)</option>
-            <option value="260">Lvl 25-28 (260 pts)</option>
-            <option value="220">Lvl 21-24 (220 pts)</option>
-            <option value="180">Lvl 17-20 (180 pts)</option>
-            <option value="150">Lvl 13-16 (150 pts)</option>
-            <option value="100">Lvl 9-12 (100 pts)</option>
-            <option value="80">Lvl 5-8 (80 pts)</option>
-            <option value="50">Lvl 1-4 (50 pts)</option>
-        </select>
-    </div>
-
-    <div class="prediction" style="text-align: center; border: 1px dashed var(--gold); padding: 15px; border-radius: 8px;">
-        <p style="margin: 5px 0; font-size: 0.8rem; color: #888;">Total Attacks: <b id="resKills" style="color: #fff;">0</b></p>
-        <p style="margin: 5px 0; font-size: 1.1rem;">Total Points: <b id="resPoints" style="color: var(--gold);">0</b></p>
-    </div>
-
-    <div style="margin-top: 20px; padding: 15px; background: #111; border-radius: 8px; font-size: 0.8rem; color: #888;">
-        <p style="margin-bottom: 5px;"><b style="color: var(--blue);">Stamina Stock:</b> Current stamina in your bar.</p>
-        <p style="margin-bottom: 5px;"><b style="color: var(--blue);">Extra (Items):</b> Stamina potions/bottles in your inventory.</p>
-        <p style="margin: 0;"><b style="color: var(--gold);">AP Cost:</b> Stamina required per attack (usually 4 or 5).</p>
-    </div>
-</div>
 
         <label>Tribe Level</label>
         <select id="tribeTier" onchange="calculate()">
