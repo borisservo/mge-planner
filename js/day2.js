@@ -1,94 +1,75 @@
 /**
- * Lógica do Dia 2 - Stage 2: Hero Growth
+ * Day 2 Logic - Stage 2: Hero Growth
  */
 
-// Tabela de pontos do Dia 2 ligada aos IDs do HTML
-const DAY2_POINTS = {
-  'h-epic-medal': 500,
-  'h-leg-medal': 2500,
-  'h-epic-skill': 350,
-  'h-leg-skill': 2000,
-  'g-rare': 1000,
-  'g-epic': 5000,
-  'g-leg': 15000,
+const DAY2_POINTS_TABLE = {
+  'hero-epic-medal': 500,
+  'hero-leg-medal': 2500,
+  'hero-epic-skill': 350,
+  'hero-leg-skill': 2000,
+  'gear-rare': 1000,
+  'gear-epic': 5000,
+  'gear-leg': 15000,
 };
 
 function calculateDay2() {
   let dayTotal = 0;
 
-  // 1. Percorre a lista base e soma os pontos (Medalhas e Gear direto)
-  for (const [id, pts] of Object.entries(DAY2_POINTS)) {
-    const el = document.getElementById(id);
-    if (el) {
-      const val = parseFloat(el.value) || 0;
-      dayTotal += val * pts;
+  // 1. Basic Items Calculation
+  for (const [id, points] of Object.entries(DAY2_POINTS_TABLE)) {
+    const element = document.getElementById(id);
+    if (element) {
+      dayTotal += (parseFloat(element.value) || 0) * points;
     }
   }
 
-  // ==========================================
-  // 2. CÁLCULO DO IRON METEORITE (DINÂMICO)
-  // ==========================================
-  const meteorites =
-    parseInt(document.getElementById('ironMeteorite')?.value) || 0;
-
-  // Vai buscar a escolha do dropdown (Exemplo: "400|5000")
+  // 2. Meteorites Calculation
+  const meteoriteAmount =
+    parseInt(document.getElementById('meteoriteAmount')?.value) || 0;
   const targetData =
     document.getElementById('meteoriteTarget')?.value || '400|5000';
+  const [costPerPiece, pointsPerPiece] = targetData.split('|').map(Number);
 
-  // O JavaScript corta a string a meio usando o "|" e transforma em números
-  const [custoPorPeca, pontosPorPeca] = targetData.split('|').map(Number);
-
-  let pecasFeitas = 0;
-  let pontosMeteorito = 0;
-
-  // Proteção contra divisão por zero
-  if (custoPorPeca > 0) {
-    pecasFeitas = Math.floor(meteorites / custoPorPeca);
-    pontosMeteorito = pecasFeitas * pontosPorPeca;
+  let piecesFromMeteorites = 0;
+  if (costPerPiece > 0) {
+    piecesFromMeteorites = Math.floor(meteoriteAmount / costPerPiece);
   }
 
-  // Atualiza o ecrã com as peças e os pontos que essas peças vão dar
-  const elCrafted = document.getElementById('craftedPieces');
-  if (elCrafted) elCrafted.innerText = pecasFeitas.toLocaleString();
+  const meteoritePoints = piecesFromMeteorites * pointsPerPiece;
+  dayTotal += meteoritePoints;
 
-  const elMetPts = document.getElementById('meteoritePts');
-  if (elMetPts) elMetPts.innerText = pontosMeteorito.toLocaleString();
+  // Update Meteorite UI
+  const uiMeteoritePieces = document.getElementById('displayMeteoritePieces');
+  const uiMeteoritePoints = document.getElementById('displayMeteoritePoints');
+  if (uiMeteoritePieces) uiMeteoritePieces.innerText = piecesFromMeteorites;
+  if (uiMeteoritePoints)
+    uiMeteoritePoints.innerText = meteoritePoints.toLocaleString();
 
-  dayTotal += pontosMeteorito;
+  // 3. Speedups Calculation
+  const pieceH = parseInt(document.getElementById('time-h')?.value) || 0;
+  const pieceM = parseInt(document.getElementById('time-m')?.value) || 0;
+  const pieceS = parseInt(document.getElementById('time-s')?.value) || 0;
+  const totalPieceSeconds = pieceH * 3600 + pieceM * 60 + pieceS;
 
-  // ==========================================
-  // 3. CÁLCULO DE TEMPO DE FORJA E SPEEDUPS
-  // ==========================================
+  const speedD = parseInt(document.getElementById('speed-d')?.value) || 0;
+  const speedH = parseInt(document.getElementById('speed-h')?.value) || 0;
+  const speedM = parseInt(document.getElementById('speed-m')?.value) || 0;
+  const totalSpeedupSeconds = speedD * 86400 + speedH * 3600 + speedM * 60;
 
-  // ==========================================
-  // 3. CÁLCULO DE SPEEDUPS (SEM EVENT DAYS)
-  // ==========================================
-
-  // Tempo por Peça (HH:MM:SS) -> Segundos
-  const fHours = parseInt(document.getElementById('forgeH')?.value) || 0;
-  const fMins = parseInt(document.getElementById('forgeM')?.value) || 0;
-  const fSecs = parseInt(document.getElementById('forgeS')?.value) || 0;
-  const pieceSeconds = fHours * 3600 + fMins * 60 + fSecs;
-
-  // Speedups (DD HH:MM) -> Segundos
-  const sDays = parseInt(document.getElementById('spuD')?.value) || 0;
-  const sHours = parseInt(document.getElementById('spuH')?.value) || 0;
-  const sMins = parseInt(document.getElementById('spuM')?.value) || 0;
-  const speedupSeconds = sDays * 86400 + sHours * 3600 + sMins * 60;
-
-  let speedupPieces = 0;
-
-  if (pieceSeconds > 0) {
-    speedupPieces = Math.floor(speedupSeconds / pieceSeconds);
+  let extraPiecesFromSpeedups = 0;
+  if (totalPieceSeconds > 0) {
+    extraPiecesFromSpeedups = Math.floor(
+      totalSpeedupSeconds / totalPieceSeconds,
+    );
   }
 
-  // Atualiza o ecrã
-  const elExtForges = document.getElementById('extraForges');
-  if (elExtForges) elExtForges.innerText = speedupPieces.toLocaleString();
+  // Update Speedup UI
+  const uiExtraForges = document.getElementById('displayExtraForges');
+  if (uiExtraForges) uiExtraForges.innerText = extraPiecesFromSpeedups;
 
-  // Soma os pontos ao total do dia
-  dayTotal += speedupPieces * pontosPorPeca;
+  // Add speedup crafted points to day total
+  dayTotal += extraPiecesFromSpeedups * pointsPerPiece;
 
-  // FUNDAMENTAL: Devolve o valor para o Global Score
+  // Return final sum to main calculator
   return dayTotal;
 }
