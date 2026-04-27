@@ -16,7 +16,10 @@
             <input type="number" id="staminaItems" value="0" oninput="calculate()">
         </div>
     </div>
-
+    <div style="margin-bottom: 15px;">
+        <label style="display: block; color: #ccc; margin-bottom: 5px;">Exploration (Lvl 20)</label>
+        <input type="number" id="explorationCount" placeholder="Nº de explorações feitas..." style="width: 100%; padding: 8px; background: #000; color: #fff; border: 1px solid #444; border-radius: 4px;">
+    </div>
     <div style="margin-bottom: 15px;">
         <label style="color: var(--gold);">AP Cost per Attack</label>
         <input type="number" id="staminaCost" value="5" min="1" oninput="calculate()" style="color: var(--gold); border-color: var(--gold);">
@@ -33,10 +36,7 @@
             <option value="80">Lvl 5-8 (80 pts)</option>
             <option value="50">Lvl 1-4 (50 pts)</option>
         </select>
-    <div style="margin-bottom: 15px;">
-        <label style="display: block; color: #ccc; margin-bottom: 5px;">Exploration (Lvl 20)</label>
-        <input type="number" id="explorationCount" placeholder="Nº de explorações feitas..." style="width: 100%; padding: 8px; background: #000; color: #fff; border: 1px solid #444; border-radius: 4px;">
-    </div>
+
     <div class="prediction" style="text-align: center; border-color: var(--gold);">
         <p style="margin: 5px 0; font-size: 0.8rem; color: #888;">Total Attacks: <b id="resKills" style="color: #fff;">0</b></p>
         <p style="margin: 5px 0; font-size: 1.1rem;">Total Points: <b id="resPoints" style="color: var(--gold);">0</b></p>
