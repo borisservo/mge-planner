@@ -6,10 +6,6 @@
     <div class="subtotal-text">Subtotal: <span id="sub-st2">0</span></div>
 </div>
 
-<div style="background: rgba(155, 89, 182, 0.1); padding: 12px; border-radius: 8px; border: 1px solid rgba(155, 89, 182, 0.2); margin-bottom: 20px;">
-    <p style="margin:0; font-size: 0.75rem; text-align: center;"><b>Objective:</b> Accumulate points by upgrading heroes and crafting gear.</p>
-</div>
-
 <h4 style="color: #9b59b6; font-size: 0.8rem; margin-bottom: 10px; border-bottom: 1px solid #333; padding-bottom: 5px;">HERO UPGRADES</h4>
 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px;">
     <div class="input-group">
@@ -44,42 +40,45 @@
         <label style="font-size: 0.75rem; color: #e67e22; margin:0;">Craft Legendary Gear (15,000)</label>
         <input type="number" id="gear-leg" value="0" oninput="calculate()" style="width: 80px; text-align: right; background:#000; color:#fff; border:1px solid #444; padding:5px; border-radius:4px;">
     </div>
+</div>
 
-    <div style="background: #222; padding: 15px; border-radius: 8px; margin-top: 10px; border: 1px solid #333;">
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
-            <div>
-                <label style="color: var(--blue); font-size: 0.75rem;">Iron Meteorites</label>
-                <input type="number" id="meteoriteAmount" value="0" oninput="calculate()" style="width: 100%; background: #000; color: #fff; border: 1px solid #444; padding: 8px; border-radius: 4px;">
-            </div>
-            <div>
-                <label style="color: var(--gold); font-size: 0.75rem;">Target Gear</label>
-                <select id="meteoriteTarget" onchange="calculate()" style="width: 100%; background: #000; color: #fff; border: 1px solid #444; padding: 8px; border-radius: 4px;">
-                    <option value="150|1000">Rare (150)</option>
-                    <option value="400|5000" selected>Epic (400)</option>
-                    <option value="3000|15000">Legendary (3000)</option>
-                    <option value="500|2000">Random (500)</option>
-                </select>
-            </div>
+<div style="background: #222; padding: 15px; border-radius: 8px; margin-top: 20px; border: 1px solid #333;">
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
+        <div>
+            <label style="color: var(--blue); font-size: 0.75rem;">Iron Meteorites</label>
+            <input type="number" id="meteoriteAmount" value="0" oninput="calculate()" style="width: 100%; background: #000; color: #fff; border: 1px solid #444; padding: 8px; border-radius: 4px;">
         </div>
-        <p style="margin:0; font-size: 0.8rem; color: #aaa;">Pieces: <b id="displayMeteoritePieces" style="color: var(--gold);">0</b> | Pts: <b id="displayMeteoritePoints" style="color: var(--gold);">0</b></p>
+        <div>
+            <label style="color: var(--gold); font-size: 0.75rem;">Target Gear</label>
+            <select id="meteoriteTarget" onchange="calculate()" style="width: 100%; background: #000; color: #fff; border: 1px solid #444; padding: 8px; border-radius: 4px;">
+                <option value="150|1000">Rare (150)</option>
+                <option value="400|5000" selected>Epic (400)</option>
+                <option value="3000|15000">Legendary (3000)</option>
+                <option value="500|2000">Random (500)</option>
+            </select>
+        </div>
+    </div>
+    <p style="margin:0; font-size: 0.8rem; color: #aaa;">Pieces: <b id="displayPieces" style="color: var(--gold);">0</b> | Pts: <b id="displayPts" style="color: var(--gold);">0</b></p>
+</div>
+
+<div style="background: #222; padding: 15px; border-radius: 8px; margin-top: 10px; border: 1px solid #333;">
+    <h4 style="color: #ccc; margin: 0 0 10px 0; font-size: 0.8rem;">Forge Planning (Speedups)</h4>
+
+    <label style="color: var(--blue); font-size: 0.7rem;">Time per Piece (HH:MM:SS)</label>
+    <div style="display: flex; gap: 5px; align-items: center; margin-bottom: 10px;">
+        <input type="number" id="pieceH" placeholder="HH" oninput="calculate()" style="flex:1; background:#000; color:#fff; border:1px solid #444; padding:5px; border-radius:4px; text-align:center;">
+        <input type="number" id="pieceM" placeholder="MM" oninput="calculate()" style="flex:1; background:#000; color:#fff; border:1px solid #444; padding:5px; border-radius:4px; text-align:center;">
+        <input type="number" id="pieceS" placeholder="SS" oninput="calculate()" style="flex:1; background:#000; color:#fff; border:1px solid #444; padding:5px; border-radius:4px; text-align:center;">
     </div>
 
-    <div style="background: #222; padding: 15px; border-radius: 8px; margin-top: 10px; border: 1px solid #333;">
-        <h4 style="color: #ccc; margin: 0 0 10px 0; font-size: 0.8rem;">Forge Planning (Speedups)</h4>
-        <label style="color: var(--blue); font-size: 0.7rem;">Time per Piece (HH:MM:SS)</label>
-        <div style="display: flex; gap: 5px; align-items: center; margin-bottom: 10px;">
-            <input type="number" id="time-h" placeholder="HH" oninput="calculate()" style="flex:1; background:#000; color:#fff; border:1px solid #444; padding:5px; border-radius:4px; text-align:center;">
-            <input type="number" id="time-m" placeholder="MM" oninput="calculate()" style="flex:1; background:#000; color:#fff; border:1px solid #444; padding:5px; border-radius:4px; text-align:center;">
-            <input type="number" id="time-s" placeholder="SS" oninput="calculate()" style="flex:1; background:#000; color:#fff; border:1px solid #444; padding:5px; border-radius:4px; text-align:center;">
-        </div>
-        <label style="color: var(--blue); font-size: 0.7rem;">Speedups (DD HH:MM)</label>
-        <div style="display: flex; gap: 5px; align-items: center; margin-bottom: 10px;">
-            <input type="number" id="speed-d" placeholder="DD" oninput="calculate()" style="flex:1; background:#000; color:#fff; border:1px solid #444; padding:5px; border-radius:4px; text-align:center;">
-            <input type="number" id="speed-h" placeholder="HH" oninput="calculate()" style="flex:1; background:#000; color:#fff; border:1px solid #444; padding:5px; border-radius:4px; text-align:center;">
-            <input type="number" id="speed-m" placeholder="MM" oninput="calculate()" style="flex:1; background:#000; color:#fff; border:1px solid #444; padding:5px; border-radius:4px; text-align:center;">
-        </div>
-        <div style="background: #111; padding: 10px; border-radius: 6px; text-align: center;">
-            <p style="margin:0; font-size: 0.85rem;">Extra Crafts: <b id="displayExtraForges" style="color: var(--gold);">0</b></p>
-        </div>
+    <label style="color: var(--blue); font-size: 0.7rem;">Speedups (DD HH:MM)</label>
+    <div style="display: flex; gap: 5px; align-items: center; margin-bottom: 10px;">
+        <input type="number" id="speedD" placeholder="DD" oninput="calculate()" style="flex:1; background:#000; color:#fff; border:1px solid #444; padding:5px; border-radius:4px; text-align:center;">
+        <input type="number" id="speedH" placeholder="HH" oninput="calculate()" style="flex:1; background:#000; color:#fff; border:1px solid #444; padding:5px; border-radius:4px; text-align:center;">
+        <input type="number" id="speedM" placeholder="MM" oninput="calculate()" style="flex:1; background:#000; color:#fff; border:1px solid #444; padding:5px; border-radius:4px; text-align:center;">
+    </div>
+
+    <div style="background: #111; padding: 10px; border-radius: 6px; text-align: center;">
+        <p style="margin:0; font-size: 0.85rem;">Extra Crafts: <b id="displayExtra" style="color: var(--gold);">0</b></p>
     </div>
 </div>

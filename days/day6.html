@@ -6,35 +6,56 @@
     <div class="subtotal-text">Subtotal: <span id="sub-st6">0</span></div>
 </div>
 
-<div style="background: rgba(155, 89, 182, 0.1); padding: 12px; border-radius: 8px; border: 1px solid rgba(155, 89, 182, 0.2); margin-bottom: 20px;">
-    <p style="margin:0; font-size: 0.75rem; text-align: center;"><b>Objective:</b> Increase your overall power to earn points. This can be achieved through building upgrades, technology research, and unit training.</p>
-</div>
-
-<h4 style="color: #f1c40f; font-size: 0.8rem; margin-bottom: 10px; border-bottom: 1px solid #333; padding-bottom: 5px;">POWER INCREASE</h4>
-<div style="display: grid; gap: 10px;">
+<h4 style="color: #f1c40f; font-size: 0.8rem; margin-bottom: 10px; border-bottom: 1px solid #333; padding-bottom: 5px;">MANUAL POWER INCREASE</h4>
+<div style="display: grid; gap: 10px; margin-bottom: 20px;">
 
     <div style="display:flex; justify-content: space-between; align-items: center; background: #1a1a1a; padding: 12px; border-radius: 5px; border: 1px solid #333;">
         <div>
-            <span style="font-size: 0.8rem; color: #fff; display:block;">Building Power</span>
-            <span style="font-size: 0.6rem; color: #888;">Construct or upgrade</span>
+            <span style="font-size: 0.8rem; color: #fff; display:block;">Building Power to increase power by 1 (3pts)</span>
+            <span style="font-size: 0.6rem; color: #888;">Construct or upgrade buildings, renovate also included</span>
         </div>
         <input type="number" id="p-build" value="0" oninput="calculate()" style="width:120px; text-align:right; background:#000; color:#fff; border:1px solid #444; padding:8px; border-radius:4px;">
     </div>
 
     <div style="display:flex; justify-content: space-between; align-items: center; background: #1a1a1a; padding: 12px; border-radius: 5px; border: 1px solid #333;">
         <div>
-            <span style="font-size: 0.8rem; color: #fff; display:block;">Technology Power</span>
-            <span style="font-size: 0.6rem; color: #888;">Research in Academy</span>
+            <span style="font-size: 0.8rem; color: #fff; display:block;">Technology Power  to increase power by 1 (6pts)</span>
+            <span style="font-size: 0.6rem; color: #888;">Research in Academy, Training Grounds (Stables) and Castle Facilities</span>
         </div>
         <input type="number" id="p-tech" value="0" oninput="calculate()" style="width:120px; text-align:right; background:#000; color:#fff; border:1px solid #444; padding:8px; border-radius:4px;">
     </div>
 
     <div style="display:flex; justify-content: space-between; align-items: center; background: #1a1a1a; padding: 12px; border-radius: 5px; border: 1px solid #333;">
         <div>
-            <span style="font-size: 0.8rem; color: #fff; display:block;">Troop Power</span>
-            <span style="font-size: 0.6rem; color: #888;">Imported from D5: <b id="p-imported" style="color:#3498db;">0</b></span>
+            <span style="font-size: 0.8rem; color: #fff; display:block;">Extra Troop Power  to increase power by 1 (3pts)</span>
+            <span style="font-size: 0.6rem; color: #888;">Train troops</span>
         </div>
-        <input type="number" id="p-train" value="0" oninput="calculate()" placeholder="Extra Power..." style="width:120px; text-align:right; background:#000; color:#fff; border:1px solid #444; padding:8px; border-radius:4px;">
+        <input type="number" id="p-train" value="0" oninput="calculate()" style="width:120px; text-align:right; background:#000; color:#fff; border:1px solid #444; padding:8px; border-radius:4px;">
     </div>
 
+</div>
+
+<h4 style="color: #f1c40f; font-size: 0.8rem; margin-bottom: 10px; border-bottom: 1px solid #333; padding-bottom: 5px;">24H PASSIVE TRAINING (x3)</h4>
+<div style="background: #1a1a1a; padding: 15px; border-radius: 8px; border: 1px solid #333; margin-bottom: 20px;">
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
+        <div>
+            <label style="font-size: 0.6rem; color: #888;">TRAIN SPEED (SEC/UNIT)</label>
+            <input type="number" id="p6-sec" value="48" oninput="calculate()" style="width:100%; background:#000; color:#fff; border:1px solid #444; padding:8px; border-radius:4px; text-align:center;">
+        </div>
+        <div>
+            <label style="font-size: 0.6rem; color: #888;">UNIT TIER</label>
+            <select id="p6-lvl" onchange="calculate()" style="width:100%; background:#000; color:#fff; border:1px solid #444; padding:8px; border-radius:4px;">
+                <option value="9">T9</option><option value="8">T8</option><option value="7">T7</option><option value="6">T6</option><option value="5">T5</option>
+            </select>
+        </div>
+    </div>
+    <div style="background:#000; padding:10px; border-radius:4px; text-align: center; border: 1px solid #222;">
+        <span style="font-size: 0.75rem; color: #aaa;">Est. 24h Yield: <b id="p6-yield-units" style="color:#2ecc71;">0</b> units (<b id="p6-yield-pwr" style="color:#2ecc71;">0</b> Pwr)</span>
+    </div>
+</div>
+
+<h4 style="color: #3498db; font-size: 0.8rem; margin-bottom: 10px; border-bottom: 1px solid #333; padding-bottom: 5px;">IMPORTED FROM DAY 5 (x3)</h4>
+<div style="background: #1a1a1a; padding: 15px; border-radius: 8px; border: 1px solid #3498db; display: flex; justify-content: space-between; align-items: center;">
+    <span style="font-size: 0.8rem;">Saved Troops:</span>
+    <span style="font-size: 0.8rem; color: #fff;"><b id="p-imported-units" style="color:#3498db;">0</b> units (<b id="p-imported-pwr" style="color:#3498db;">0</b> Pwr)</span>
 </div>

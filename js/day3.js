@@ -1,8 +1,8 @@
 /**
- * Lógica do Dia 3 - Stage 3: Gather Resources
+ * Day 3 Logic - Stage 3: Gather Resources
  */
 
-// Tabelas de Recursos
+// Resource Tables (Base capacity of nodes)
 const resNormal = {
   1: 54000,
   2: 216000,
@@ -24,7 +24,7 @@ const resRich = {
   8: 24640000,
 };
 
-// Tabelas de Tempo Base (em minutos)
+// Time Tables (Base time required in minutes)
 const baseTimes = {
   1: 18,
   2: 72,
@@ -49,14 +49,14 @@ const richTimes = {
 function calculateDay3() {
   let dayTotal = 0;
 
-  // 1. Pontos do Legendary Advent (1,000 pts por spin)
+  // 1. Legendary Advent Points (1,000 pts per spin)
   const adventSpins =
-    parseFloat(document.getElementById('spin-advent')?.value) || 0;
+    parseFloat(document.getElementById('advent-spins')?.value) || 0;
   dayTotal += adventSpins * 1000;
 
-  // 2. Cálculo das Marchas (Lineups 1 a 5)
+  // 2. Marches Calculation (Lineups 1 to 5)
   for (let i = 1; i <= 5; i++) {
-    const lvl = parseInt(document.getElementById(`l${i}-lvl`)?.value) || 1;
+    const lvl = parseInt(document.getElementById(`l${i}-level`)?.value) || 1;
     const isRich = document.getElementById(`l${i}-rich`)?.checked || false;
     const rounds =
       parseFloat(document.getElementById(`l${i}-rounds`)?.value) || 0;
@@ -66,23 +66,25 @@ function calculateDay3() {
       parseFloat(document.getElementById(`l${i}-comp`)?.value) || 0;
 
     if (rounds > 0) {
-      // Vai buscar base
+      // Fetch base values depending on node type (Rich vs Normal)
       const baseRes = isRich ? resRich[lvl] : resNormal[lvl];
       const baseTime = isRich ? richTimes[lvl] : baseTimes[lvl];
 
       if (baseRes > 0) {
-        // Recursos = (Base * Rounds) + % Bónus de Conclusão
+        // Resources = (Base * Rounds) + Completion Bonus %
         const totalRes = baseRes * rounds * (1 + compBonus / 100);
-        const pts = Math.floor(totalRes / 100); // 1 pt a cada 100 recursos
+
+        // 1 point per 100 resources
+        const pts = Math.floor(totalRes / 100);
         dayTotal += pts;
 
-        // Tempo = (Tempo Base * Rounds) / (1 + Bónus de Velocidade)
+        // Time = (Base Time * Rounds) reduced by Speed Bonus %
         const totalTimeMins = (baseTime * rounds) / (1 + speedBonus / 100);
 
-        // Atualiza os painéis visuais
+        // Update visual panels
         updateLineupUI(i, totalRes, totalTimeMins, pts);
       } else {
-        updateLineupUI(i, 0, 0, 0); // Lvl 1 Rich não existe
+        updateLineupUI(i, 0, 0, 0); // Failsafe (e.g. Lvl 1 Rich doesn't exist)
       }
     } else {
       updateLineupUI(i, 0, 0, 0);
@@ -92,11 +94,13 @@ function calculateDay3() {
   return dayTotal;
 }
 
-// Atualiza o ecrã com o tempo convertido em dias, horas e minutos
+/**
+ * Updates the screen with time converted to Days, Hours, and Minutes
+ */
 function updateLineupUI(id, res, timeMins, pts) {
-  const elRes = document.getElementById(`l${id}-res-out`);
-  const elTime = document.getElementById(`l${id}-time-out`);
-  const elPts = document.getElementById(`l${id}-pts-out`);
+  const elRes = document.getElementById(`l${id}-res`);
+  const elTime = document.getElementById(`l${id}-time`);
+  const elPts = document.getElementById(`l${id}-pts`);
 
   if (elRes) elRes.innerText = Math.floor(res).toLocaleString();
   if (elPts) elPts.innerText = pts.toLocaleString();
@@ -105,10 +109,12 @@ function updateLineupUI(id, res, timeMins, pts) {
     const d = Math.floor(timeMins / 1440);
     const h = Math.floor((timeMins % 1440) / 60);
     const m = Math.floor(timeMins % 60);
+
     let timeStr = '';
     if (d > 0) timeStr += `${d}d `;
     if (h > 0 || d > 0) timeStr += `${h}h `;
     timeStr += `${m}m`;
+
     elTime.innerText = timeMins > 0 ? timeStr : '0m';
   }
 }

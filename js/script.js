@@ -1,14 +1,11 @@
 // js/main.js
 
-const unitPower = { 9: 12.5, 8: 8.6, 7: 6, 6: 4.2, 5: 2.9, 4: 2.2, 3: 1.7 };
-
 async function loadDay(dayId) {
   const area = document.getElementById('content-area');
   try {
     const response = await fetch(`days/${dayId}.html`);
     area.innerHTML = await response.text();
 
-    // PINTA O BOTÃO DE AMARELO NA ABA ATIVA
     document.querySelectorAll('.tab-btn').forEach((btn) => {
       btn.classList.toggle(
         'active',
@@ -30,7 +27,7 @@ function calculate() {
 
   const dayId = subElement.id.replace('sub-st', 'day');
 
-  // LIGA TODOS OS DIAS SEM ERROS
+  // Calcula APENAS o dia que está aberto no ecrã no momento
   if (dayId === 'day1' && typeof calculateDay1 === 'function')
     dayTotal = calculateDay1();
   else if (dayId === 'day2' && typeof calculateDay2 === 'function')
@@ -46,9 +43,11 @@ function calculate() {
   else if (dayId === 'day7' && typeof calculateDay7 === 'function')
     dayTotal = calculateDay7();
 
-
   subElement.innerText = Math.round(dayTotal).toLocaleString();
+
+  // Guarda na memória
   localStorage.setItem('mge_pts_' + dayId, dayTotal);
+
   updateGlobalScore();
 }
 
@@ -76,77 +75,58 @@ function restoreInputs() {
 
 function updateGlobalScore() {
   let total = 0;
+  // Soma os pontos oficiais guardados de cada dia
   for (let i = 1; i <= 7; i++) {
     total += parseFloat(localStorage.getItem('mge_pts_day' + i)) || 0;
   }
-  document.getElementById('totalPoints').innerText =
-    Math.round(total).toLocaleString();
-}
-// ==========================================
-// FUNÇÃO DE RESET GLOBAL
-// ==========================================
-function resetMGE() {
-  // Pede confirmação antes de apagar tudo
-  if (confirm("Are you sure you want to delete all data? This cannot be undone.")) {
 
-    // Procura na memória tudo o que comece por "mge_" e apaga
-    const keys = Object.keys(localStorage);
-    keys.forEach(key => {
-      if (key.startsWith('mge_')) {
-        localStorage.removeItem(key);
+  // Lógica Especial: Se estivermos no Dia 5 e a checkbox estiver ligada
+  const isDay5 = document.getElementById('sub-st5') !== null;
+  const d5Checked = localStorage.getItem('mge_val_d5-to-d6') === 'true';
+
+  if (isDay5 && d5Checked) {
+    const powerToTransfer =
+      parseFloat(localStorage.getItem('mge_d5_troop_power')) || 0;
+    // AGORA VALE 3 PONTOS POR POWER!
+    total += powerToTransfer * 3;
+  }
+
+  const uiTotalPoints = document.getElementById('totalPoints');
+  if (uiTotalPoints)
+    uiTotalPoints.innerText = Math.round(total).toLocaleString();
+
+  // Lógica de Percentagem (Target Goal)
+  const targetGoalInput = document.getElementById('mge-goal');
+  const percentText = document.getElementById('goal-percent');
+
+  if (targetGoalInput && percentText) {
+    const targetValue = parseFloat(targetGoalInput.value) || 0;
+    if (targetValue > 0) {
+      const percent = (total / targetValue) * 100;
+      if (percent >= 100) {
+        percentText.innerText = '100% Reached ✅';
+        percentText.style.color = '#2ecc71';
+      } else {
+        percentText.innerText = percent.toFixed(1) + '% Reached';
+        percentText.style.color = '#ffcc00';
       }
-    });
+    } else {
+      percentText.innerText = '0% Reached';
+      percentText.style.color = '#888';
+    }
+  }
+}
 
-    // Recarrega a página para o Dia 1 com tudo a zeros
+function resetMGE() {
+  if (
+    confirm('Are you sure you want to delete all data? This cannot be undone.')
+  ) {
+    const keys = Object.keys(localStorage);
+    keys.forEach((key) => {
+      if (key.startsWith('mge_')) localStorage.removeItem(key);
+    });
     window.location.reload();
   }
 }
 
-// ==========================================
-// DISCORD BUG REPORTER (PRIVATE SERVER)
-// ==========================================
-function sendBugToDiscord() {
-  console.log("A enviar para o Discord...");
-
-  // DIVIDIMOS O LINK PARA ENGANAR OS BOTS SPAMMERS DO GITHUB
-  const pt1 = 'https://discord.com/api/webhooks/';
-  const pt2 = '1498351805510189088'; // Ex: 123456789012345678
-  const pt3 =
-    'ilhi2ENK58ZYvcwu52TSferD4gtr3RFk2HVGdGNfkbVVbJKTHAEDfi3WEftq-8LnFr-U'; // Ex: AbCdEfGhIjKlMnOpQrStUvWxYz
-
-  const webhookUrl = pt1 + pt2 + '/' + pt3;
-
-  const name = document.getElementById('bugName').value;
-  const server = document.getElementById('bugServer').value;
-  const desc = document.getElementById('bugDesc').value;
-
-  if (!name || !server || !desc) {
-    alert('Please fill in all fields (Name, Server, and Description).');
-    return;
-  }
-
-  const payload = {
-    content: `🚨 **NEW MGE PLANNER TICKET** 🚨\n**User:** ${name}\n**Server:** ${server}\n**Report:** ${desc}`
-  };
-
-  fetch(webhookUrl, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload),
-  })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error('Erro de ligação: ' + response.status);
-      }
-      alert('Report sent! Thank you.');
-      document.getElementById('bugModal').style.display = 'none';
-      document.getElementById('bugName').value = '';
-      document.getElementById('bugServer').value = '';
-      document.getElementById('bugDesc').value = '';
-    })
-    .catch((err) => {
-      alert('Erro ao enviar. O teu ad-blocker pode estar a bloquear o envio!');
-      console.error("ERRO:", err);
-    });
-}
 window.onload = () => loadDay('day1');

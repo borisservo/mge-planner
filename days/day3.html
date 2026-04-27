@@ -6,136 +6,187 @@
     <div class="subtotal-text">Subtotal: <span id="sub-st3">0</span></div>
 </div>
 
-<div style="background: rgba(155, 89, 182, 0.1); padding: 12px; border-radius: 8px; border: 1px solid rgba(155, 89, 182, 0.2); margin-bottom: 20px;">
-    <p style="margin:0; font-size: 0.75rem; text-align: center;"><b>Objective:</b> Gather resources (wood, food, stone, and gold) to earn points.</p>
+<div style="background: rgba(46, 204, 113, 0.1); padding: 12px; border-radius: 8px; border: 1px solid rgba(46, 204, 113, 0.2); margin-bottom: 20px;">
+    <p style="margin:0; font-size: 0.75rem; text-align: center;"><b>Objective:</b> Gather resources to earn points (1 pt per 100 resources).</p>
 </div>
 
-<div style="margin-bottom: 20px; background: #1a1a1a; padding: 15px; border-radius: 8px;">
-    <label style="font-size: 0.75rem; color: #2ecc71; font-weight: bold; display: block; margin-bottom: 8px;">LEGENDARY ADVENT</label>
-    <div style="display:flex; justify-content: space-between; align-items: center;">
-        <span style="font-size: 0.7rem; color: #888;">Spins (1,000 pts/ea):</span>
-        <input type="number" id="spin-advent" value="0" oninput="calculate()" style="width:100px; text-align:right; background:#000; color:#fff; border:1px solid #333; padding:5px; border-radius:4px;">
-    </div>
+<h4 style="color: #2ecc71; font-size: 0.8rem; margin-bottom: 10px; border-bottom: 1px solid #333; padding-bottom: 5px;">LEGENDARY ADVENT</h4>
+<div style="background: #1a1a1a; padding: 15px; border-radius: 8px; border: 1px solid #333; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center;">
+    <label style="color: #ccc; font-size: 0.8rem;">Spins (1,000 pts/ea):</label>
+    <input type="number" id="advent-spins" value="0" oninput="calculate()" style="width: 80px; background: #000; color: #fff; border: 1px solid #444; padding: 8px; border-radius: 4px; text-align: right;">
 </div>
 
 <h4 style="color: #2ecc71; font-size: 0.8rem; margin-bottom: 10px; border-bottom: 1px solid #333; padding-bottom: 5px;">GATHERING LINEUPS</h4>
+<div id="lineups-container" style="display: flex; flex-direction: column; gap: 15px;">
 
-<div style="background: rgba(46, 204, 113, 0.05); border: 1px solid #333; border-radius: 8px; padding: 12px; margin-bottom: 15px;">
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-        <h5 style="margin:0; color:#2ecc71;">Lineup 1</h5>
-        <label style="font-size:0.7rem; color:#f1c40f; display:flex; align-items:center; gap:5px; cursor:pointer;">
-            <input type="checkbox" id="l1-rich" onchange="calculate()"> Rich Node
-        </label>
-    </div>
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px;">
-        <div><label style="font-size: 0.6rem; color: #888;">NODE LEVEL</label>
-            <select id="l1-lvl" onchange="calculate()" style="width:100%; background:#000; color:#fff; border:1px solid #444; padding:5px;">
-                <option value="1">Lvl 1</option><option value="2">Lvl 2</option><option value="3">Lvl 3</option><option value="4">Lvl 4</option><option value="5">Lvl 5</option><option value="6" selected>Lvl 6</option><option value="7">Lvl 7</option><option value="8">Lvl 8</option>
-            </select>
+    <div style="background: #1a1a1a; padding: 15px; border-radius: 8px; border: 1px solid #2ecc71;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+            <h5 style="color: #2ecc71; margin: 0;">Lineup 1</h5>
+            <label style="color: #f1c40f; font-size: 0.7rem; display: flex; align-items: center; gap: 5px;">
+                <input type="checkbox" id="l1-rich" onchange="calculate()"> Rich Node
+            </label>
         </div>
-        <div><label style="font-size: 0.6rem; color: #888;">ROUNDS</label><input type="number" id="l1-rounds" value="0" oninput="calculate()" style="width:100%; background:#000; color:#fff; border:1px solid #444; padding:5px;"></div>
-        <div><label style="font-size: 0.6rem; color: #888;">SPEED %</label><input type="number" id="l1-speed" value="0" oninput="calculate()" style="width:100%; background:#000; color:#fff; border:1px solid #444; padding:5px;"></div>
-        <div><label style="font-size: 0.6rem; color: #888;">COMP. %</label><input type="number" id="l1-comp" value="0" oninput="calculate()" style="width:100%; background:#000; color:#fff; border:1px solid #444; padding:5px;"></div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
+            <div>
+                <label style="color: #888; font-size: 0.65rem;">NODE LEVEL</label>
+                <select id="l1-level" onchange="calculate()" style="width: 100%; background: #000; color: #fff; border: 1px solid #444; padding: 5px; border-radius: 4px;">
+                    <option value="1">Lvl 1</option><option value="2">Lvl 2</option><option value="3">Lvl 3</option><option value="4">Lvl 4</option><option value="5">Lvl 5</option><option value="6" selected>Lvl 6</option><option value="7">Lvl 7</option><option value="8">Lvl 8</option>
+                </select>
+            </div>
+            <div>
+                <label style="color: #888; font-size: 0.65rem;">ROUNDS</label>
+                <input type="number" id="l1-rounds" value="4" oninput="calculate()" style="width: 100%; background: #000; color: #fff; border: 1px solid #444; padding: 5px; border-radius: 4px; text-align: center;">
+            </div>
+            <div>
+                <label style="color: #888; font-size: 0.65rem;">SPEED %</label>
+                <input type="number" id="l1-speed" value="232" oninput="calculate()" style="width: 100%; background: #000; color: #fff; border: 1px solid #444; padding: 5px; border-radius: 4px; text-align: center;">
+            </div>
+            <div>
+                <label style="color: #888; font-size: 0.65rem;">COMP. %</label>
+                <input type="number" id="l1-comp" value="45" oninput="calculate()" style="width: 100%; background: #000; color: #fff; border: 1px solid #444; padding: 5px; border-radius: 4px; text-align: center;">
+            </div>
+        </div>
+        <div style="display: flex; justify-content: space-between; font-size: 0.75rem; color: #aaa; border-top: 1px dashed #333; padding-top: 10px;">
+            <span>Time: <b id="l1-time" style="color: #fff;">0m</b></span>
+            <span>Res: <b id="l1-res" style="color: #fff;">0</b></span>
+            <span>Pts: <b id="l1-pts" style="color: var(--gold);">0</b></span>
+        </div>
     </div>
-    <div style="background:#000; padding:8px; border-radius:4px; display:flex; justify-content:space-between; font-size:0.75rem;">
-        <div><span style="color:#888;">Time:</span> <b id="l1-time-out">0m</b></div>
-        <div><span style="color:#888;">Res:</span> <b id="l1-res-out">0</b></div>
-        <div><span style="color:#888;">Pts:</span> <b id="l1-pts-out" style="color:#f1c40f;">0</b></div>
-    </div>
-</div>
 
-<div style="background: rgba(46, 204, 113, 0.05); border: 1px solid #333; border-radius: 8px; padding: 12px; margin-bottom: 15px;">
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-        <h5 style="margin:0; color:#2ecc71;">Lineup 2</h5>
-        <label style="font-size:0.7rem; color:#f1c40f; display:flex; align-items:center; gap:5px; cursor:pointer;">
-            <input type="checkbox" id="l2-rich" onchange="calculate()"> Rich Node
-        </label>
-    </div>
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px;">
-        <div><label style="font-size: 0.6rem; color: #888;">NODE LEVEL</label>
-            <select id="l2-lvl" onchange="calculate()" style="width:100%; background:#000; color:#fff; border:1px solid #444; padding:5px;">
-                <option value="1">Lvl 1</option><option value="2">Lvl 2</option><option value="3">Lvl 3</option><option value="4">Lvl 4</option><option value="5">Lvl 5</option><option value="6" selected>Lvl 6</option><option value="7">Lvl 7</option><option value="8">Lvl 8</option>
-            </select>
+    <div style="background: #1a1a1a; padding: 15px; border-radius: 8px; border: 1px solid #333;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+            <h5 style="color: #2ecc71; margin: 0;">Lineup 2</h5>
+            <label style="color: #f1c40f; font-size: 0.7rem; display: flex; align-items: center; gap: 5px;">
+                <input type="checkbox" id="l2-rich" onchange="calculate()"> Rich Node
+            </label>
         </div>
-        <div><label style="font-size: 0.6rem; color: #888;">ROUNDS</label><input type="number" id="l2-rounds" value="0" oninput="calculate()" style="width:100%; background:#000; color:#fff; border:1px solid #444; padding:5px;"></div>
-        <div><label style="font-size: 0.6rem; color: #888;">SPEED %</label><input type="number" id="l2-speed" value="0" oninput="calculate()" style="width:100%; background:#000; color:#fff; border:1px solid #444; padding:5px;"></div>
-        <div><label style="font-size: 0.6rem; color: #888;">COMP. %</label><input type="number" id="l2-comp" value="0" oninput="calculate()" style="width:100%; background:#000; color:#fff; border:1px solid #444; padding:5px;"></div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
+            <div>
+                <label style="color: #888; font-size: 0.65rem;">NODE LEVEL</label>
+                <select id="l2-level" onchange="calculate()" style="width: 100%; background: #000; color: #fff; border: 1px solid #444; padding: 5px; border-radius: 4px;">
+                    <option value="1">Lvl 1</option><option value="2">Lvl 2</option><option value="3">Lvl 3</option><option value="4">Lvl 4</option><option value="5">Lvl 5</option><option value="6" selected>Lvl 6</option><option value="7">Lvl 7</option><option value="8">Lvl 8</option>
+                </select>
+            </div>
+            <div>
+                <label style="color: #888; font-size: 0.65rem;">ROUNDS</label>
+                <input type="number" id="l2-rounds" value="4" oninput="calculate()" style="width: 100%; background: #000; color: #fff; border: 1px solid #444; padding: 5px; border-radius: 4px; text-align: center;">
+            </div>
+            <div>
+                <label style="color: #888; font-size: 0.65rem;">SPEED %</label>
+                <input type="number" id="l2-speed" value="270" oninput="calculate()" style="width: 100%; background: #000; color: #fff; border: 1px solid #444; padding: 5px; border-radius: 4px; text-align: center;">
+            </div>
+            <div>
+                <label style="color: #888; font-size: 0.65rem;">COMP. %</label>
+                <input type="number" id="l2-comp" value="45" oninput="calculate()" style="width: 100%; background: #000; color: #fff; border: 1px solid #444; padding: 5px; border-radius: 4px; text-align: center;">
+            </div>
+        </div>
+        <div style="display: flex; justify-content: space-between; font-size: 0.75rem; color: #aaa; border-top: 1px dashed #333; padding-top: 10px;">
+            <span>Time: <b id="l2-time" style="color: #fff;">0m</b></span>
+            <span>Res: <b id="l2-res" style="color: #fff;">0</b></span>
+            <span>Pts: <b id="l2-pts" style="color: var(--gold);">0</b></span>
+        </div>
     </div>
-    <div style="background:#000; padding:8px; border-radius:4px; display:flex; justify-content:space-between; font-size:0.75rem;">
-        <div><span style="color:#888;">Time:</span> <b id="l2-time-out">0m</b></div>
-        <div><span style="color:#888;">Res:</span> <b id="l2-res-out">0</b></div>
-        <div><span style="color:#888;">Pts:</span> <b id="l2-pts-out" style="color:#f1c40f;">0</b></div>
-    </div>
-</div>
 
-<div style="background: rgba(46, 204, 113, 0.05); border: 1px solid #333; border-radius: 8px; padding: 12px; margin-bottom: 15px;">
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-        <h5 style="margin:0; color:#2ecc71;">Lineup 3</h5>
-        <label style="font-size:0.7rem; color:#f1c40f; display:flex; align-items:center; gap:5px; cursor:pointer;">
-            <input type="checkbox" id="l3-rich" onchange="calculate()"> Rich Node
-        </label>
-    </div>
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px;">
-        <div><label style="font-size: 0.6rem; color: #888;">NODE LEVEL</label>
-            <select id="l3-lvl" onchange="calculate()" style="width:100%; background:#000; color:#fff; border:1px solid #444; padding:5px;">
-                <option value="1">Lvl 1</option><option value="2">Lvl 2</option><option value="3">Lvl 3</option><option value="4">Lvl 4</option><option value="5" >Lvl 5</option><option value="6" selected>Lvl 6</option><option value="7">Lvl 7</option><option value="8">Lvl 8</option>
-            </select>
+    <div style="background: #1a1a1a; padding: 15px; border-radius: 8px; border: 1px solid #333;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+            <h5 style="color: #2ecc71; margin: 0;">Lineup 3</h5>
+            <label style="color: #f1c40f; font-size: 0.7rem; display: flex; align-items: center; gap: 5px;">
+                <input type="checkbox" id="l3-rich" onchange="calculate()"> Rich Node
+            </label>
         </div>
-        <div><label style="font-size: 0.6rem; color: #888;">ROUNDS</label><input type="number" id="l3-rounds" value="0" oninput="calculate()" style="width:100%; background:#000; color:#fff; border:1px solid #444; padding:5px;"></div>
-        <div><label style="font-size: 0.6rem; color: #888;">SPEED %</label><input type="number" id="l3-speed" value="0" oninput="calculate()" style="width:100%; background:#000; color:#fff; border:1px solid #444; padding:5px;"></div>
-        <div><label style="font-size: 0.6rem; color: #888;">COMP. %</label><input type="number" id="l3-comp" value="0" oninput="calculate()" style="width:100%; background:#000; color:#fff; border:1px solid #444; padding:5px;"></div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
+            <div>
+                <label style="color: #888; font-size: 0.65rem;">NODE LEVEL</label>
+                <select id="l3-level" onchange="calculate()" style="width: 100%; background: #000; color: #fff; border: 1px solid #444; padding: 5px; border-radius: 4px;">
+                    <option value="1">Lvl 1</option><option value="2">Lvl 2</option><option value="3">Lvl 3</option><option value="4">Lvl 4</option><option value="5">Lvl 5</option><option value="6" selected>Lvl 6</option><option value="7">Lvl 7</option><option value="8">Lvl 8</option>
+                </select>
+            </div>
+            <div>
+                <label style="color: #888; font-size: 0.65rem;">ROUNDS</label>
+                <input type="number" id="l3-rounds" value="0" oninput="calculate()" style="width: 100%; background: #000; color: #fff; border: 1px solid #444; padding: 5px; border-radius: 4px; text-align: center;">
+            </div>
+            <div>
+                <label style="color: #888; font-size: 0.65rem;">SPEED %</label>
+                <input type="number" id="l3-speed" value="0" oninput="calculate()" style="width: 100%; background: #000; color: #fff; border: 1px solid #444; padding: 5px; border-radius: 4px; text-align: center;">
+            </div>
+            <div>
+                <label style="color: #888; font-size: 0.65rem;">COMP. %</label>
+                <input type="number" id="l3-comp" value="0" oninput="calculate()" style="width: 100%; background: #000; color: #fff; border: 1px solid #444; padding: 5px; border-radius: 4px; text-align: center;">
+            </div>
+        </div>
+        <div style="display: flex; justify-content: space-between; font-size: 0.75rem; color: #aaa; border-top: 1px dashed #333; padding-top: 10px;">
+            <span>Time: <b id="l3-time" style="color: #fff;">0m</b></span>
+            <span>Res: <b id="l3-res" style="color: #fff;">0</b></span>
+            <span>Pts: <b id="l3-pts" style="color: var(--gold);">0</b></span>
+        </div>
     </div>
-    <div style="background:#000; padding:8px; border-radius:4px; display:flex; justify-content:space-between; font-size:0.75rem;">
-        <div><span style="color:#888;">Time:</span> <b id="l3-time-out">0m</b></div>
-        <div><span style="color:#888;">Res:</span> <b id="l3-res-out">0</b></div>
-        <div><span style="color:#888;">Pts:</span> <b id="l3-pts-out" style="color:#f1c40f;">0</b></div>
-    </div>
-</div>
 
-<div style="background: rgba(46, 204, 113, 0.05); border: 1px solid #333; border-radius: 8px; padding: 12px; margin-bottom: 15px;">
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-        <h5 style="margin:0; color:#2ecc71;">Lineup 4</h5>
-        <label style="font-size:0.7rem; color:#f1c40f; display:flex; align-items:center; gap:5px; cursor:pointer;">
-            <input type="checkbox" id="l4-rich" onchange="calculate()"> Rich Node
-        </label>
-    </div>
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px;">
-        <div><label style="font-size: 0.6rem; color: #888;">NODE LEVEL</label>
-            <select id="l4-lvl" onchange="calculate()" style="width:100%; background:#000; color:#fff; border:1px solid #444; padding:5px;">
-                <option value="1">Lvl 1</option><option value="2">Lvl 2</option><option value="3">Lvl 3</option><option value="4">Lvl 4</option><option value="5" >Lvl 5</option><option value="6" selected>Lvl 6</option><option value="7">Lvl 7</option><option value="8">Lvl 8</option>
-            </select>
+    <div style="background: #1a1a1a; padding: 15px; border-radius: 8px; border: 1px solid #333;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+            <h5 style="color: #2ecc71; margin: 0;">Lineup 4</h5>
+            <label style="color: #f1c40f; font-size: 0.7rem; display: flex; align-items: center; gap: 5px;">
+                <input type="checkbox" id="l4-rich" onchange="calculate()"> Rich Node
+            </label>
         </div>
-        <div><label style="font-size: 0.6rem; color: #888;">ROUNDS</label><input type="number" id="l4-rounds" value="0" oninput="calculate()" style="width:100%; background:#000; color:#fff; border:1px solid #444; padding:5px;"></div>
-        <div><label style="font-size: 0.6rem; color: #888;">SPEED %</label><input type="number" id="l4-speed" value="0" oninput="calculate()" style="width:100%; background:#000; color:#fff; border:1px solid #444; padding:5px;"></div>
-        <div><label style="font-size: 0.6rem; color: #888;">COMP. %</label><input type="number" id="l4-comp" value="0" oninput="calculate()" style="width:100%; background:#000; color:#fff; border:1px solid #444; padding:5px;"></div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
+            <div>
+                <label style="color: #888; font-size: 0.65rem;">NODE LEVEL</label>
+                <select id="l4-level" onchange="calculate()" style="width: 100%; background: #000; color: #fff; border: 1px solid #444; padding: 5px; border-radius: 4px;">
+                    <option value="1">Lvl 1</option><option value="2">Lvl 2</option><option value="3">Lvl 3</option><option value="4">Lvl 4</option><option value="5">Lvl 5</option><option value="6" selected>Lvl 6</option><option value="7">Lvl 7</option><option value="8">Lvl 8</option>
+                </select>
+            </div>
+            <div>
+                <label style="color: #888; font-size: 0.65rem;">ROUNDS</label>
+                <input type="number" id="l4-rounds" value="0" oninput="calculate()" style="width: 100%; background: #000; color: #fff; border: 1px solid #444; padding: 5px; border-radius: 4px; text-align: center;">
+            </div>
+            <div>
+                <label style="color: #888; font-size: 0.65rem;">SPEED %</label>
+                <input type="number" id="l4-speed" value="0" oninput="calculate()" style="width: 100%; background: #000; color: #fff; border: 1px solid #444; padding: 5px; border-radius: 4px; text-align: center;">
+            </div>
+            <div>
+                <label style="color: #888; font-size: 0.65rem;">COMP. %</label>
+                <input type="number" id="l4-comp" value="0" oninput="calculate()" style="width: 100%; background: #000; color: #fff; border: 1px solid #444; padding: 5px; border-radius: 4px; text-align: center;">
+            </div>
+        </div>
+        <div style="display: flex; justify-content: space-between; font-size: 0.75rem; color: #aaa; border-top: 1px dashed #333; padding-top: 10px;">
+            <span>Time: <b id="l4-time" style="color: #fff;">0m</b></span>
+            <span>Res: <b id="l4-res" style="color: #fff;">0</b></span>
+            <span>Pts: <b id="l4-pts" style="color: var(--gold);">0</b></span>
+        </div>
     </div>
-    <div style="background:#000; padding:8px; border-radius:4px; display:flex; justify-content:space-between; font-size:0.75rem;">
-        <div><span style="color:#888;">Time:</span> <b id="l4-time-out">0m</b></div>
-        <div><span style="color:#888;">Res:</span> <b id="l4-res-out">0</b></div>
-        <div><span style="color:#888;">Pts:</span> <b id="l4-pts-out" style="color:#f1c40f;">0</b></div>
-    </div>
-</div>
 
-<div style="background: rgba(46, 204, 113, 0.05); border: 1px solid #333; border-radius: 8px; padding: 12px; margin-bottom: 15px;">
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-        <h5 style="margin:0; color:#2ecc71;">Lineup 5</h5>
-        <label style="font-size:0.7rem; color:#f1c40f; display:flex; align-items:center; gap:5px; cursor:pointer;">
-            <input type="checkbox" id="l5-rich" onchange="calculate()"> Rich Node
-        </label>
-    </div>
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px;">
-        <div><label style="font-size: 0.6rem; color: #888;">NODE LEVEL</label>
-            <select id="l5-lvl" onchange="calculate()" style="width:100%; background:#000; color:#fff; border:1px solid #444; padding:5px;">
-                <option value="1">Lvl 1</option><option value="2">Lvl 2</option><option value="3">Lvl 3</option><option value="4">Lvl 4</option><option value="5" selected>Lvl 5</option><option value="6">Lvl 6</option><option value="7">Lvl 7</option><option value="8">Lvl 8</option>
-            </select>
+    <div style="background: #1a1a1a; padding: 15px; border-radius: 8px; border: 1px solid #333;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+            <h5 style="color: #2ecc71; margin: 0;">Lineup 5</h5>
+            <label style="color: #f1c40f; font-size: 0.7rem; display: flex; align-items: center; gap: 5px;">
+                <input type="checkbox" id="l5-rich" onchange="calculate()"> Rich Node
+            </label>
         </div>
-        <div><label style="font-size: 0.6rem; color: #888;">ROUNDS</label><input type="number" id="l5-rounds" value="0" oninput="calculate()" style="width:100%; background:#000; color:#fff; border:1px solid #444; padding:5px;"></div>
-        <div><label style="font-size: 0.6rem; color: #888;">SPEED %</label><input type="number" id="l5-speed" value="0" oninput="calculate()" style="width:100%; background:#000; color:#fff; border:1px solid #444; padding:5px;"></div>
-        <div><label style="font-size: 0.6rem; color: #888;">COMP. %</label><input type="number" id="l5-comp" value="0" oninput="calculate()" style="width:100%; background:#000; color:#fff; border:1px solid #444; padding:5px;"></div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
+            <div>
+                <label style="color: #888; font-size: 0.65rem;">NODE LEVEL</label>
+                <select id="l5-level" onchange="calculate()" style="width: 100%; background: #000; color: #fff; border: 1px solid #444; padding: 5px; border-radius: 4px;">
+                    <option value="1">Lvl 1</option><option value="2">Lvl 2</option><option value="3">Lvl 3</option><option value="4">Lvl 4</option><option value="5">Lvl 5</option><option value="6" selected>Lvl 6</option><option value="7">Lvl 7</option><option value="8">Lvl 8</option>
+                </select>
+            </div>
+            <div>
+                <label style="color: #888; font-size: 0.65rem;">ROUNDS</label>
+                <input type="number" id="l5-rounds" value="0" oninput="calculate()" style="width: 100%; background: #000; color: #fff; border: 1px solid #444; padding: 5px; border-radius: 4px; text-align: center;">
+            </div>
+            <div>
+                <label style="color: #888; font-size: 0.65rem;">SPEED %</label>
+                <input type="number" id="l5-speed" value="0" oninput="calculate()" style="width: 100%; background: #000; color: #fff; border: 1px solid #444; padding: 5px; border-radius: 4px; text-align: center;">
+            </div>
+            <div>
+                <label style="color: #888; font-size: 0.65rem;">COMP. %</label>
+                <input type="number" id="l5-comp" value="0" oninput="calculate()" style="width: 100%; background: #000; color: #fff; border: 1px solid #444; padding: 5px; border-radius: 4px; text-align: center;">
+            </div>
+        </div>
+        <div style="display: flex; justify-content: space-between; font-size: 0.75rem; color: #aaa; border-top: 1px dashed #333; padding-top: 10px;">
+            <span>Time: <b id="l5-time" style="color: #fff;">0m</b></span>
+            <span>Res: <b id="l5-res" style="color: #fff;">0</b></span>
+            <span>Pts: <b id="l5-pts" style="color: var(--gold);">0</b></span>
+        </div>
     </div>
-    <div style="background:#000; padding:8px; border-radius:4px; display:flex; justify-content:space-between; font-size:0.75rem;">
-        <div><span style="color:#888;">Time:</span> <b id="l5-time-out">0m</b></div>
-        <div><span style="color:#888;">Res:</span> <b id="l5-res-out">0</b></div>
-        <div><span style="color:#888;">Pts:</span> <b id="l5-pts-out" style="color:#f1c40f;">0</b></div>
-    </div>
+
 </div>
