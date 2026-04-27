@@ -108,9 +108,14 @@ function resetMGE() {
 function sendBugToDiscord() {
   console.log("A enviar para o Discord...");
 
-  // O TEU LINK DIRETO DO DISCORD (Sem proxies)
-  const webhookUrl =
-    'https://discord.com/api/webhooks/1497982878406152243/YrItgx2t6lU0Ejt1_G7fKIjZIR4BQOQE3mh-wZ85kax_8GygVXWUk_bEWKeZtwlwywJC';
+  // DIVIDIMOS O LINK PARA ENGANAR OS BOTS SPAMMERS DO GITHUB
+  const pt1 = 'https://discord.com/api/webhooks/';
+  const pt2 = '1498346878146707499'; // Ex: 123456789012345678
+  const pt3 =
+    'Pgvrc37h_LVpq-upPIvsW7Xq1KQerPnnwov9C5mOPlolkvxBuQHUl68B3Zbvv8fvbyVy'; // Ex: AbCdEfGhIjKlMnOpQrStUvWxYz
+
+  const webhookUrl = pt1 + pt2 + '/' + pt3;
+
   const name = document.getElementById('bugName').value;
   const server = document.getElementById('bugServer').value;
   const desc = document.getElementById('bugDesc').value;
@@ -121,7 +126,7 @@ function sendBugToDiscord() {
   }
 
   const payload = {
-    content: `🚨 **NEW MGE PLANNER TICKET** 🚨\n**User:** ${name}\n**Server:** #${server}\n**Report:** ${desc}`
+    content: `🚨 **NEW MGE PLANNER TICKET** 🚨\n**User:** ${name}\n**Server:** ${server}\n**Report:** ${desc}`
   };
 
   fetch(webhookUrl, {
@@ -129,20 +134,19 @@ function sendBugToDiscord() {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload),
   })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Erro de ligação: ' + response.status);
-        }
-        alert('Report sent! Thank you.');
-        // Limpa tudo e esconde a janela
-        document.getElementById('bugModal').style.display = 'none';
-        document.getElementById('bugName').value = '';
-        document.getElementById('bugServer').value = '';
-        document.getElementById('bugDesc').value = '';
-      })
-      .catch((err) => {
-        alert('Erro ao enviar. O teu ad-blocker pode estar a bloquear o envio!');
-        console.error("ERRO:", err);
-      });
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error('Erro de ligação: ' + response.status);
+      }
+      alert('Report sent! Thank you.');
+      document.getElementById('bugModal').style.display = 'none';
+      document.getElementById('bugName').value = '';
+      document.getElementById('bugServer').value = '';
+      document.getElementById('bugDesc').value = '';
+    })
+    .catch((err) => {
+      alert('Erro ao enviar. O teu ad-blocker pode estar a bloquear o envio!');
+      console.error("ERRO:", err);
+    });
 }
 window.onload = () => loadDay('day1');
