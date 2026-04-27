@@ -16,7 +16,7 @@ const DAY2_POINTS = {
 function calculateDay2() {
   let dayTotal = 0;
 
-  // Percorre a lista acima e soma os pontos
+  // 1. Percorre a lista base e soma os pontos (Medalhas e Gear direto)
   for (const [id, pts] of Object.entries(DAY2_POINTS)) {
     const el = document.getElementById(id);
     if (el) {
@@ -25,10 +25,28 @@ function calculateDay2() {
     }
   }
 
-  return dayTotal;
+  // ==========================================
+  // 2. CÁLCULO DO IRON METEORITE
+  // ==========================================
+  const meteorites =
+    parseInt(document.getElementById('ironMeteorite')?.value) || 0;
+
+  // 👇 AJUSTA ESTES VALORES COM O ZUMO 👇
+  const custoPorPeca = 10; // Quantos meteoritos custa 1 forja?
+  const pontosPorPeca = 500; // Quantos pontos dá 1 forja?
+
+  const pecasFeitas = Math.floor(meteorites / custoPorPeca);
+  const pontosMeteorito = pecasFeitas * pontosPorPeca;
+
+  const elCrafted = document.getElementById('craftedPieces');
+  if (elCrafted) {
+    elCrafted.innerText = pecasFeitas.toLocaleString();
+  }
+
+  dayTotal += pontosMeteorito;
 
   // ==========================================
-  // CÁLCULO DE FORGE SPEEDUPS (PEDIDO DO ZUMO)
+  // 3. CÁLCULO DE FORGE SPEEDUPS (PEDIDO DO ZUMO)
   // ==========================================
   const fSpeedups =
     parseInt(document.getElementById('forgeSpeedups')?.value) || 0;
@@ -36,7 +54,7 @@ function calculateDay2() {
 
   let forjasExtra = 0;
 
-  // Proteção: Só faz a divisão se ele tiver preenchido o tempo da forja (para não dividir por zero)
+  // Proteção: Só divide se ele tiver preenchido o tempo da forja
   if (fTime > 0) {
     forjasExtra = Math.floor(fSpeedups / fTime);
   }
@@ -47,9 +65,11 @@ function calculateDay2() {
     elExtraForges.innerText = forjasExtra.toLocaleString();
   }
 
-  // 👇 AJUSTA ESTE VALOR: Quantos pontos dá forjar 1 peça no evento? 👇
-  const pontosPorForge = 500;
+  // Soma os pontos destas forjas extra (estou a usar a mesma variável de pontos de cima)
+  dayTotal += forjasExtra * pontosPorPeca;
 
-  // Soma os pontos destas forjas extra ao total do dia
-  dayTotal += forjasExtra * pontosPorForge;
+  // ==========================================
+  // O RETURN FICA SEMPRE NO FIM DE TUDO!
+  // ==========================================
+  return dayTotal;
 }
