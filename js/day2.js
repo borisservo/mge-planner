@@ -60,37 +60,35 @@ function calculateDay2() {
   // 3. CÁLCULO DE TEMPO DE FORJA E SPEEDUPS
   // ==========================================
 
-  const daysLeft = parseFloat(document.getElementById('eventDays')?.value) || 0;
-  const totalEventSeconds = daysLeft * 24 * 60 * 60;
+  // ==========================================
+  // 3. CÁLCULO DE SPEEDUPS (SEM EVENT DAYS)
+  // ==========================================
 
+  // Tempo por Peça (HH:MM:SS) -> Segundos
   const fHours = parseInt(document.getElementById('forgeH')?.value) || 0;
   const fMins = parseInt(document.getElementById('forgeM')?.value) || 0;
   const fSecs = parseInt(document.getElementById('forgeS')?.value) || 0;
   const pieceSeconds = fHours * 3600 + fMins * 60 + fSecs;
 
+  // Speedups (DD HH:MM) -> Segundos
   const sDays = parseInt(document.getElementById('spuD')?.value) || 0;
   const sHours = parseInt(document.getElementById('spuH')?.value) || 0;
   const sMins = parseInt(document.getElementById('spuM')?.value) || 0;
   const speedupSeconds = sDays * 86400 + sHours * 3600 + sMins * 60;
 
-  let naturalPieces = 0;
   let speedupPieces = 0;
 
   if (pieceSeconds > 0) {
-    naturalPieces = Math.floor(totalEventSeconds / pieceSeconds);
     speedupPieces = Math.floor(speedupSeconds / pieceSeconds);
   }
 
-  const elNatForges = document.getElementById('naturalForges');
-  if (elNatForges) elNatForges.innerText = naturalPieces.toLocaleString();
-
+  // Atualiza o ecrã
   const elExtForges = document.getElementById('extraForges');
   if (elExtForges) elExtForges.innerText = speedupPieces.toLocaleString();
 
-  const elTotForges = document.getElementById('totalForgesPossible');
-  if (elTotForges)
-    elTotForges.innerText = (naturalPieces + speedupPieces).toLocaleString();
+  // Soma os pontos ao total do dia
+  dayTotal += speedupPieces * pontosPorPeca;
 
-  // Soma os pontos finais baseados na peça que o jogador escolheu lá em cima!
-  dayTotal += (naturalPieces + speedupPieces) * pontosPorPeca;
+  // FUNDAMENTAL: Devolve o valor para o Global Score
+  return dayTotal;
 }
