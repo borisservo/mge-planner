@@ -26,4 +26,30 @@ function calculateDay2() {
   }
 
   return dayTotal;
+
+  // ==========================================
+  // CÁLCULO DE FORGE SPEEDUPS (PEDIDO DO ZUMO)
+  // ==========================================
+  const fSpeedups =
+    parseInt(document.getElementById('forgeSpeedups')?.value) || 0;
+  const fTime = parseInt(document.getElementById('forgeTime')?.value) || 0;
+
+  let forjasExtra = 0;
+
+  // Proteção: Só faz a divisão se ele tiver preenchido o tempo da forja (para não dividir por zero)
+  if (fTime > 0) {
+    forjasExtra = Math.floor(fSpeedups / fTime);
+  }
+
+  // Mostra o número de forjas extra no ecrã
+  const elExtraForges = document.getElementById('extraForges');
+  if (elExtraForges) {
+    elExtraForges.innerText = forjasExtra.toLocaleString();
+  }
+
+  // 👇 AJUSTA ESTE VALOR: Quantos pontos dá forjar 1 peça no evento? 👇
+  const pontosPorForge = 500;
+
+  // Soma os pontos destas forjas extra ao total do dia
+  dayTotal += forjasExtra * pontosPorForge;
 }
