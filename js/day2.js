@@ -26,48 +26,53 @@ function calculateDay2() {
   }
 
   // ==========================================
-  // 2. CÁLCULO DO IRON METEORITE
+  // 2. CÁLCULO DO IRON METEORITE (DINÂMICO)
   // ==========================================
   const meteorites =
     parseInt(document.getElementById('ironMeteorite')?.value) || 0;
 
-  // 👇 AJUSTA ESTES VALORES COM O ZUMO 👇
-  const custoPorPeca = 10; // Quantos meteoritos custa 1 forja?
-  const pontosPorPeca = 500; // Quantos pontos dá 1 forja?
+  // Vai buscar a escolha do dropdown (Exemplo: "400|5000")
+  const targetData =
+    document.getElementById('meteoriteTarget')?.value || '400|5000';
 
-  const pecasFeitas = Math.floor(meteorites / custoPorPeca);
-  const pontosMeteorito = pecasFeitas * pontosPorPeca;
+  // O JavaScript corta a string a meio usando o "|" e transforma em números
+  const [custoPorPeca, pontosPorPeca] = targetData.split('|').map(Number);
 
-  const elCrafted = document.getElementById('craftedPieces');
-  if (elCrafted) {
-    elCrafted.innerText = pecasFeitas.toLocaleString();
+  let pecasFeitas = 0;
+  let pontosMeteorito = 0;
+
+  // Proteção contra divisão por zero
+  if (custoPorPeca > 0) {
+    pecasFeitas = Math.floor(meteorites / custoPorPeca);
+    pontosMeteorito = pecasFeitas * pontosPorPeca;
   }
+
+  // Atualiza o ecrã com as peças e os pontos que essas peças vão dar
+  const elCrafted = document.getElementById('craftedPieces');
+  if (elCrafted) elCrafted.innerText = pecasFeitas.toLocaleString();
+
+  const elMetPts = document.getElementById('meteoritePts');
+  if (elMetPts) elMetPts.innerText = pontosMeteorito.toLocaleString();
 
   dayTotal += pontosMeteorito;
 
   // ==========================================
-  // CÁLCULO DE TEMPO DE FORJA (HH:MM:SS) E SPEEDUPS (DD HH:MM)
+  // 3. CÁLCULO DE TEMPO DE FORJA E SPEEDUPS
   // ==========================================
 
-  // 1. Dias do Evento (Convertidos para Segundos)
   const daysLeft = parseFloat(document.getElementById('eventDays')?.value) || 0;
-  const totalEventSeconds = daysLeft * 24 * 60 * 60; // Dias para Segundos
+  const totalEventSeconds = daysLeft * 24 * 60 * 60;
 
-  // 2. Tempo por Peça (HH:MM:SS) -> Converter para Segundos
   const fHours = parseInt(document.getElementById('forgeH')?.value) || 0;
   const fMins = parseInt(document.getElementById('forgeM')?.value) || 0;
   const fSecs = parseInt(document.getElementById('forgeS')?.value) || 0;
-
   const pieceSeconds = fHours * 3600 + fMins * 60 + fSecs;
 
-  // 3. Speedups Disponíveis (DD HH:MM) -> Converter para Segundos
   const sDays = parseInt(document.getElementById('spuD')?.value) || 0;
   const sHours = parseInt(document.getElementById('spuH')?.value) || 0;
   const sMins = parseInt(document.getElementById('spuM')?.value) || 0;
-
   const speedupSeconds = sDays * 86400 + sHours * 3600 + sMins * 60;
 
-  // 4. Calcular quantas peças cabem
   let naturalPieces = 0;
   let speedupPieces = 0;
 
@@ -76,7 +81,6 @@ function calculateDay2() {
     speedupPieces = Math.floor(speedupSeconds / pieceSeconds);
   }
 
-  // 5. Atualizar os textos no ecrã
   const elNatForges = document.getElementById('naturalForges');
   if (elNatForges) elNatForges.innerText = naturalPieces.toLocaleString();
 
@@ -87,8 +91,6 @@ function calculateDay2() {
   if (elTotForges)
     elTotForges.innerText = (naturalPieces + speedupPieces).toLocaleString();
 
-  // 6. Somar os pontos ao Total do Dia 2
-  // IMPORTANTE: Estou a usar 5000 pontos por peça, ajusta conforme o teu jogo!
-  const pontosPorPecaFinalizada = 5000;
-  dayTotal += (naturalPieces + speedupPieces) * pontosPorPecaFinalizada;
+  // Soma os pontos finais baseados na peça que o jogador escolheu lá em cima!
+  dayTotal += (naturalPieces + speedupPieces) * pontosPorPeca;
 }

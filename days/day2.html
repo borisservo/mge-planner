@@ -45,11 +45,25 @@
         <input type="number" id="g-leg" value="0" oninput="calculate()" style="width: 80px; text-align: right; background:#000; color:#fff; border:1px solid #444; padding:5px; border-radius:4px;">
     </div>
     <div style="background: #222; padding: 15px; border-radius: 8px; margin-bottom: 15px; border: 1px solid #333;">
-        <label style="color: var(--blue); display: block; margin-bottom: 5px;">Iron Meteorite Quantity</label>
-        <input type="number" id="ironMeteorite" value="0" oninput="calculate()" placeholder="How many meteorites do you have?" style="width: 100%; padding: 8px; background: #000; color: #fff; border: 1px solid #444; border-radius: 4px;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+            <div>
+                <label style="color: var(--blue); display: block; margin-bottom: 5px;">Iron Meteorites</label>
+                <input type="number" id="ironMeteorite" value="0" oninput="calculate()" placeholder="Quantity..." style="width: 100%; padding: 8px; background: #000; color: #fff; border: 1px solid #444; border-radius: 4px;">
+            </div>
+            <div>
+                <label style="color: var(--gold); display: block; margin-bottom: 5px;">Target Gear</label>
+                <select id="meteoriteTarget" onchange="calculate()" style="width: 100%; padding: 8px; background: #000; color: #fff; border: 1px solid #444; border-radius: 4px;">
+                    <option value="150|1000">Rare (Cost: 150)</option>
+                    <option value="400|5000" selected>Epic (Cost: 400)</option>
+                    <option value="3000|15000">Legendary (Cost: 3k)</option>
+                    <option value="500|0">Random (Cost: 500)</option>
+                </select>
+            </div>
+        </div>
 
         <p style="margin: 8px 0 0 0; font-size: 0.85rem; color: #aaa;">
             Craftable Pieces: <b id="craftedPieces" style="color: var(--gold);">0</b>
+            <span style="font-size: 0.75rem; color: #777;">(Pts: <span id="meteoritePts">0</span>)</span>
         </p>
     </div>
     <div style="background: #222; padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #333;">
