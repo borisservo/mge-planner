@@ -17,6 +17,11 @@ function calculateDay1() {
   const totalAttacks = cost > 0 ? Math.floor(totalStamina / cost) : 0;
   const dayTotal = totalAttacks * tribePts;
 
+  const expCount =
+    parseInt(document.getElementById('explorationCount').value) || 0;
+  const pontosPorExploracao = 100; // <--- VALOR A CONFIRMAR COM O ZUMO
+  total += expCount * pontosPorExploracao;
+
   // 4. Atualiza os resultados no ecrã (Previsão de Kills e Pontos)
   const elKills = document.getElementById('resKills');
   const elPoints = document.getElementById('resPoints');
