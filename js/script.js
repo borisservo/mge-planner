@@ -110,9 +110,9 @@ function sendBugToDiscord() {
 
   // DIVIDIMOS O LINK PARA ENGANAR OS BOTS SPAMMERS DO GITHUB
   const pt1 = 'https://discord.com/api/webhooks/';
-  const pt2 = '1498346878146707499'; // Ex: 123456789012345678
+  const pt2 = '1498351805510189088'; // Ex: 123456789012345678
   const pt3 =
-    'Pgvrc37h_LVpq-upPIvsW7Xq1KQerPnnwov9C5mOPlolkvxBuQHUl68B3Zbvv8fvbyVy'; // Ex: AbCdEfGhIjKlMnOpQrStUvWxYz
+    'ilhi2ENK58ZYvcwu52TSferD4gtr3RFk2HVGdGNfkbVVbJKTHAEDfi3WEftq-8LnFr-U'; // Ex: AbCdEfGhIjKlMnOpQrStUvWxYz
 
   const webhookUrl = pt1 + pt2 + '/' + pt3;
 
