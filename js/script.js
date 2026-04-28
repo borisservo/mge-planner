@@ -11,6 +11,25 @@ async function loadDay(dayId) {
       );
     });
 
+    // A MAGIA: Injeta automaticamente a caixa do "Actual Score" em todos os dias!
+    const dNum = dayId.replace('day', '');
+    const header = area.querySelector('.card-header');
+
+    if (header) {
+      const overrideHTML = `
+      <div style="background: rgba(46, 204, 113, 0.05); border: 1px solid rgba(46, 204, 113, 0.5); padding: 10px; border-radius: 6px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center;">
+          <div>
+              <label style="font-size: 0.8rem; color: #2ecc71; display: flex; align-items: center; gap: 8px; cursor: pointer; margin-bottom: 3px;">
+                  <input type="checkbox" id="ov-chk-${dNum}" onchange="calculate()">
+                  <b>Lock Actual Score</b>
+              </label>
+              <span style="font-size: 0.6rem; color: #888;">Use in-game score for this day</span>
+          </div>
+          <input type="number" id="ov-val-${dNum}" oninput="calculate()" placeholder="Actual score..." style="background: #000; color: #2ecc71; border: 1px solid #2ecc71; padding: 8px; border-radius: 4px; text-align: right; width: 140px; font-weight: bold;">
+      </div>`;
+      header.insertAdjacentHTML('afterend', overrideHTML);
+    }
+
     restoreInputs();
     calculate();
   } catch (err) {
@@ -19,32 +38,46 @@ async function loadDay(dayId) {
 }
 
 function calculate() {
-  let dayTotal = 0;
   const subElement = document.querySelector('[id^="sub-st"]');
   if (!subElement) return;
 
   const dayId = subElement.id.replace('sub-st', 'day');
+  const dNum = dayId.replace('day', '');
 
-  // Calcula APENAS o dia que está aberto no ecrã no momento
+  // 1. Calcula a Estimativa normal da calculadora
+  let estTotal = 0;
   if (dayId === 'day1' && typeof calculateDay1 === 'function')
-    dayTotal = calculateDay1();
+    estTotal = calculateDay1();
   else if (dayId === 'day2' && typeof calculateDay2 === 'function')
-    dayTotal = calculateDay2();
+    estTotal = calculateDay2();
   else if (dayId === 'day3' && typeof calculateDay3 === 'function')
-    dayTotal = calculateDay3();
+    estTotal = calculateDay3();
   else if (dayId === 'day4' && typeof calculateDay4 === 'function')
-    dayTotal = calculateDay4();
+    estTotal = calculateDay4();
   else if (dayId === 'day5' && typeof calculateDay5 === 'function')
-    dayTotal = calculateDay5();
+    estTotal = calculateDay5();
   else if (dayId === 'day6' && typeof calculateDay6 === 'function')
-    dayTotal = calculateDay6();
+    estTotal = calculateDay6();
   else if (dayId === 'day7' && typeof calculateDay7 === 'function')
-    dayTotal = calculateDay7();
+    estTotal = calculateDay7();
 
-  subElement.innerText = Math.round(dayTotal).toLocaleString();
+  // 2. Lógica do ZUMO: Verifica se a pessoa ativou o "Actual Score"
+  const isLocked = document.getElementById(`ov-chk-${dNum}`)?.checked;
+  const actualVal =
+    parseFloat(document.getElementById(`ov-val-${dNum}`)?.value) || 0;
 
-  // Guarda na memória
-  localStorage.setItem('mge_pts_' + dayId, dayTotal);
+  // Se estiver trancado, ignora a estimativa e usa o valor real digitado!
+  const finalTotal = isLocked ? actualVal : estTotal;
+
+  // 3. Atualiza o Subtotal no ecrã (Riscado se estiver bloqueado)
+  if (isLocked) {
+    subElement.innerHTML = `<span style="text-decoration: line-through; color: #888; font-size: 0.7rem; margin-right: 5px;">${Math.round(estTotal).toLocaleString()}</span> <span style="color:#2ecc71;">${Math.round(finalTotal).toLocaleString()}</span>`;
+  } else {
+    subElement.innerText = Math.round(finalTotal).toLocaleString();
+  }
+
+  // Guarda na memória o valor final (Real ou Estimado) para a barra Global
+  localStorage.setItem('mge_pts_' + dayId, finalTotal);
 
   updateGlobalScore();
 }
@@ -73,19 +106,15 @@ function restoreInputs() {
 
 function updateGlobalScore() {
   let total = 0;
-  // Soma os pontos oficiais guardados de cada dia
   for (let i = 1; i <= 7; i++) {
     total += parseFloat(localStorage.getItem('mge_pts_day' + i)) || 0;
   }
 
-  // Lógica Especial: Se estivermos no Dia 5 e a checkbox estiver ligada
   const isDay5 = document.getElementById('sub-st5') !== null;
   const d5Checked = localStorage.getItem('mge_val_d5-to-d6') === 'true';
-
   if (isDay5 && d5Checked) {
     const powerToTransfer =
       parseFloat(localStorage.getItem('mge_d5_troop_power')) || 0;
-    // AGORA VALE 3 PONTOS POR POWER!
     total += powerToTransfer * 3;
   }
 
@@ -93,7 +122,6 @@ function updateGlobalScore() {
   if (uiTotalPoints)
     uiTotalPoints.innerText = Math.round(total).toLocaleString();
 
-  // Lógica de Percentagem (Target Goal)
   const targetGoalInput = document.getElementById('mge-goal');
   const percentText = document.getElementById('goal-percent');
 
@@ -138,7 +166,6 @@ function sendBugToDiscord() {
     return;
   }
 
-  // O LINK DIVIDIDO EM 3 PARTES
   const part1 = 'https://discord.com/api/';
   const part2 = 'webhooks/1498351805510189088/';
   const part3 =
@@ -183,5 +210,4 @@ function sendBugToDiscord() {
     });
 }
 
-// Arranca o Dia 1 automaticamente quando abres a página!
 window.onload = () => loadDay('day1');
