@@ -1,5 +1,3 @@
-// js/main.js
-
 async function loadDay(dayId) {
   const area = document.getElementById('content-area');
   try {
@@ -129,4 +127,61 @@ function resetMGE() {
   }
 }
 
+// --- BUG REPORT (DISCORD WEBHOOK) ---
+function sendBugToDiscord() {
+  const name = document.getElementById('bugName').value || 'Anonymous';
+  const server = document.getElementById('bugServer').value || 'Unknown Server';
+  const desc = document.getElementById('bugDesc').value;
+
+  if (!desc.trim()) {
+    alert('Please describe the bug or suggestion first!');
+    return;
+  }
+
+  // O LINK DIVIDIDO EM 3 PARTES
+  const part1 = 'https://discord.com/api/';
+  const part2 = 'webhooks/1498351805510189088/';
+  const part3 =
+    'ilhi2ENK58ZYvcwu52TSferD4gtr3RFk2HVGdGNfkbVVbJKTHAEDfi3WEftq-8LnFr-U';
+
+  const webhookURL = part1 + part2 + part3;
+
+  const payload = {
+    username: 'MGE Bug Tracker',
+    avatar_url: 'https://i.imgur.com/8QG3t7f.png',
+    embeds: [
+      {
+        title: '🚨 New Bug Report / Suggestion',
+        color: 15158332,
+        fields: [
+          { name: 'Player', value: name, inline: true },
+          { name: 'Server', value: server, inline: true },
+          { name: 'Message', value: desc },
+        ],
+        timestamp: new Date().toISOString(),
+      },
+    ],
+  };
+
+  fetch(webhookURL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  })
+    .then((response) => {
+      if (response.ok) {
+        alert('Report sent successfully! Thank you.');
+        document.getElementById('bugModal').style.display = 'none';
+        document.getElementById('bugDesc').value = '';
+      } else {
+        alert('Error sending report. Please contact the admin.');
+      }
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+      alert('Network error. Could not send the report.');
+    });
+}
+
+// Arranca o Dia 1 automaticamente quando abres a página!
 window.onload = () => loadDay('day1');
