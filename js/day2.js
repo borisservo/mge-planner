@@ -13,7 +13,7 @@ function calculateDay2() {
     'hero-leg-skill': 2000,
     'gear-rare': 1000,
     'gear-epic': 5000,
-    'gear-leg': 15000, // Legendary gear = 15,000 points
+    'gear-leg': 30000, // Legendary gear = 15,000 points
   };
 
   // Loop through all inputs and sum their points
