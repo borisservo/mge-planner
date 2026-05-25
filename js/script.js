@@ -11,21 +11,56 @@ async function loadDay(dayId) {
       );
     });
 
-    // A MAGIA: Injeta automaticamente a caixa do "Actual Score" em todos os dias!
     const dNum = dayId.replace('day', '');
     const header = area.querySelector('.card-header');
 
     if (header) {
+      let dailyTip = '';
+      if (dNum === '1')
+        dailyTip =
+          '🎯 22,500 = <b id="tip-d1" style="color:#f1c40f;">0</b> Tribes (<b id="tip-d1-stm" style="color:#e74c3c;">0</b> Stamina)';
+      if (dNum === '2')
+        dailyTip =
+          '🎯 22,500 = <b id="tip-d2" style="color:#f1c40f;">0</b> Legendary Gears';
+      if (dNum === '3')
+        dailyTip =
+          '🎯 22,500 = <b id="tip-d3" style="color:#f1c40f;">0</b> Rss (1 Lineup)';
+      if (dNum === '4')
+        dailyTip =
+          '🎯 22,500 = <b id="tip-d4a" style="color:#f1c40f;">0</b> Build Spd + <b id="tip-d4b" style="color:#f1c40f;">0</b> Research Spd';
+      if (dNum === '5')
+        dailyTip = '🎯 22,500 = <b style="color:#f1c40f;">225</b> T7 Units';
+      if (dNum === '6' || dNum === '7')
+        dailyTip =
+          '💡 Note: Units trained today also count towards your daily rewards!';
+
       const overrideHTML = `
-      <div style="background: rgba(46, 204, 113, 0.05); border: 1px solid rgba(46, 204, 113, 0.5); padding: 10px; border-radius: 6px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center;">
-          <div>
-              <label style="font-size: 0.8rem; color: #2ecc71; display: flex; align-items: center; gap: 8px; cursor: pointer; margin-bottom: 3px;">
-                  <input type="checkbox" id="ov-chk-${dNum}" onchange="calculate()">
-                  <b>Lock Actual Score</b>
-              </label>
-              <span style="font-size: 0.6rem; color: #888;">Use in-game score for this day</span>
-          </div>
-          <input type="number" id="ov-val-${dNum}" oninput="calculate()" placeholder="Actual score..." style="background: #000; color: #2ecc71; border: 1px solid #2ecc71; padding: 8px; border-radius: 4px; text-align: right; width: 140px; font-weight: bold;">
+      <div style="display: grid; grid-template-columns: 1fr; gap: 10px; margin-bottom: 15px;">
+        <div style="background: rgba(52, 152, 219, 0.05); border: 1px solid rgba(52, 152, 219, 0.3); padding: 10px; border-radius: 6px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
+                <label style="font-size: 0.7rem; color: #3498db;"><b>Daily Rewards Goal</b></label>
+                <input type="number" id="daily-goal-${dNum}" value="22500" oninput="calculate()" style="background: #000; color: #3498db; border: 1px solid #3498db; padding: 4px 8px; border-radius: 4px; text-align: right; width: 120px; font-size: 0.75rem;">
+            </div>
+            <div style="width: 100%; background: #000; height: 6px; border-radius: 3px; overflow: hidden; border: 1px solid #222;">
+                <div id="daily-bar-${dNum}" style="height: 100%; width: 0%; background: #3498db; transition: width 0.3s;"></div>
+            </div>
+            <div id="daily-text-${dNum}" style="font-size: 0.65rem; color: #888; text-align: center; margin-top: 6px;">Set a target to track daily rewards</div>
+            
+            <div style="margin-top: 8px; font-size: 0.65rem; color: #aaa; text-align: center; border-top: 1px dashed #333; padding-top: 6px;">
+                ${dailyTip}
+            </div>
+        </div>
+
+        <div style="background: rgba(46, 204, 113, 0.05); border: 1px solid rgba(46, 204, 113, 0.3); padding: 10px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center;">
+            <div>
+                <label style="font-size: 0.7rem; color: #2ecc71; display: flex; align-items: center; gap: 5px; cursor: pointer; margin-bottom: 3px;">
+                    <input type="checkbox" id="ov-chk-${dNum}" onchange="calculate()">
+                    <b>Lock Actual Score</b>
+                </label>
+                <span style="font-size: 0.6rem; color: #888;">Use in-game score for this day</span>
+            </div>
+            <input type="number" id="ov-val-${dNum}" oninput="calculate()" placeholder="Actual score..." style="background: #000; color: #2ecc71; border: 1px solid #2ecc71; padding: 6px; border-radius: 4px; text-align: right; width: 120px; font-weight: bold; font-size: 0.8rem;">
+        </div>
       </div>`;
       header.insertAdjacentHTML('afterend', overrideHTML);
     }
@@ -44,7 +79,6 @@ function calculate() {
   const dayId = subElement.id.replace('sub-st', 'day');
   const dNum = dayId.replace('day', '');
 
-  // 1. Calcula a Estimativa normal da calculadora
   let estTotal = 0;
   if (dayId === 'day1' && typeof calculateDay1 === 'function')
     estTotal = calculateDay1();
@@ -61,24 +95,84 @@ function calculate() {
   else if (dayId === 'day7' && typeof calculateDay7 === 'function')
     estTotal = calculateDay7();
 
-  // 2. Lógica do ZUMO: Verifica se a pessoa ativou o "Actual Score"
   const isLocked = document.getElementById(`ov-chk-${dNum}`)?.checked;
   const actualVal =
     parseFloat(document.getElementById(`ov-val-${dNum}`)?.value) || 0;
 
-  // Se estiver trancado, ignora a estimativa e usa o valor real digitado!
   const finalTotal = isLocked ? actualVal : estTotal;
 
-  // 3. Atualiza o Subtotal no ecrã (Riscado se estiver bloqueado)
   if (isLocked) {
     subElement.innerHTML = `<span style="text-decoration: line-through; color: #888; font-size: 0.7rem; margin-right: 5px;">${Math.round(estTotal).toLocaleString()}</span> <span style="color:#2ecc71;">${Math.round(finalTotal).toLocaleString()}</span>`;
   } else {
     subElement.innerText = Math.round(finalTotal).toLocaleString();
   }
 
-  // Guarda na memória o valor final (Real ou Estimado) para a barra Global
-  localStorage.setItem('mge_pts_' + dayId, finalTotal);
+  const dailyGoalInput = document.getElementById(`daily-goal-${dNum}`);
+  const dailyBar = document.getElementById(`daily-bar-${dNum}`);
+  const dailyText = document.getElementById(`daily-text-${dNum}`);
 
+  if (dailyGoalInput && dailyBar && dailyText) {
+    const goal = parseFloat(dailyGoalInput.value) || 0;
+    if (goal > 0) {
+      const pct = Math.min((finalTotal / goal) * 100, 100);
+      dailyBar.style.width = pct + '%';
+      dailyBar.style.background = pct >= 100 ? '#2ecc71' : '#3498db';
+
+      const diff = goal - finalTotal;
+      if (diff <= 0) {
+        dailyText.innerHTML = `<span style="color:#2ecc71; font-weight:bold;">Goal Reached! ✅</span>`;
+      } else {
+        dailyText.innerText = `${Math.round(diff).toLocaleString()} pts left for daily rewards (${pct.toFixed(1)}%)`;
+      }
+    } else {
+      dailyBar.style.width = '0%';
+      dailyText.innerText = 'Set a target to track daily rewards';
+    }
+  }
+
+  // MATEMÁTICA DAS DICAS DIÁRIAS
+  const ptsTribo = 1000;
+  const staminaPerTribo = 5; // <-- Ajusta aqui o custo de Stamina por ataque!
+
+  const ptsLegGear = 30000;
+  const ptsResource = 1;
+  const ptsBuildingMin = 30;
+  const ptsResearchMin = 30;
+
+  if (dNum === '1' && document.getElementById('tip-d1')) {
+    const tribesNeeded = Math.ceil(22500 / ptsTribo);
+    document.getElementById('tip-d1').innerText = tribesNeeded;
+
+    if (document.getElementById('tip-d1-stm')) {
+      document.getElementById('tip-d1-stm').innerText = (
+        tribesNeeded * staminaPerTribo
+      ).toLocaleString();
+    }
+  }
+  if (dNum === '2' && document.getElementById('tip-d2')) {
+    document.getElementById('tip-d2').innerText = Math.ceil(22500 / ptsLegGear);
+  }
+  if (dNum === '3' && document.getElementById('tip-d3')) {
+    document.getElementById('tip-d3').innerText = (
+      22500 / ptsResource
+    ).toLocaleString();
+  }
+  if (dNum === '4' && document.getElementById('tip-d4a')) {
+    const minB = Math.ceil(11250 / ptsBuildingMin);
+    const minR = Math.ceil(11250 / ptsResearchMin);
+
+    const formatSpd = (mins) => {
+      const d = Math.floor(mins / 1440);
+      const h = Math.floor((mins % 1440) / 60);
+      const m = mins % 60;
+      return `${d}d ${h}h ${m}m`;
+    };
+
+    document.getElementById('tip-d4a').innerText = formatSpd(minB);
+    document.getElementById('tip-d4b').innerText = formatSpd(minR);
+  }
+
+  localStorage.setItem('mge_pts_' + dayId, finalTotal);
   updateGlobalScore();
 }
 
@@ -143,7 +237,7 @@ function updateGlobalScore() {
   }
 }
 
-function resetMGE() {
+window.resetMGE = function () {
   if (
     confirm('Are you sure you want to delete all data? This cannot be undone.')
   ) {
@@ -153,7 +247,7 @@ function resetMGE() {
     });
     window.location.reload();
   }
-}
+};
 
 // --- BUG REPORT (DISCORD WEBHOOK) ---
 function sendBugToDiscord() {
