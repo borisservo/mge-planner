@@ -1,9 +1,38 @@
 /**
- * Day 5 Logic - Stage 5: Unit Training
+ * Auto-preenche os tempos base quando o jogador escolhe o Tier
  */
+function updateTierTime() {
+  const baseTimes = {
+    9: { m: 0, s: 0 },  // T9 (Podes atualizar mais tarde)
+    8: { m: 3, s: 15 }, // 3m 15s
+    7: { m: 2, s: 10 }, // 2m 10s
+    6: { m: 1, s: 15 }, // 1m 15s
+    5: { m: 0, s: 43 }, // 43s
+    4: { m: 0, s: 28 }, // 28s
+    3: { m: 0, s: 19 }, // 19s
+    2: { m: 0, s: 14 }, // 14s
+    1: { m: 0, s: 10 }  // 10s
+  };
+
+  const lvl = parseInt(document.getElementById('tc-lvl')?.value) || 9;
+
+  if (baseTimes[lvl]) {
+    const minInput = document.getElementById('tc-base-m');
+    const secInput = document.getElementById('tc-base-s');
+
+    if (minInput && secInput) {
+      minInput.value = baseTimes[lvl].m;
+      secInput.value = baseTimes[lvl].s;
+
+      // Guarda na memória do browser para não desaparecer ao fazer F5
+      localStorage.setItem('mge_val_tc-base-m', baseTimes[lvl].m);
+      localStorage.setItem('mge_val_tc-base-s', baseTimes[lvl].s);
+    }
+  }
+}
+
 
 function calculateDay5() {
-  // Tabelas Completas (T1 a T9)
   const unitPower = {
     9: 12.5,
     8: 8.6,
@@ -31,31 +60,56 @@ function calculateDay5() {
   let totalTroopPower = 0;
   let totalSoldiers = 0;
 
-  // 1. CALCULADORA DE SPEEDUPS (TREINO NOVO)
+  // 1. CALCULADORA DE SPEEDUPS (COM TRAINING SPEED %)
   const lvl = parseInt(document.getElementById('tc-lvl')?.value) || 9;
-  const tMin = parseFloat(document.getElementById('tc-min')?.value) || 0;
-  const tSec = parseFloat(document.getElementById('tc-sec')?.value) || 0;
+  const speedBonus =
+    parseFloat(document.getElementById('tc-speed')?.value) || 0;
+
+  const baseMin = parseFloat(document.getElementById('tc-base-m')?.value) || 0;
+  const baseSec = parseFloat(document.getElementById('tc-base-s')?.value) || 0;
+
   const spDays = parseFloat(document.getElementById('tc-spd')?.value) || 0;
   const spHrs = parseFloat(document.getElementById('tc-sph')?.value) || 0;
   const spMin = parseFloat(document.getElementById('tc-spm')?.value) || 0;
 
-  const timePerUnitSecs = tMin * 60 + tSec;
-  const totalSpeedupsSecs = spDays * 86400 + spHrs * 3600 + spMin * 60;
+  // Calcula o Tempo Real com base no Bónus e CORTA AS DECIMAIS (Math.floor)
+  const baseTotalSecs = baseMin * 60 + baseSec;
+  let actualTimeSecs = 0;
 
-  if (timePerUnitSecs > 0 && totalSpeedupsSecs > 0) {
-    const calcUnits = Math.floor(totalSpeedupsSecs / timePerUnitSecs);
+  if (baseTotalSecs > 0) {
+    // Math.floor garante que 48.9s ou 48.1s passa sempre a 48s exatos
+    actualTimeSecs = Math.floor(baseTotalSecs / (1 + speedBonus / 100));
+  }
+
+  // Atualiza a etiqueta do Tempo Real no ecrã
+  const actualTimeUI = document.getElementById('tc-actual-time');
+  if (actualTimeUI) {
+    actualTimeUI.innerText = actualTimeSecs > 0 ? actualTimeSecs + 's' : '0s';
+  }
+
+  const totalSpeedupsSecs = spDays * 86400 + spHrs * 3600 + spMin * 60;
+  if (actualTimeSecs > 0 && totalSpeedupsSecs > 0) {
+    const calcUnits = Math.floor(totalSpeedupsSecs / actualTimeSecs);
     const calcPts = calcUnits * (unitPoints[lvl] || 0);
     const calcPower = calcUnits * (unitPower[lvl] || 0);
 
-    document.getElementById('tc-units').innerText = calcUnits.toLocaleString();
-    document.getElementById('tc-pts').innerText = calcPts.toLocaleString();
+    if (document.getElementById('tc-units'))
+      document.getElementById('tc-units').innerText =
+        calcUnits.toLocaleString();
+    if (document.getElementById('tc-pts'))
+      document.getElementById('tc-pts').innerText = calcPts.toLocaleString();
 
     rawDayTotal += calcPts;
     totalTroopPower += calcPower;
     totalSoldiers += calcUnits;
+  } else {
+    if (document.getElementById('tc-units'))
+      document.getElementById('tc-units').innerText = '0';
+    if (document.getElementById('tc-pts'))
+      document.getElementById('tc-pts').innerText = '0';
   }
 
-  // 2. PROMOÇÃO DE UNIDADES (RESULTING GAP)
+  // 2. PROMOÇÃO DE UNIDADES
   const pFrom = parseInt(document.getElementById('promo-from')?.value) || 1;
   const pTo = parseInt(document.getElementById('promo-to')?.value) || 5;
   const pQty = parseFloat(document.getElementById('promo-qty')?.value) || 0;
@@ -66,17 +120,22 @@ function calculateDay5() {
     const totalPromoPts = gapPts * pQty;
     const totalPromoPower = gapPower * pQty;
 
-    document.getElementById('promo-gap-val').innerText = gapPts;
-    document.getElementById('promo-total-pts').innerText =
-      totalPromoPts.toLocaleString();
+    if (document.getElementById('promo-gap-val'))
+      document.getElementById('promo-gap-val').innerText = gapPts;
+    if (document.getElementById('promo-total-pts'))
+      document.getElementById('promo-total-pts').innerText =
+        totalPromoPts.toLocaleString();
 
     rawDayTotal += totalPromoPts;
     totalTroopPower += totalPromoPower;
-    // Nota: Em promoção, o número total de soldados não aumenta, apenas a qualidade
+  } else {
+    if (document.getElementById('promo-gap-val'))
+      document.getElementById('promo-gap-val').innerText = '0';
+    if (document.getElementById('promo-total-pts'))
+      document.getElementById('promo-total-pts').innerText = '0';
   }
 
-  // 3. MANUAL UNITS (T1-T9)
-  // Se o container estiver vazio, gera os inputs uma vez
+  // 3. MANUAL UNITS
   const container = document.getElementById('units-container');
   if (container && container.innerHTML.trim() === '') {
     let html = '';
@@ -93,7 +152,6 @@ function calculateDay5() {
     container.innerHTML = html;
   }
 
-  // Atualiza os valores manuais
   for (let i = 1; i <= 9; i++) {
     const qty = parseFloat(document.getElementById(`u-lvl${i}`)?.value) || 0;
     const ptsD5 = qty * unitPoints[i];
@@ -108,7 +166,7 @@ function calculateDay5() {
         ptsD5.toLocaleString();
     if (document.getElementById(`u-lvl${i}-d6`))
       document.getElementById(`u-lvl${i}-d6`).innerText = Math.floor(
-        pwr * 2,
+        pwr * 3,
       ).toLocaleString();
   }
 

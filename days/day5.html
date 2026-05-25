@@ -15,22 +15,36 @@
 </h4>
 
 <div style="background: #1a1a1a; border: 1px solid #3498db; border-radius: 6px; padding: 12px; margin-bottom: 20px;">
-    <div style="display: grid; grid-template-columns: 1fr 1.2fr 1.8fr; gap: 10px; margin-bottom: 15px;">
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px dashed #333;">
         <div>
-            <label style="font-size: 0.6rem; color: #888; display:block; margin-bottom:3px;">UNIT LEVEL</label>
-            <select id="tc-lvl" onchange="calculate()" style="width:100%; background:#000; color:#fff; border:1px solid #444; padding:8px; border-radius:4px;">
-                <option value="9">T9</option><option value="8">T8</option><option value="7">T7</option><option value="6">T6</option><option value="5">T5</option><option value="4">T4</option><option value="3">T3</option><option value="2">T2</option><option value="1">T1</option>
-            </select>
-        </div>
-        <div>
-            <label style="font-size: 0.6rem; color: #888; display:block; margin-bottom:3px;">TIME / 1 UNIT</label>
-            <div style="display:flex; gap:5px;">
-                <input type="number" id="tc-min" placeholder="Min" oninput="calculate()" style="width:50%; background:#000; color:#fff; border:1px solid #444; padding:8px; border-radius:4px;">
-                <input type="number" id="tc-sec" placeholder="Sec" oninput="calculate()" style="width:50%; background:#000; color:#fff; border:1px solid #444; padding:8px; border-radius:4px;">
+            <label style="font-size: 0.6rem; color: #888; display:block; margin-bottom:3px;">TRAINING SPEED BONUS (%)</label>
+            <div style="display:flex; align-items:center; gap:5px;">
+                <input type="number" id="tc-speed" placeholder="Ex: 168" oninput="calculate()" style="width:100%; background:#000; color:#3498db; border:1px solid #444; padding:8px; border-radius:4px; font-weight:bold;">
+                <span style="color:#aaa; font-size:0.8rem;">%</span>
             </div>
         </div>
         <div>
-            <label style="font-size: 0.6rem; color: #888; display:block; margin-bottom:3px;">TOTAL SPEEDUPS</label>
+            <label style="font-size: 0.6rem; color: #888; display:block; margin-bottom:3px;">BASE TIME / 1 UNIT (No buffs)</label>
+            <div style="display:flex; gap:5px;">
+                <input type="number" id="tc-base-m" placeholder="Min" oninput="calculate()" style="width:50%; background:#000; color:#fff; border:1px solid #444; padding:8px; border-radius:4px;">
+                <input type="number" id="tc-base-s" placeholder="Sec" oninput="calculate()" style="width:50%; background:#000; color:#fff; border:1px solid #444; padding:8px; border-radius:4px;">
+            </div>
+        </div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px;">
+        <div>
+            <label style="font-size: 0.6rem; color: #888; display:block; margin-bottom:3px;">UNIT LEVEL</label>
+            <select id="tc-lvl" onchange="updateTierTime(); calculate()" style="width:100%; background:#000; color:#fff; border:1px solid #444; padding:8px; border-radius:4px;">
+                <option value="9">T9</option><option value="8">T8</option><option value="7">T7</option><option value="6">T6</option><option value="5">T5</option><option value="4">T4</option><option value="3">T3</option><option value="2">T2</option><option value="1">T1</option>
+            </select>
+            <div style="margin-top: 5px; font-size: 0.65rem; color: #aaa;">
+                Actual Time/Unit: <b id="tc-actual-time" style="color: #2ecc71;">0s</b>
+            </div>
+        </div>
+        <div>
+            <label style="font-size: 0.6rem; color: #888; display:block; margin-bottom:3px;">TOTAL SPEEDUPS TO USE</label>
             <div style="display:flex; gap:5px;">
                 <input type="number" id="tc-spd" placeholder="Days" oninput="calculate()" style="width:33%; background:#000; color:#fff; border:1px solid #444; padding:8px; border-radius:4px;">
                 <input type="number" id="tc-sph" placeholder="Hrs" oninput="calculate()" style="width:33%; background:#000; color:#fff; border:1px solid #444; padding:8px; border-radius:4px;">
@@ -50,27 +64,13 @@
         <div>
             <label style="font-size: 0.6rem; color: #888;">FROM</label>
             <select id="promo-from" onchange="calculate()" style="width:100%; background:#000; color:#fff; border:1px solid #444; padding:8px; border-radius:4px;">
-                <option value="1">T1</option>
-                <option value="2">T2</option>
-                <option value="3">T3</option>
-                <option value="4">T4</option>
-                <option value="5" selected>T5</option>
-                <option value="6">T6</option>
-                <option value="7">T7</option>
-                <option value="8">T8</option>
+                <option value="1">T1</option><option value="2">T2</option><option value="3">T3</option><option value="4">T4</option><option value="5" selected>T5</option><option value="6">T6</option><option value="7">T7</option><option value="8">T8</option>
             </select>
         </div>
         <div>
             <label style="font-size: 0.6rem; color: #888;">TO</label>
             <select id="promo-to" onchange="calculate()" style="width:100%; background:#000; color:#fff; border:1px solid #444; padding:8px; border-radius:4px;">
-                <option value="2">T2</option>
-                <option value="3">T3</option>
-                <option value="4">T4</option>
-                <option value="5">T5</option>
-                <option value="6" selected>T6</option>
-                <option value="7">T7</option>
-                <option value="8">T8</option>
-                <option value="9">T9</option>
+                <option value="2">T2</option><option value="3">T3</option><option value="4">T4</option><option value="5">T5</option><option value="6" selected>T6</option><option value="7">T7</option><option value="8">T8</option><option value="9">T9</option>
             </select>
         </div>
         <div>

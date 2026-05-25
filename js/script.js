@@ -166,10 +166,10 @@ function sendBugToDiscord() {
     return;
   }
 
+  // O TEU LINK DIVIDIDO
   const part1 = 'https://discord.com/api/';
   const part2 = 'webhooks/1498351805510189088/';
-  const part3 =
-    'ilhi2ENK58ZYvcwu52TSferD4gtr3RFk2HVGdGNfkbVVbJKTHAEDfi3WEftq-8LnFr-U';
+  const part3 = 'ilhi2ENK58ZYvcwu52TSferD4gtr3RFk2HVGdGNfkbVVbJKTHAEDfi3WEftq-8LnFr-U';
 
   const webhookURL = part1 + part2 + part3;
 
@@ -195,18 +195,21 @@ function sendBugToDiscord() {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload),
   })
-    .then((response) => {
+    .then(async (response) => {
       if (response.ok) {
         alert('Report sent successfully! Thank you.');
         document.getElementById('bugModal').style.display = 'none';
         document.getElementById('bugDesc').value = '';
       } else {
-        alert('Error sending report. Please contact the admin.');
+        // AGORA ELE VAI LER O ERRO EXATO DO DISCORD
+        const errorText = await response.text();
+        alert(`Discord Error (${response.status}):\n${errorText}`);
+        console.error('Discord Webhook Error:', response.status, errorText);
       }
     })
     .catch((error) => {
-      console.error('Error:', error);
-      alert('Network error. Could not send the report.');
+      console.error('Fetch Error:', error);
+      alert('Network error! Are you using an AdBlocker or is Firefox blocking trackers?');
     });
 }
 
