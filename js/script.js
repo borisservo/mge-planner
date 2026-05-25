@@ -250,61 +250,67 @@ window.resetMGE = function () {
 };
 
 // --- BUG REPORT (DISCORD WEBHOOK) ---
-function sendBugToDiscord() {
-  const name = document.getElementById('bugName').value || 'Anonymous';
-  const server = document.getElementById('bugServer').value || 'Unknown Server';
-  const desc = document.getElementById('bugDesc').value;
+window.sendBugToDiscord = async function () {
+  // 1. Vai buscar os valores usando os IDs corretos do teu HTML
+  const playerInput = document.getElementById('bugName');
+  const serverInput = document.getElementById('bugServer');
+  const messageInput = document.getElementById('bugDesc');
 
-  if (!desc.trim()) {
-    alert('Please describe the bug or suggestion first!');
+  if (!playerInput || !serverInput || !messageInput) {
+    alert('Erro: O JavaScript ainda não encontra as caixas de texto.');
     return;
   }
 
-  // O TEU LINK DIVIDIDO
+  const playerVal = playerInput.value.trim() || 'Anónimo';
+  const serverVal = serverInput.value.trim() || 'N/A';
+  const messageVal = messageInput.value.trim() || 'Sem mensagem descritiva.';
+
+  // 2. Monta o link do Webhook
   const part1 = 'https://discord.com/api/';
   const part2 = 'webhooks/1498351805510189088/';
-  const part3 = 'ilhi2ENK58ZYvcwu52TSferD4gtr3RFk2HVGdGNfkbVVbJKTHAEDfi3WEftq-8LnFr-U';
+  const part3 =
+    'ilhi2ENK58ZYvcwu52TSferD4gtr3RFk2HVGdGNfkbVVbJKTHAEDfi3WEftq-8LnFr-U';
+  const webhookUrl = part1 + part2 + part3;
 
-  const webhookURL = part1 + part2 + part3;
-
+  // 3. Monta o pacote para o Discord (com a Mensagem na Description para suportar textos longos)
   const payload = {
-    username: 'MGE Bug Tracker',
-    avatar_url: 'https://i.imgur.com/8QG3t7f.png',
+    username: 'MGE Calculator Bot',
     embeds: [
       {
-        title: '🚨 New Bug Report / Suggestion',
+        title: '🐛 Novo Bug / Sugestão',
+        description: messageVal, // <-- A mensagem entra aqui (limite de 4096 caracteres)
         color: 15158332,
         fields: [
-          { name: 'Player', value: name, inline: true },
-          { name: 'Server', value: server, inline: true },
-          { name: 'Message', value: desc },
+          { name: 'Player', value: playerVal, inline: true },
+          { name: 'Server', value: serverVal, inline: true },
         ],
-        timestamp: new Date().toISOString(),
       },
     ],
   };
 
-  fetch(webhookURL, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload),
-  })
-    .then(async (response) => {
-      if (response.ok) {
-        alert('Report sent successfully! Thank you.');
-        document.getElementById('bugModal').style.display = 'none';
-        document.getElementById('bugDesc').value = '';
-      } else {
-        // AGORA ELE VAI LER O ERRO EXATO DO DISCORD
-        const errorText = await response.text();
-        alert(`Discord Error (${response.status}):\n${errorText}`);
-        console.error('Discord Webhook Error:', response.status, errorText);
-      }
-    })
-    .catch((error) => {
-      console.error('Fetch Error:', error);
-      alert('Network error! Are you using an AdBlocker or is Firefox blocking trackers?');
+  try {
+    // 4. Envia para o Discord
+    const response = await fetch(webhookUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
     });
-}
 
+    if (!response.ok) {
+      const errText = await response.text();
+      alert(`Discord Error (${response.status}):\n${errText}`);
+    } else {
+      alert('Feedback enviado com sucesso para o Discord!');
+
+      // Limpa as caixas e fecha o modal automaticamente
+      playerInput.value = '';
+      serverInput.value = '';
+      messageInput.value = '';
+      document.getElementById('bugModal').style.display = 'none';
+    }
+  } catch (error) {
+    alert('Erro na ligação à internet ou ao Discord.');
+    console.error(error);
+  }
+};;
 window.onload = () => loadDay('day1');
