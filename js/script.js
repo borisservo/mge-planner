@@ -139,13 +139,16 @@ function calculate() {
   const ptsBuildingMin = 30;
   const ptsResearchMin = 30;
 
-if (dNum === '1' && document.getElementById('tip-d1')) {
-    // Se o objetivo do utilizador for 22.500:
-    const tribesNeeded = Math.ceil(22500 / ptsTribo); 
+// MATEMÁTICA DAS DICAS DIÁRIAS - DIA 1
+  // Agora usamos a proporção real: 1 Tribo = 5 Stamina.
+  // Se a meta é 75 tribos, o custo é sempre 375 de Stamina.
+  const tribesNeeded = 75; 
+  const staminaPerTribo = 5; 
+
+  if (dNum === '1' && document.getElementById('tip-d1')) {
     document.getElementById('tip-d1').innerText = tribesNeeded;
 
     if (document.getElementById('tip-d1-stm')) {
-      // Cálculo exato:
       document.getElementById('tip-d1-stm').innerText = (tribesNeeded * staminaPerTribo).toLocaleString();
     }
   }
