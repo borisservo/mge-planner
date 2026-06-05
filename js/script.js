@@ -142,10 +142,9 @@ function calculate() {
 // MATEMÁTICA DAS DICAS DIÁRIAS - DIA 1
   // Agora usamos a proporção real: 1 Tribo = 5 Stamina.
   // Se a meta é 75 tribos, o custo é sempre 375 de Stamina.
-  const tribesNeeded = 75; 
-  const staminaPerTribo = 5; 
 
-  if (dNum === '1' && document.getElementById('tip-d1')) {
+if (dNum === '1' && document.getElementById('tip-d1')) {
+    const tribesNeeded = 75; // Valor fixo que definimos para o teu servidor
     document.getElementById('tip-d1').innerText = tribesNeeded;
 
     if (document.getElementById('tip-d1-stm')) {
