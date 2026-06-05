@@ -139,14 +139,14 @@ function calculate() {
   const ptsBuildingMin = 30;
   const ptsResearchMin = 30;
 
-  if (dNum === '1' && document.getElementById('tip-d1')) {
-    const tribesNeeded = Math.ceil(22500 / ptsTribo);
+if (dNum === '1' && document.getElementById('tip-d1')) {
+    // Se o objetivo do utilizador for 22.500:
+    const tribesNeeded = Math.ceil(22500 / ptsTribo); 
     document.getElementById('tip-d1').innerText = tribesNeeded;
 
     if (document.getElementById('tip-d1-stm')) {
-      document.getElementById('tip-d1-stm').innerText = (
-        tribesNeeded * staminaPerTribo
-      ).toLocaleString();
+      // Cálculo exato:
+      document.getElementById('tip-d1-stm').innerText = (tribesNeeded * staminaPerTribo).toLocaleString();
     }
   }
   if (dNum === '2' && document.getElementById('tip-d2')) {
